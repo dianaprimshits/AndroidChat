@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Help</string>
+    <string name="authorizationTextView">Authorization</string>
+    <string name="loginTextView">Login:</string>
+    <string name="loginEditView">Input login</string>
+    <string name="passwordTextView">Password:</string>
+    <string name="passwordEditText">Input password</string>
+    <string name="signInButton">Sign In</string>
+    <string name="attemptsTextView">Attempts:  </string>
+
+    <string name="mapsButton">MAPS</string>
+    <string name="settingsButton">SETTINGS</string>
+    <string name="chatsButton">CHATS</string>
+</resources>

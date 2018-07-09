@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="serif"
+        android:text="@string/authorizationTextView"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/userText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/login"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="75dp"
+        android:fontFamily="serif"
+        android:text="@string/loginTextView"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editLogin"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userText"
+        android:layout_marginLeft="70dp"
+        android:layout_toRightOf="@+id/userText"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:hint="@string/loginEditView"
+        android:lineSpacingExtra="12sp">
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/passwordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/userText"
+        android:layout_below="@+id/userText"
+        android:layout_marginTop="40dp"
+        android:fontFamily="serif"
+        android:text="@string/passwordTextView"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/passwordText"
+        android:layout_alignLeft="@+id/editLogin"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:hint="@string/passwordEditText"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/attempts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/passwordText"
+        android:layout_below="@+id/passwordText"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/attemptsTextView"
+        android:visibility="invisible"
+        android:fontFamily="serif"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/attemptsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_alignBottom="@+id/attempts"
+        android:layout_toEndOf="@+id/attempts"
+        android:gravity="top"
+        android:fontFamily="serif"/>
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="94dp"
+        android:fontFamily="serif"
+        android:text="@string/signInButton" />
+
+    <TextView
+        android:id="@+id/loginLocked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="57dp"
+        android:layout_alignRight="@+id/editPassword"
+        android:layout_alignEnd="@+id/editPassword"
+        android:layout_alignLeft="@+id/attempts"
+        android:layout_alignStart="@+id/attempts" />
+
+</RelativeLayout>
