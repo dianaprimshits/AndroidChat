@@ -98,7 +98,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="94dp"
         android:fontFamily="serif"
+        android:text="@string/loginButton" />
+
+    <Button
+        android:id="@+id/buttonSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="134dp"
+        android:fontFamily="serif"
         android:text="@string/signInButton" />
+
 
     <TextView
         android:id="@+id/loginLocked"
@@ -112,5 +123,10 @@
         android:layout_alignEnd="@+id/editPassword"
         android:layout_alignLeft="@+id/attempts"
         android:layout_alignStart="@+id/attempts" />
+
+    <TextView
+        android:id="@+id/encryptedText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

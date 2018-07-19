@@ -5,10 +5,11 @@
     <string name="loginEditView">Input login</string>
     <string name="passwordTextView">Password:</string>
     <string name="passwordEditText">Input password</string>
-    <string name="signInButton">Sign In</string>
+    <string name="loginButton">LOGIN</string>
     <string name="attemptsTextView">Attempts:  </string>
 
     <string name="mapsButton">MAPS</string>
     <string name="settingsButton">SETTINGS</string>
     <string name="chatsButton">CHATS</string>
+    <string name="signInButton">SIGN IN</string>
 </resources>
