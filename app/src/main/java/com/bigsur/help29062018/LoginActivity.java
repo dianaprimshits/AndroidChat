@@ -8,80 +8,58 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import java.security.KeyStore;
 import java.util.List;
-
 import devliving.online.securedpreferencestore.DefaultRecoveryHandler;
 import devliving.online.securedpreferencestore.SecuredPreferenceStore;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private static String TAG = "!!LOG!!";
     private EditText login;
     private EditText password;
-    private TextView loginLockedTextView;
-    private TextView attemptsTextView;
-    private TextView numberOfAttemptsTextView;
     private Button signInButton;
     private Button loginButton;
-
-    private String dataToSave;
-
-
-
-    int remainingLoginAttemptsNumber = 3;
-
+    String TEXT_LOGIN;
+    String TEXT_PASSWORD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-
-        login = (EditText)findViewById(R.id.editLogin);
-        password = (EditText)findViewById(R.id.editPassword);
-
-        dataToSave = String.format("%s-%s", login.getText().toString(), password.getText().toString());
-
+        login = (EditText) findViewById(R.id.editLogin);
+        password = (EditText) findViewById(R.id.editPassword);
         loginButton = (Button) findViewById(R.id.buttonLogin);
-        signInButton = (Button)findViewById(R.id.buttonSignIn);
-
-
-
-
-        loginLockedTextView = (TextView)findViewById(R.id.loginLocked);
-        attemptsTextView = (TextView)findViewById(R.id.attempts);
-        numberOfAttemptsTextView = (TextView)findViewById(R.id.attemptsNumber);
-        numberOfAttemptsTextView.setText(Integer.toString(remainingLoginAttemptsNumber));
+        signInButton = (Button) findViewById(R.id.buttonSignIn);
 
         try {
             String storeFileName = "securedStore";
             String keyPrefix = "vss";
-            //it's better to provide one, and you need to provide the same key each time after the first time
-            byte[] seedKey = "SecuredSeedData".getBytes();
+            byte[] seedKey = "SecuredData".getBytes();
             SecuredPreferenceStore.init(getApplicationContext(), storeFileName, keyPrefix, seedKey, new DefaultRecoveryHandler());
 
             setupStore();
         } catch (Exception e) {
-            // Handle error.
             e.printStackTrace();
         }
 
-
         signInButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                boolean isComplete = false;
                 try {
                     reloadData();
-                    Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
-                    startActivity(intent);
+                    isComplete = true;
                 } catch (Exception e) {
                     Log.e("SECURED-PREFERENCE", "", e);
                     Toast.makeText(LoginActivity.this, "An exception occurred, see log for details", Toast.LENGTH_SHORT).show();
+                }
+                if (isComplete & !(login.getText().toString().equals("")) & !(password.getText().toString().equals(""))) {
+                    Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
+                    startActivity(intent);
+                    Log.d("!!!LOG!!!", String.format("login %s, password %s", login.getText(), password.getText()));
+                } else {
+                    signInButton.setEnabled(false);
                 }
             }
         });
@@ -89,21 +67,27 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+                boolean isComplete = false;
+
                 try {
                     saveData();
-                    Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
-                    startActivity(intent);
+                    isComplete = true;
                 } catch (Exception e) {
                     Log.e("SECURED-PREFERENCE", "", e);
                     Toast.makeText(LoginActivity.this, "An exception occurred, see log for details", Toast.LENGTH_SHORT).show();
                 }
+                if (isComplete & !(login.getText().toString().equals("")) & !(password.getText().toString().equals(""))) {
+                    Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
+                    startActivity(intent);
+                    Log.d("!!!LOG!!!", String.format("login %s, password %s", prefStore.getString(TEXT_LOGIN, null), prefStore.getString(TEXT_PASSWORD, null)));
+                }
             }
         });
-
     }
 
     private void setupStore() {
-        SecuredPreferenceStore.setRecoveryHandler(new DefaultRecoveryHandler(){
+        SecuredPreferenceStore.setRecoveryHandler(new DefaultRecoveryHandler() {
             @Override
             protected boolean recover(Exception e, KeyStore keyStore, List<String> keyAliases, SharedPreferences preferences) {
                 Toast.makeText(LoginActivity.this, "Encryption key got invalidated, will try to start over.", Toast.LENGTH_SHORT).show();
@@ -119,52 +103,23 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
-
-
- /*   @Override
-    public void onClick(View v) {
-        saveData(dataToSave);
-        Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
-        startActivity(intent);
-
-
-        //if (login.getText().toString().equals("bigsur") && password.getText().toString().equals("ananas11")) {
-            Toast.makeText(getApplicationContext(), "login and password are correct",Toast.LENGTH_SHORT)
-                    .show();
-            Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(getApplicationContext(), "Incorrect login or password", Toast.LENGTH_SHORT)
-                    .show();
-            remainingLoginAttemptsNumber--;
-
-            attemptsTextView.setVisibility(View.VISIBLE);
-            numberOfAttemptsTextView.setVisibility(View.VISIBLE);
-            numberOfAttemptsTextView.setText("   " + Integer.toString(remainingLoginAttemptsNumber));
-
-            if (remainingLoginAttemptsNumber == 0) {
-                signInButton.setEnabled(false);
-                login.setEnabled(false);
-                password.setEnabled(false);
-                loginLockedTextView.setVisibility(View.VISIBLE);
-                loginLockedTextView.setBackgroundColor(Color.RED);
-                loginLockedTextView.setText("locked");
-            }
-        }//
-    }*/
-
-    void reloadData()  {
+    void reloadData() {
         SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
 
-        String[] loginPassword = prefStore.getString(dataToSave, null).split("-");
-        login.setText(loginPassword[0]);
-        password.setText(loginPassword[1]);
+        String loginString = prefStore.getString(TEXT_LOGIN, null);
+        String passString = prefStore.getString(TEXT_PASSWORD, null);
+
+        if ((loginString != null) & (passString != null)) {
+            login.setText(loginString);
+            password.setText(passString);
+        }
     }
 
     void saveData() {
         SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
-        prefStore.edit().putString(dataToSave, dataToSave.length() > 0 ? dataToSave : null).apply();
+        String loginString = login.getText().toString();
+        String passString = password.getText().toString();
+        prefStore.edit().putString(TEXT_LOGIN, loginString.length() > 0 ? loginString : null).apply();
+        prefStore.edit().putString(TEXT_PASSWORD, passString.length() > 0 ? passString : null).apply();
     }
-
 }

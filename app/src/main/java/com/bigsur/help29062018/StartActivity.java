@@ -24,7 +24,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if(keyFile.exists() && !keyFile.isDirectory() /*keyFile.isFile() */) {
+                if(keyFile.exists() && !keyFile.isDirectory()) {
                     Intent loginIntent = new Intent(StartActivity.this, MenuScreenActivity.class);
                     startActivity(loginIntent);
                     finish();

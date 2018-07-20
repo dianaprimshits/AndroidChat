@@ -48,8 +48,7 @@ public class KeyStoreManager {
     private SecretKey aesKey;
 
 
-    public KeyStoreManager() {
-    }
+    public KeyStoreManager() {}
 
 
     void loadKeyStore() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
