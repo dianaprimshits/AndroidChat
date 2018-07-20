@@ -19,8 +19,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private Button signInButton;
     private Button loginButton;
-    String TEXT_LOGIN;
-    String TEXT_PASSWORD;
+    String TEXT_LOGIN = "loginString";
+    String TEXT_PASSWORD = "passString";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (isComplete & !(login.getText().toString().equals("")) & !(password.getText().toString().equals(""))) {
                     Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
                     startActivity(intent);
-                    Log.d("!!!LOG!!!", String.format("login %s, password %s", login.getText(), password.getText()));
                 } else {
                     signInButton.setEnabled(false);
                 }
@@ -67,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+
                 boolean isComplete = false;
 
                 try {
@@ -80,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (isComplete & !(login.getText().toString().equals("")) & !(password.getText().toString().equals(""))) {
                     Intent intent = new Intent(LoginActivity.this, MenuScreenActivity.class);
                     startActivity(intent);
-                    Log.d("!!!LOG!!!", String.format("login %s, password %s", prefStore.getString(TEXT_LOGIN, null), prefStore.getString(TEXT_PASSWORD, null)));
                 }
             }
         });
@@ -113,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
             login.setText(loginString);
             password.setText(passString);
         }
+        Log.d("!!!LOG!!!", String.format("login %s, password %s", prefStore.getString(TEXT_LOGIN, null), prefStore.getString(TEXT_PASSWORD, null)));
     }
 
     void saveData() {
@@ -121,5 +120,6 @@ public class LoginActivity extends AppCompatActivity {
         String passString = password.getText().toString();
         prefStore.edit().putString(TEXT_LOGIN, loginString.length() > 0 ? loginString : null).apply();
         prefStore.edit().putString(TEXT_PASSWORD, passString.length() > 0 ? passString : null).apply();
+        Log.d("!!!LOG!!!", String.format("login %s, password %s", prefStore.getString(TEXT_LOGIN, null), prefStore.getString(TEXT_PASSWORD, null)));
     }
 }
