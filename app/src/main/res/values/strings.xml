@@ -12,4 +12,7 @@
     <string name="settingsButton">SETTINGS</string>
     <string name="chatsButton">CHATS</string>
     <string name="signInButton">SIGN IN</string>
+    <string name="maps">maps</string>
+    <string name="chats">chats</string>
+    <string name="settings">settings</string>
 </resources>

@@ -19,17 +19,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MenuScreenActivity"
+        <activity android:name=".Home.MenuScreenActivity"
                   android:parentActivityName=".LoginActivity">
         </activity>
-        <activity android:name=".MapsActivity"
-            android:parentActivityName=".MenuScreenActivity">
+        <activity android:name=".Chats.ChatsActivity"
+            android:parentActivityName=".Home.MenuScreenActivity">
         </activity>
-        <activity android:name=".ChatsActivity"
-            android:parentActivityName=".MenuScreenActivity">
-        </activity>
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".MenuScreenActivity">
+        <activity android:name=".Settings.SettingsActivity"
+            android:parentActivityName=".Home.MenuScreenActivity">
         </activity>
 
     </application>
