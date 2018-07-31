@@ -3,21 +3,21 @@
     <item
         android:id="@+id/icon_maps"
         android:icon="@drawable/icon_maps"
-        android:title="@string/maps">
+        android:title="">
 
     </item>
 
     <item
         android:id="@+id/icon_chats"
         android:icon="@drawable/icon_chats"
-        android:title="@string/chats">
+        android:title="">
 
     </item>
 
     <item
         android:id="@+id/icon_settings"
         android:icon="@drawable/icon_settings"
-        android:title="@string/settings">
+        android:title="">
 
     </item>
 </menu>

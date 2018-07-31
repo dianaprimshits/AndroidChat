@@ -1,4 +1,4 @@
-package com.bigsur.help29062018.DBManager;
+package com.bigsur.AndroidChatWithMaps.DBManager;
 
 
 public class Contact {

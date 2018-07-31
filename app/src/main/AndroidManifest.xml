@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bigsur.help29062018">
+    package="com.bigsur.AndroidChatWithMaps">
 
 
     <application
@@ -12,21 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".StartActivity">
+        <activity android:name="com.bigsur.AndroidChatWithMaps.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".Home.MenuScreenActivity"
-                  android:parentActivityName=".LoginActivity">
+        <activity android:name="com.bigsur.AndroidChatWithMaps.LoginActivity" />
+        <activity android:name="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity"
+                  android:parentActivityName="com.bigsur.AndroidChatWithMaps.LoginActivity">
         </activity>
         <activity android:name=".Chats.ChatsActivity"
-            android:parentActivityName=".Home.MenuScreenActivity">
+            android:parentActivityName="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity">
         </activity>
         <activity android:name=".Settings.SettingsActivity"
-            android:parentActivityName=".Home.MenuScreenActivity">
+            android:parentActivityName="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity">
         </activity>
 
     </application>

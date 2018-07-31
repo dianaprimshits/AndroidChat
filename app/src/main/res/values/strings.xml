@@ -7,12 +7,5 @@
     <string name="passwordEditText">Input password</string>
     <string name="loginButton">LOGIN</string>
     <string name="attemptsTextView">Attempts:  </string>
-
-    <string name="mapsButton">MAPS</string>
-    <string name="settingsButton">SETTINGS</string>
-    <string name="chatsButton">CHATS</string>
     <string name="signInButton">SIGN IN</string>
-    <string name="maps">maps</string>
-    <string name="chats">chats</string>
-    <string name="settings">settings</string>
 </resources>

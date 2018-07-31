@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="grey">#de1010</color>
     <color name="white">#ffffff</color>
+    <color name="bot_item_color">#582e2e</color>
 </resources>

@@ -1,4 +1,4 @@
-package com.bigsur.help29062018;
+package com.bigsur.AndroidChatWithMaps;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
