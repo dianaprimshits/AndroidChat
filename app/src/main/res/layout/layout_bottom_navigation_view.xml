@@ -13,6 +13,7 @@
             android:background="@drawable/menu_activity_border_bottom"
             app:itemIconTint="@color/bot_item_color"
             app:menu="@menu/bottom_navigation_menu"
+
             >
         </android.support.design.widget.BottomNavigationView>
 

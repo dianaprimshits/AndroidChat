@@ -18,9 +18,10 @@
     </FrameLayout>
 
     <RelativeLayout
+        android:id="@+id/relLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relLayout2">
+        android:layout_height="match_parent">
+
         <include layout="@layout/layout_bottom_navigation_view" />
     </RelativeLayout>
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addDialog"
+        android:title="@string/addDialog">
+    </item>
+    <item
+        android:id="@+id/addGroupDialog"
+        android:title="@string/add_group_dialog">
+    </item>
+    <item
+        android:id="@+id/deleteDialog"
+        android:title="@string/delete_dialog">
+    </item>
+    <item
+        android:id="@+id/deleteGroupDialog"
+        android:title="@string/delete_group_dialog">
+    </item>
+</menu>

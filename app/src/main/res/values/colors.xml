@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="grey">#de1010</color>
     <color name="white">#ffffff</color>
-    <color name="bot_item_color">#582e2e</color>
+    <color name="bot_item_color">#e9e8e8</color>
+    <color name="colorChatToolbar">#40ff0900</color>
 </resources>

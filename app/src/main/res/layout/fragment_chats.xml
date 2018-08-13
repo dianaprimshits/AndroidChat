@@ -3,4 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/chat_toolbar"
+        style="@style/Toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview_for_chats">
+        <include layout="@layout/listview_for_fragment_chats" />
+    </RelativeLayout>
+
+
 </RelativeLayout>

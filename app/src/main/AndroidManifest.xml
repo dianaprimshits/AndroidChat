@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".DBManager.App">
 
         <activity android:name="com.bigsur.AndroidChatWithMaps.StartActivity">
             <intent-filter>
@@ -22,12 +23,7 @@
         <activity android:name="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity"
                   android:parentActivityName="com.bigsur.AndroidChatWithMaps.LoginActivity">
         </activity>
-        <activity android:name=".Chats.ChatsActivity"
-            android:parentActivityName="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity">
-        </activity>
-        <activity android:name=".Settings.SettingsActivity"
-            android:parentActivityName="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity">
-        </activity>
+
 
     </application>
 
