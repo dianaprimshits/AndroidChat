@@ -24,4 +24,5 @@ public class App extends Application {
     public AppDatabase getDatabase() {
         return database;
     }
+
 }

@@ -14,8 +14,4 @@
         android:id="@+id/deleteDialog"
         android:title="@string/delete_dialog">
     </item>
-    <item
-        android:id="@+id/deleteGroupDialog"
-        android:title="@string/delete_group_dialog">
-    </item>
 </menu>

@@ -10,9 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.App;
-import com.bigsur.AndroidChatWithMaps.DBManager.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.DBManager.ContactsDAO;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.chats.ItemChatsFragment;
 import com.bigsur.AndroidChatWithMaps.maps.ItemMapsFragment;
@@ -32,20 +29,7 @@ public class MenuScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_screen_activity);
         setupBottomNavigationView();
-        setupDatabase();
-    }
 
-
-    public void setupDatabase() {
-        new Thread(new Runnable() {
-            public void run() {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
-             //   Contacts contacts = new Contacts(1, "John Smithjjjjj789", "111007895");
-             //  contactsDao.insert(contacts);
-             //   Log.d(TAG, String.valueOf(contactsDao.getAll()));
-            }
-        }).start();
     }
 
     private void setupBottomNavigationView(){
