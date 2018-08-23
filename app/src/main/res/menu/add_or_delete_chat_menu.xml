@@ -10,8 +10,4 @@
         android:id="@+id/addGroupDialog"
         android:title="@string/add_group_dialog">
     </item>
-    <item
-        android:id="@+id/deleteDialog"
-        android:title="@string/delete_dialog">
-    </item>
 </menu>

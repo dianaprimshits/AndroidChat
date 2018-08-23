@@ -8,5 +8,7 @@
     android:padding="5dp"
     android:textColor="#ffffff"
     android:textSize="24sp"
-    android:typeface="monospace">
+    android:typeface="monospace"
+    android:focusable="false"
+    android:focusableInTouchMode="false">
 </TextView>

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listview_for_chats">
-        <include layout="@layout/listview_for_fragment_chats" />
+        <include layout="@layout/listview" />
     </RelativeLayout>
 
 
