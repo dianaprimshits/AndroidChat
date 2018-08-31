@@ -1,6 +1,7 @@
 package com.bigsur.AndroidChatWithMaps.DBManager.crud;
 
 
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -8,9 +9,8 @@ import com.bigsur.AndroidChatWithMaps.DBManager.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.AppDatabase;
 import com.bigsur.AndroidChatWithMaps.DBManager.Contacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.ContactsDAO;
-import java.util.List;
 
-public class GetAll extends AsyncTask<Contacts, Void, List<Contacts>>{
+public class GetAll extends AsyncTask<Contacts, Void, Cursor>{
 
     @Override
     protected void onPreExecute() {
@@ -18,7 +18,7 @@ public class GetAll extends AsyncTask<Contacts, Void, List<Contacts>>{
     }
 
     @Override
-    protected List<Contacts> doInBackground(Contacts... contacts) {
+    protected Cursor doInBackground(Contacts... contacts) {
         AppDatabase db = App.getInstance().getDatabase();
         ContactsDAO contactsDao = db.getContactsDao();
 
@@ -28,7 +28,7 @@ public class GetAll extends AsyncTask<Contacts, Void, List<Contacts>>{
 
 
     @Override
-    protected void onPostExecute(List<Contacts> dialogs) {
+    protected void onPostExecute(Cursor dialogs) {
         super.onPostExecute(dialogs);
     }
 }

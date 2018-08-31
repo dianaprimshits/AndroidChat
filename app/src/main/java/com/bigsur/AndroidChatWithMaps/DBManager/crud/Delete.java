@@ -14,7 +14,7 @@ public class Delete extends AsyncTask<Contacts, Void, Void>{
     protected Void doInBackground(Contacts... params) {
         AppDatabase db = App.getInstance().getDatabase();
         ContactsDAO contactsDao = db.getContactsDao();
-        contactsDao.delete(params[0]);
+        contactsDao.delete(params[0].getId());
         return null;
     }
 }

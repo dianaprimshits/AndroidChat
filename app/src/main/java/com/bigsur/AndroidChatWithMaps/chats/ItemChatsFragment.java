@@ -14,9 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,21 +22,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.crud.Create;
-import com.bigsur.AndroidChatWithMaps.DBManager.crud.Delete;
-import com.bigsur.AndroidChatWithMaps.DBManager.crud.GetAll;
-import com.bigsur.AndroidChatWithMaps.DBManager.crud.Update;
+import com.bigsur.AndroidChatWithMaps.DBManager.CustomAdapter;
+import com.bigsur.AndroidChatWithMaps.DBManager.StorageArrayListManager;
+import com.bigsur.AndroidChatWithMaps.DBManager.StorageManager;
 import com.bigsur.AndroidChatWithMaps.R;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 public class ItemChatsFragment extends Fragment {
     private static final String TAG = "!!!LOG!!!";
     ListView lvMain;
     Toolbar toolbar;
+    StorageManager storage = StorageArrayListManager.getInstance();
+
+
 
     public static ItemChatsFragment newInstance() {
         ItemChatsFragment fragment = new ItemChatsFragment();
@@ -58,8 +54,10 @@ public class ItemChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
+
         findViewsById(view);
         refreshDialogList();
+
 
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -72,26 +70,20 @@ public class ItemChatsFragment extends Fragment {
                 final EditText alterDialogPhoneNumber = (EditText) dialog.findViewById(R.id.contactPhoneNumber);
                 String selectedFromList = (lvMain.getItemAtPosition(position).toString());
                 alterDialogName.setText(selectedFromList);
+                alterDialogPhoneNumber.setText(selectedFromList);
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("update",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        Update db = new Update();
-                                        db.execute();//1111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+                                        storage.update(new Contacts("fhv","dcgh"));
                                         refreshDialogList();
                                     }
                                 })
                         .setNegativeButton("delete",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                        Delete db = new Delete();
-                                        //(Contacts)lvMain.getItemAtPosition(position) дает только строку с именем. потому что именно ее
-                                        //мы туда и засовывали.
-                                        //поэтому нужно поменять arrayAdapter на cursorAdapter
-                                        //чтобы брать отображать в листвью именно поля объектов,
-                                        //а не массив отдельных каких-то херовин с именами
-                                        db.execute();//1111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        storage.delete(1);
                                         refreshDialogList();
                                     }
                                 });
@@ -105,8 +97,6 @@ public class ItemChatsFragment extends Fragment {
                 buttonLL.gravity = Gravity.CENTER;
                 positiveButton.setLayoutParams(buttonLL);
                 negativeButton.setLayoutParams(buttonLL);
-
-
 
 
                 Toast.makeText(getContext(), "Item clicked", Toast.LENGTH_LONG).show();
@@ -149,36 +139,15 @@ public class ItemChatsFragment extends Fragment {
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
     }
 
-
-    private ArrayList<String> showContactsNames(List<Contacts> contactList) {
-        ArrayList<String> contactsNames = new ArrayList<>();
-
-        for (Contacts contact : contactList) {
-            contactsNames.add(contact.getName());
-        }
-        return contactsNames;
-    }
-
-    private List<Contacts> getContacts() {
+   /* private Cursor getContacts() throws ExecutionException, InterruptedException {
         GetAll db = new GetAll();
         db.execute();
-        List<Contacts> listViewContacts = new ArrayList<>();
-        try {
-            if(db.get() == null) {
-                listViewContacts.add(0, new Contacts("default", "1"));
-            } else {
-                listViewContacts = db.get();
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-       return listViewContacts;
-    }
+        return db.get();
+    }*/
 
-    private Adapter refreshDialogList() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.contact_list, showContactsNames(getContacts()));
+    private void refreshDialogList() {
+        CustomAdapter adapter = new CustomAdapter(getActivity(), storage.getAll());
         lvMain.setAdapter(adapter);
-        return adapter;
     }
 
 
@@ -194,19 +163,19 @@ public class ItemChatsFragment extends Fragment {
                 .setPositiveButton("create dialog",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Create db = new Create();
-                                db.execute(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
+                                storage.create(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
+                                Log.d(TAG, "onClick: "+ storage.toString());
                                 refreshDialogList();
                             }
                         })
                 .setNegativeButton("cancel",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
-                AlertDialog alertDialog = mDialogBuilder.create();
-                alertDialog.show();
+        AlertDialog alertDialog = mDialogBuilder.create();
+        alertDialog.show();
 
         final Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         final Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);

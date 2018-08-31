@@ -3,15 +3,16 @@ package com.bigsur.AndroidChatWithMaps.DBManager;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = Contacts.class, parentColumns = "id", childColumns = "contactId", onDelete = CASCADE))
+@Entity(foreignKeys = @ForeignKey(entity = Contacts.class, parentColumns = "id", childColumns = "contactId", onDelete = CASCADE),
+        indices = { @Index(value = "id")})
 public class Messages {
-
     @PrimaryKey(autoGenerate = true)
     public int id;
     private String message;

@@ -1,12 +1,13 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(indices = {@Index(value = {"name", "phone_number"}, unique = true)})
 public class Contacts {
-    @PrimaryKey(autoGenerate = true)public int id;
+    @PrimaryKey(autoGenerate = true)public int _id;
     private String name;
     private String phone_number;
 
@@ -15,10 +16,15 @@ public class Contacts {
         this.name = name;
         this.phone_number = phone_number;
     }
-
+    @Ignore
+    public Contacts(int id, String name, String phone_number) {
+        this._id = id;
+        this.name = name;
+        this.phone_number = phone_number;
+    }
 
     public int getId() {
-        return id;
+        return _id;
     }
 
     public String getName() {

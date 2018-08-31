@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/textView1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#33988686"
-    android:padding="5dp"
-    android:textColor="#ffffff"
-    android:textSize="24sp"
-    android:typeface="monospace"
-    android:focusable="false"
-    android:focusableInTouchMode="false">
-</TextView>
+    android:orientation="horizontal">
+
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/contactId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33988686"
+        android:padding="5dp"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
+    </TextView>
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/contactName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33988686"
+        android:padding="5dp"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
+    </TextView>
+    <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/contactPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33988686"
+        android:padding="5dp"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:typeface="monospace"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
+    </TextView>
+</LinearLayout>
+
