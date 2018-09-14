@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.StorageSQLiteManager;
+import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.concurrent.ExecutionException;
@@ -36,7 +36,7 @@ public class ItemChatsFragment extends Fragment {
     ListView lvMain;
     Toolbar toolbar;
     ArrayAdapter<ChatRooms> adapter;
-    StorageSQLiteManager dbStorage = new StorageSQLiteManager();
+    SQLiteContactsManager dbStorage = new SQLiteContactsManager();
 
 
 

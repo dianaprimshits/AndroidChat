@@ -11,7 +11,7 @@ import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
 import java.util.List;
 
 @Dao
-public interface MessagesDAO extends TheUDaoInterface{
+public interface MessagesDAO {
     @Insert
     void insert(Messages message);
 
@@ -21,7 +21,7 @@ public interface MessagesDAO extends TheUDaoInterface{
     @Query("DELETE FROM messages WHERE message_id = :id")
     void delete(int id);
 
-    @Query("SELECT * FROM messages WHERE contact_id = :contactId")
-    List<Messages> getMessagesForContact(int contactId);
+    @Query("SELECT * FROM messages")
+    List<Messages> getAll();
 
 }

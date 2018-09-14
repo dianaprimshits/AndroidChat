@@ -11,7 +11,7 @@ import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
 import java.util.List;
 
 @Dao
-public interface ChatRoomDAO extends TheUDaoInterface {
+public interface ChatRoomDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ChatRooms chatRoom);
 

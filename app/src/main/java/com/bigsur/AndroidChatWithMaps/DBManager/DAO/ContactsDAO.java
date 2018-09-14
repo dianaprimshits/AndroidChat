@@ -11,7 +11,7 @@ import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 import java.util.List;
 
 @Dao
-public interface ContactsDAO extends TheUDaoInterface {
+public interface ContactsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Contacts contact);
 
