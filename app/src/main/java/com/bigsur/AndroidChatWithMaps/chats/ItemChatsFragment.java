@@ -15,24 +15,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.CustomAdapter;
-import com.bigsur.AndroidChatWithMaps.DBManager.StorageArrayListManager;
-import com.bigsur.AndroidChatWithMaps.DBManager.StorageManager;
+import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
+import com.bigsur.AndroidChatWithMaps.DBManager.StorageSQLiteManager;
 import com.bigsur.AndroidChatWithMaps.R;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class ItemChatsFragment extends Fragment {
     private static final String TAG = "!!!LOG!!!";
     ListView lvMain;
     Toolbar toolbar;
-    StorageManager storage = StorageArrayListManager.getInstance();
+    ArrayAdapter<ChatRooms> adapter;
+    StorageSQLiteManager dbStorage = new StorageSQLiteManager();
 
 
 
@@ -56,7 +60,8 @@ public class ItemChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
         findViewsById(view);
-        refreshDialogList();
+        adapter = new ArrayAdapter<ChatRooms>(getContext(), R.layout.chats_list);
+        lvMain.setAdapter(adapter);
 
 
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -68,23 +73,32 @@ public class ItemChatsFragment extends Fragment {
                 mDialogBuilder.setView(dialog);
                 final EditText alterDialogName = (EditText) dialog.findViewById(R.id.contactName);
                 final EditText alterDialogPhoneNumber = (EditText) dialog.findViewById(R.id.contactPhoneNumber);
-                String selectedFromList = (lvMain.getItemAtPosition(position).toString());
-                alterDialogName.setText(selectedFromList);
-                alterDialogPhoneNumber.setText(selectedFromList);
+                alterDialogName.setText(adapter.getItem(position).getName());
+               // alterDialogPhoneNumber.setText(adapter.getItem(position).getPhone_number());
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("update",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        storage.update(new Contacts("fhv","dcgh"));
-                                        refreshDialogList();
+                                        adapter.getItem(position).setName(alterDialogName.getText().toString());
+                                     //   adapter.getItem(position).setPhone_number(alterDialogPhoneNumber.getText().toString());
+                                    //    dbStorage.update(adapter.getItem(position));
+                                        try {
+                                            refreshDialogList();
+                                        } catch (ExecutionException | InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 })
                         .setNegativeButton("delete",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        storage.delete(1);
-                                        refreshDialogList();
+                                        dbStorage.delete(adapter.getItem(position).getId());
+                                        try {
+                                            refreshDialogList();
+                                        } catch (ExecutionException | InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 });
                 AlertDialog alertDialog = mDialogBuilder.create();
@@ -97,7 +111,6 @@ public class ItemChatsFragment extends Fragment {
                 buttonLL.gravity = Gravity.CENTER;
                 positiveButton.setLayoutParams(buttonLL);
                 negativeButton.setLayoutParams(buttonLL);
-
 
                 Toast.makeText(getContext(), "Item clicked", Toast.LENGTH_LONG).show();
                 return false;
@@ -139,14 +152,9 @@ public class ItemChatsFragment extends Fragment {
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
     }
 
-   /* private Cursor getContacts() throws ExecutionException, InterruptedException {
-        GetAll db = new GetAll();
-        db.execute();
-        return db.get();
-    }*/
 
-    private void refreshDialogList() {
-        CustomAdapter adapter = new CustomAdapter(getActivity(), storage.getAll());
+    private void refreshDialogList() throws ExecutionException, InterruptedException {
+        adapter = new ArrayAdapter<ChatRooms>(getContext(), R.layout.chats_list);
         lvMain.setAdapter(adapter);
     }
 
@@ -163,9 +171,14 @@ public class ItemChatsFragment extends Fragment {
                 .setPositiveButton("create dialog",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                storage.create(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
-                                Log.d(TAG, "onClick: "+ storage.toString());
-                                refreshDialogList();
+                                DataFromDB<Contacts> contact = new DataFromDB<>(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
+                                dbStorage.create(contact);
+                                Log.d(TAG, "onClick: "+ dbStorage.toString());
+                                try {
+                                    refreshDialogList();
+                                } catch (ExecutionException | InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         })
                 .setNegativeButton("cancel",

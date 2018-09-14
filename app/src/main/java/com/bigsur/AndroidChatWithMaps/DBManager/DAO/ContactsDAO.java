@@ -1,14 +1,17 @@
-package com.bigsur.AndroidChatWithMaps.DBManager;
+package com.bigsur.AndroidChatWithMaps.DBManager.DAO;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
-import android.database.Cursor;
+
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
+
+import java.util.List;
 
 @Dao
-public interface ContactsDAO {
+public interface ContactsDAO extends TheUDaoInterface {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Contacts contact);
 
@@ -19,8 +22,9 @@ public interface ContactsDAO {
     void delete(int id);
 
     @Query("SELECT * FROM contacts")
-    Cursor getAll();
+    List<Contacts> getAll();
 
     @Query("SELECT * FROM contacts WHERE _id = :id")
     Contacts getByID(int id);
+
 }

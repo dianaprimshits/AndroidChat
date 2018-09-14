@@ -1,7 +1,7 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
 import java.util.ArrayList;
-
+/*
 public class StorageArrayListManager implements StorageManager {
     private static ArrayList<Contacts> contacts;
     private static StorageArrayListManager instance;
@@ -26,9 +26,9 @@ public class StorageArrayListManager implements StorageManager {
 
     @Override
     public void update(Contacts contact) {
+        int contactToUpgradeId = contact.getId();
         for(int i = 0; i < contacts.size(); i++) {
-            int contactToUpgradeId = contacts.get(i).getId();
-            if(contact.getId() == contactToUpgradeId) {
+            if(contactToUpgradeId == contacts.get(i).getId()) {
                 contacts.set(i, contact);
             }
         }
@@ -37,15 +37,14 @@ public class StorageArrayListManager implements StorageManager {
     @Override
     public void delete(int id) {
         for(int i = 0; i < contacts.size(); i++) {
-            int contactToUpgradeId = contacts.get(i).getId();
-            if(id == contactToUpgradeId) {
+            if(id == contacts.get(i).getId()) {
                 contacts.remove(i);
             }
         }
     }
 
     @Override
-    public Contacts getOne(int id) {
+    public Contacts getById(int id) {
         for(int i = 0; i < contacts.size(); i++) {
             int contactToUpgradeId = contacts.get(i).getId();
             if(id == contactToUpgradeId) {
@@ -69,9 +68,11 @@ public class StorageArrayListManager implements StorageManager {
         return sb.toString();
     }
 
-    //public CustomAdapter getAdapter(Context context) {
+    //public CustomAdapterForContacts getAdapter(Context context) {
     //
     // return new ArrayAdapter<Contacts>(context, R.layout.listview, contacts);
-    //    return new CustomAdapter(context, contacts);
+    //    return new CustomAdapterForContacts(context, contacts);
     //}
+
 }
+*/

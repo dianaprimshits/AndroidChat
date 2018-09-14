@@ -3,23 +3,26 @@ package com.bigsur.AndroidChatWithMaps.DBManager.crud;
 
 import android.os.AsyncTask;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.App;
+import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.DBManager.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.ContactsDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ContactsDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 
-public class GetById extends AsyncTask<Contacts, Void, Contacts>{
+public class GetById extends AsyncTask<Integer, Void, DataFromDB>{
 
     @Override
-    protected Contacts doInBackground(Contacts... params) {
+    protected DataFromDB doInBackground(Integer... params) {
         AppDatabase db = App.getInstance().getDatabase();
         ContactsDAO contactsDao = db.getContactsDao();
-        int id = params[0].getId();
-        return contactsDao.getByID(id);
+
+        int id = params[0];
+        Contacts c = contactsDao.getByID(id);
+        return new DataFromDB(c);
     }
 
     @Override
-    protected void onPostExecute(Contacts contact) {
+    protected void onPostExecute(DataFromDB contact) {
         super.onPostExecute(contact);
     }
 }

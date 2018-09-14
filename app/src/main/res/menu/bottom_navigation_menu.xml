@@ -8,6 +8,14 @@
     </item>
 
     <item
+        android:id="@+id/icon_contacts"
+        android:icon="@drawable/icon_contacts"
+        android:title=""
+        >
+
+    </item>
+
+    <item
         android:id="@+id/icon_chats"
         android:icon="@drawable/icon_chats"
         android:title="">
@@ -20,4 +28,6 @@
         android:title="">
 
     </item>
+
+
 </menu>

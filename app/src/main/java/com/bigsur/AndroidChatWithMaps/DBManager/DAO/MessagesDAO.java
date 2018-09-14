@@ -1,27 +1,27 @@
-package com.bigsur.AndroidChatWithMaps.DBManager;
+package com.bigsur.AndroidChatWithMaps.DBManager.DAO;
 
-/*
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
+
 import java.util.List;
 
 @Dao
-public interface MessagesDAO {
+public interface MessagesDAO extends TheUDaoInterface{
     @Insert
-    void addMessage(Messages message);
+    void insert(Messages message);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateMessage(Messages message);
+    void update(Messages message);
 
-    @Query("delete from message where id = :id")
+    @Query("DELETE FROM messages WHERE message_id = :id")
     void delete(int id);
 
-    @Query("SELECT * FROM messages WHERE contactId = :contactId")
+    @Query("SELECT * FROM messages WHERE contact_id = :contactId")
     List<Messages> getMessagesForContact(int contactId);
 
 }
-*/

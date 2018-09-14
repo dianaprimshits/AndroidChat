@@ -3,17 +3,37 @@ package com.bigsur.AndroidChatWithMaps.DBManager.crud;
 
 import android.os.AsyncTask;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.App;
+import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.DBManager.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.ContactsDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ChatRoomDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ContactsDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DAO.MessagesDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
 
-public class Update extends AsyncTask<Contacts, Void, Void>{
+public class Update extends AsyncTask<DataFromDB, Void, Void>{
+
     @Override
-    protected Void doInBackground(Contacts... params) {
+    protected Void doInBackground(DataFromDB... params) {
         AppDatabase db = App.getInstance().getDatabase();
-        ContactsDAO contactsDao = db.getContactsDao();
-        contactsDao.update(params[0]);
+
+        if (params[0].getData() instanceof Contacts) {
+            ContactsDAO contactsDao = db.getContactsDao();
+            contactsDao.update((Contacts) params[0].getData());
+        }
+
+        if (params[0].getData() instanceof ChatRooms) {
+            ChatRoomDAO chatRoomDao = db.getChatRoomDao();
+            chatRoomDao.update((ChatRooms) params[0].getData());
+        }
+
+        if (params[0].getData() instanceof Messages) {
+            MessagesDAO messagesDao = db.getMessagesDao();
+            messagesDao.update((Messages) params[0].getData());
+        }
+
         return null;
     }
 }

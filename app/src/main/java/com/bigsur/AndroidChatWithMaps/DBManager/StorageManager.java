@@ -2,13 +2,12 @@ package com.bigsur.AndroidChatWithMaps.DBManager;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public interface StorageManager {
-     void create(Contacts contact);
-     void update(Contacts contact);
+     void create(DataFromDB contact);
+     void update(DataFromDB contact);
      void delete(int id);
-     Contacts getOne(int id);
-     ArrayList<Contacts> getAll();
-     //   CustomAdapter getAdapter(Context context);
-
+     DataFromDB getById(int id) throws ExecutionException, InterruptedException;
+     ArrayList<DataFromDB> getAll() throws ExecutionException, InterruptedException;
 }

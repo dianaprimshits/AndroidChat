@@ -1,11 +1,13 @@
-package com.bigsur.AndroidChatWithMaps.DBManager;
+package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(indices = {@Index(value = {"name", "phone_number"}, unique = true)})
+@Entity(tableName = "contacts",
+        indices = {@Index(value = {"name", "phone_number"},
+                          unique = true)})
 public class Contacts {
     @PrimaryKey(autoGenerate = true)public int _id;
     private String name;
@@ -16,6 +18,7 @@ public class Contacts {
         this.name = name;
         this.phone_number = phone_number;
     }
+
     @Ignore
     public Contacts(int id, String name, String phone_number) {
         this._id = id;
@@ -38,5 +41,13 @@ public class Contacts {
     public String toString(){
         return String.format("Contacts id: %d \n name: %s \n phone number: %s.",
                              getId(), getName(), getPhone_number());
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 }

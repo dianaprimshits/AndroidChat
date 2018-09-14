@@ -1,34 +1,40 @@
 package com.bigsur.AndroidChatWithMaps.DBManager.crud;
 
 
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.App;
+import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.DBManager.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.ContactsDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ContactsDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 
-public class GetAll extends AsyncTask<Contacts, Void, Cursor>{
+import java.util.ArrayList;
+import java.util.List;
+
+public class GetAll extends AsyncTask<Void, Void, List<DataFromDB>>{
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
+    protected List<DataFromDB> doInBackground(Void ... params) {
+        ArrayList<DataFromDB> displayList = new ArrayList<>();
 
-    @Override
-    protected Cursor doInBackground(Contacts... contacts) {
         AppDatabase db = App.getInstance().getDatabase();
+
         ContactsDAO contactsDao = db.getContactsDao();
 
         Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
-        return contactsDao.getAll();
+        List<Contacts> contactsList = contactsDao.getAll();
+
+        for(int i = 0; i < contactsList.size(); i++) {
+            displayList.add(new DataFromDB(contactsList.get(i)));
+        }
+        return displayList;
     }
 
 
     @Override
-    protected void onPostExecute(Cursor dialogs) {
-        super.onPostExecute(dialogs);
+    protected void onPostExecute(List<DataFromDB> contacts) {
+        super.onPostExecute(contacts);
     }
 }
