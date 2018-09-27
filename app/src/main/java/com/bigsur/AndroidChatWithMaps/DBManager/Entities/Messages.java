@@ -5,9 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = {
+@Entity(tableName = "messages",
+        foreignKeys = {
         @ForeignKey(entity = Contacts.class,
                 parentColumns = "_id",
                 childColumns = "contact_id",
@@ -15,12 +17,17 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         @ForeignKey(entity = ChatRooms.class,
                 parentColumns = "chat_room_id",
                 childColumns = "chat_room_id",
-                onDelete = CASCADE)
-},
-        indices = {@Index(value = "message_id")})
+                onDelete = CASCADE)},
+        indices = {@Index(value = "date",
+                          unique = true),
+                   @Index(value = "message",
+                          unique = true)
+        })
 
 public class Messages {
-    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "message_id")public int messageId;
+    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "message_id")
+    public int messageId;
+    @ColumnInfo(name = "message")
     private String message;
     @ColumnInfo(name = "date")
     private String date;

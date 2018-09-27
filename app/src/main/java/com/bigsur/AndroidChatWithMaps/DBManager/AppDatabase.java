@@ -11,8 +11,8 @@ import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
 
-@Database(entities = {Contacts.class, ChatRooms.class, Messages.class}, version = 10)
-public abstract class AppDatabase<T> extends RoomDatabase {
+@Database(entities = {Contacts.class, ChatRooms.class, Messages.class}, version = 14)
+public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ContactsDAO getContactsDao();
     public abstract ChatRoomDAO getChatRoomDao();

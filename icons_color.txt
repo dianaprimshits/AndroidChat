@@ -1,0 +1,1 @@
+"at" icon color in settings fragment: #78909C

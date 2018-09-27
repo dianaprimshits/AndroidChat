@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 import com.bigsur.AndroidChatWithMaps.R;
 
@@ -17,13 +17,13 @@ import java.util.ArrayList;
 public class CustomAdapterForContacts extends ArrayAdapter<DataFromDB> {
 
     Context context;
-    private ArrayList<DataFromDB> contacts;
+    private ArrayList<DataFromDB> data;
     LayoutInflater lInflater;
 
-    public CustomAdapterForContacts(Context context, ArrayList<DataFromDB> contacts) {
-        super(context, R.layout.contact_list, contacts);
+    public CustomAdapterForContacts(Context context, ArrayList<DataFromDB> data) {
+        super(context, R.layout.contact_list, data);
         this.context = context;
-        this.contacts = contacts;
+        this.data = data;
         lInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -36,7 +36,7 @@ public class CustomAdapterForContacts extends ArrayAdapter<DataFromDB> {
         TextView contactName = (TextView) rowView.findViewById(R.id.contactName);
         TextView contactPhoneNumber = (TextView) rowView.findViewById(R.id.contactPhoneNumber);
         Contacts selectedItem = (Contacts) getItem(position).getData();
-        contactName.setText(selectedItem.getName());
+        contactName.setText(selectedItem.getContactName());
         contactPhoneNumber.setText(selectedItem.getPhone_number());
         return rowView;
 

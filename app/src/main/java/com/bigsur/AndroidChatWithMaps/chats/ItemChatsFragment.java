@@ -1,10 +1,13 @@
 package com.bigsur.AndroidChatWithMaps.chats;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,16 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
+import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatRooms;
+import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatsSearchResult;
+import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
@@ -35,9 +37,9 @@ public class ItemChatsFragment extends Fragment {
     private static final String TAG = "!!!LOG!!!";
     ListView lvMain;
     Toolbar toolbar;
-    ArrayAdapter<ChatRooms> adapter;
+    AdapterForChatRooms adapter;
+    AdapterForChatsSearchResult searchAdapter;
     SQLiteContactsManager dbStorage = new SQLiteContactsManager();
-
 
 
     public static ItemChatsFragment newInstance() {
@@ -60,7 +62,16 @@ public class ItemChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
         findViewsById(view);
-        adapter = new ArrayAdapter<ChatRooms>(getContext(), R.layout.chats_list);
+
+
+        SQLiteContactsManager contactsManager = new SQLiteContactsManager();
+        SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
+
+        try {
+            adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         lvMain.setAdapter(adapter);
 
 
@@ -68,26 +79,18 @@ public class ItemChatsFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
                 LayoutInflater li = LayoutInflater.from(getContext());
-                View dialog = li.inflate(R.layout.create_dialog, null);
+                View dialog = li.inflate(R.layout.long_click_chat_rooms_listview, null);
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
                 mDialogBuilder.setView(dialog);
-                final EditText alterDialogName = (EditText) dialog.findViewById(R.id.contactName);
-                final EditText alterDialogPhoneNumber = (EditText) dialog.findViewById(R.id.contactPhoneNumber);
+                final TextView alterDialogName = (TextView) dialog.findViewById(R.id.chatRoomName);
+
                 alterDialogName.setText(adapter.getItem(position).getName());
-               // alterDialogPhoneNumber.setText(adapter.getItem(position).getPhone_number());
                 mDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton("update",
+                        .setPositiveButton("cancel",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        adapter.getItem(position).setName(alterDialogName.getText().toString());
-                                     //   adapter.getItem(position).setPhone_number(alterDialogPhoneNumber.getText().toString());
-                                    //    dbStorage.update(adapter.getItem(position));
-                                        try {
-                                            refreshDialogList();
-                                        } catch (ExecutionException | InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
+                                        dialog.cancel();
                                     }
                                 })
                         .setNegativeButton("delete",
@@ -124,8 +127,55 @@ public class ItemChatsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add_or_delete_chat_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.top_chat_menu, menu);
+        final MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            SQLiteContactsManager contactsManager = new SQLiteContactsManager();
+            SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                try {
+                    if(searchAdapter == null) {
+                        searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll(), chatRoomsManager.getAll());
+                        lvMain.setAdapter(searchAdapter);
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                searchAdapter.getFilter().filter(newText);
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                try {
+                    searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll(), chatRoomsManager.getAll());
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                searchAdapter.getFilter().filter(query);
+                lvMain.setAdapter(searchAdapter);
+                return true;
+            }
+        });
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
+                  startActivity(dialogIntent);
+              }
+          }
+        );
+
     }
 
 
@@ -154,49 +204,24 @@ public class ItemChatsFragment extends Fragment {
 
 
     private void refreshDialogList() throws ExecutionException, InterruptedException {
-        adapter = new ArrayAdapter<ChatRooms>(getContext(), R.layout.chats_list);
+        SQLiteContactsManager contactsManager = new SQLiteContactsManager();
+        SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
+
+        try {
+            adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         lvMain.setAdapter(adapter);
     }
 
 
     public void onClickAddDialogButton() {
         LayoutInflater li = LayoutInflater.from(getContext());
-        View dialog = li.inflate(R.layout.create_dialog, null);
-        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
-        mDialogBuilder.setView(dialog);
-        final EditText alterDialogName = (EditText) dialog.findViewById(R.id.contactName);
-        final EditText alterDialogPhoneNumber = (EditText) dialog.findViewById(R.id.contactPhoneNumber);
-        mDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("create dialog",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                DataFromDB<Contacts> contact = new DataFromDB<>(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
-                                dbStorage.create(contact);
-                                Log.d(TAG, "onClick: "+ dbStorage.toString());
-                                try {
-                                    refreshDialogList();
-                                } catch (ExecutionException | InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                .setNegativeButton("cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alertDialog = mDialogBuilder.create();
-        alertDialog.show();
+        View dialog = li.inflate(R.layout.create_contact, null);
+        //открывается список как при search, только с одними контактами
 
-        final Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        final Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        LinearLayout.LayoutParams buttonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-        buttonLL.weight = 1;
-        buttonLL.gravity = Gravity.CENTER;
-        positiveButton.setLayoutParams(buttonLL);
-        negativeButton.setLayoutParams(buttonLL);
+
     }
 }
 

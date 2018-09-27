@@ -20,7 +20,7 @@ public class StorageArrayListManager implements StorageManager {
     @Override
     public void create(Contacts contact) {
         int freeId = contacts.size() + 1;
-        Contacts contactToSave = new Contacts(freeId, contact.getName(), contact.getPhone_number());
+        Contacts contactToSave = new Contacts(freeId, contact.getChatRoomName(), contact.getPhone_number());
         contacts.add(contactToSave);
     }
 

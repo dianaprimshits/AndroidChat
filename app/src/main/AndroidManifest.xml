@@ -21,7 +21,7 @@
         </activity>
         <activity android:name="com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity" />
         <activity android:name="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity"
-                  android:parentActivityName="com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity">
+            android:parentActivityName="com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity">
         </activity>
 
 

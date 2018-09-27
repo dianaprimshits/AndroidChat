@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/settingsFrFreeSpace"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/settings_toolbar"
+        style="@style/SettingsToolbar"
+        android:layout_width="389dp"
+        android:layout_height="27dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="2dp" />
+
+    <android.support.constraint.ConstraintLayout
+
+        android:id="@+id/photoLayout"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:background="@color/settingsToolbar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_toolbar">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/circleImageView"
+            android:layout_width="76dp"
+            android:layout_height="66dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:elevation="5dp"
+            android:src="@drawable/default_avatar"
+            app:border_color="#000000"
+            app:border_width="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/settingsTVUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="39dp"
+            android:text="@string/settingsTvUsername"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintLeft_toRightOf="@+id/circleImageView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/white"/>
+
+
+        <TextView
+            android:id="@+id/settingsTVStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="9dp"
+            android:text="@string/settingsTvStatus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.118"
+            app:layout_constraintLeft_toRightOf="@+id/circleImageView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingsTVUsername"
+            app:layout_constraintVertical_bias="0.0"
+            android:textColor="@color/white"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/settingsFrDelimiter1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/settingsFrDelimiter"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoLayout" />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/settingsFrUserInfo"
+        android:layout_width="0dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="-1dp"
+        android:background="@color/settingsFrUserInfo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsFrDelimiter1">
+
+        <ImageView
+            android:id="@+id/settingsFrAtIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/at_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/settingsFrDelimiter2"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/settingsFrPhoneNumber"
+            app:layout_constraintVertical_bias="0.363" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/settingsFrUsername"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="-10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0">
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <TextView
+            android:layout_width="226dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Setup Username"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrDelimiter2"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="14dp"
+            android:id="@+id/textView7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settingsUsernameTv"
+            android:textColor="@color/settingsFrTV"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrDelimiter2"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+
+        <View
+            android:id="@+id/settingsFrDelimiter2"
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:background="@color/settingsFrDelimiter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingsFrUsername" />
+
+
+        <ImageView
+            android:id="@+id/settingsFrPhoneIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_phone"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrPhoneNumber"
+            app:layout_constraintRight_toLeftOf="@+id/settingsFrDelimiter3"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/settingsFrBio"
+            app:layout_constraintTop_toTopOf="@+id/settingsFrPhoneNumber"
+            android:layout_marginTop="8dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/settingsFrPhoneNumber"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingsFrUsername"
+            app:layout_constraintHorizontal_bias="0.0">
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <TextView
+            android:layout_width="226dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white"
+            android:text="Setup Phone"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="@+id/settingsFrPhoneNumber"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrDelimiter3"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="14dp"
+            android:id="@+id/settingsFrTVPhone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settingsFrPhone"
+            android:textColor="@color/settingsFrTV"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrDelimiter3"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/settingsFrTVPhone" />
+
+        <View
+            android:id="@+id/settingsFrDelimiter3"
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:background="@color/settingsFrDelimiter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingsFrPhoneNumber" />
+
+
+        <ImageView
+            android:id="@+id/settingsFrBioIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_bio"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrBio"
+            app:layout_constraintRight_toLeftOf="@+id/settingsFrDelimiter3"
+            app:layout_constraintBottom_toBottomOf="@+id/settingsFrBio"
+            app:layout_constraintTop_toTopOf="@+id/settingsFrBio"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingsFrPhoneNumber"
+            app:layout_constraintVertical_bias="0.0"
+            android:id="@+id/settingsFrBio">
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
+        <TextView
+            android:layout_width="226dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white"
+            android:text="None"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="@+id/settingsFrBio"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrDelimiter3"
+            tools:layout_editor_absoluteX="84dp"
+            tools:layout_editor_absoluteY="14dp"
+            android:id="@+id/settingsFrTVBio" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settingsFrBio"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsFrDelimiter3"
+            android:textColor="@color/settingsFrTV"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/settingsFrTVBio" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/edit_button"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.972"
+        android:background="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.234" />
+
+</android.support.constraint.ConstraintLayout>

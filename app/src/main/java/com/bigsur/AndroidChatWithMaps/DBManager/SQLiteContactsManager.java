@@ -7,6 +7,7 @@ import android.util.Log;
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ContactsDAO;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,21 +62,21 @@ public class SQLiteContactsManager implements StorageManager {
     @Override
     public DataFromDB getById(final int id) throws ExecutionException, InterruptedException {
         DataFromDB data = new AsyncTask<Integer, Void, DataFromDB>() {
-                            @Override
-                            protected DataFromDB doInBackground(Integer... data) {
-                                AppDatabase db = App.getInstance().getDatabase();
-                                ContactsDAO contactsDao = db.getContactsDao();
+            @Override
+            protected DataFromDB doInBackground(Integer... data) {
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
 
-                                int id = data[0];
-                                Contacts c = contactsDao.getByID(id);
-                                return new DataFromDB(c);
-                            }
+                int id = data[0];
+                Contacts c = contactsDao.getByID(id);
+                return new DataFromDB(c);
+            }
 
-                            @Override
-                            protected void onPostExecute(DataFromDB contact) {
-                                super.onPostExecute(contact);
-                            }
-                        }.execute(id).get();
+            @Override
+            protected void onPostExecute(DataFromDB contact) {
+                super.onPostExecute(contact);
+            }
+        }.execute(id).get();
         return data;
     }
 
@@ -88,7 +89,6 @@ public class SQLiteContactsManager implements StorageManager {
                 ArrayList<DataFromDB> displayList = new ArrayList<>();
 
                 AppDatabase db = App.getInstance().getDatabase();
-
                 ContactsDAO contactsDao = db.getContactsDao();
 
                 Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
@@ -105,6 +105,34 @@ public class SQLiteContactsManager implements StorageManager {
                 super.onPostExecute(contacts);
             }
         }.execute().get();
+        return new ArrayList<>(data);
+    }
+
+
+    @Override
+    public ArrayList<DataFromDB> getSimilarData(final String search) throws ExecutionException, InterruptedException {
+        List<DataFromDB> data = new AsyncTask<String, Void, List<DataFromDB>>() {
+            @Override
+            protected List<DataFromDB> doInBackground(String ... data) {
+                ArrayList<DataFromDB> displayList = new ArrayList<>();
+
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
+
+                Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getSimilarContacts(data[0]));
+                List<Contacts> contactsList = contactsDao.getSimilarContacts(data[0]);
+
+                for(int i = 0; i < contactsList.size(); i++) {
+                    displayList.add(new DataFromDB(contactsList.get(i)));
+                }
+                return displayList;
+            }
+
+            @Override
+            protected void onPostExecute(List<DataFromDB> contacts) {
+                super.onPostExecute(contacts);
+            }
+        }.execute(search).get();
         return new ArrayList<>(data);
     }
 }

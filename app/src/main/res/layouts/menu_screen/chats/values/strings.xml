@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="addContact">add contact</string>
+    <string name="hint_search">Seeeearch</string>
+
+    //settings fragment
+    <string name="buttonAddPhoto">add photo</string>
+    <string name="buttonDeletePhoto">delete photo</string>
+    <string name="editUserNameButton">edit</string>
+    <string name="signOutInSettings">sign out</string>
+    <string name="settingsTvUsername">Username</string>
+    <string name="settingsTvStatus">Online</string>
+    <string name="settingsUsernameTv">Username</string>
+    <string name="settingsFrPhone">Phone</string>
+    <string name="settingsFrBio">Bio</string>
 </resources>

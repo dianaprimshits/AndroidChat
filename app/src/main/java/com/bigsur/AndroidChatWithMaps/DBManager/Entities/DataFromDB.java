@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.DBManager;
+package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
 
 
 public class DataFromDB<T> {

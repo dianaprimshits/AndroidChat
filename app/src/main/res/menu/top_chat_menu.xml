@@ -10,4 +10,10 @@
         android:id="@+id/addGroupDialog"
         android:title="@string/add_group_dialog">
     </item>
+    <item
+        android:id="@+id/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/hint_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
 </menu>

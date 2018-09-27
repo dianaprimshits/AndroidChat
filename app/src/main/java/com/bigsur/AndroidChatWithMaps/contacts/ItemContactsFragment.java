@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.CustomAdapterForContacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
@@ -72,13 +72,13 @@ public class ItemContactsFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
                 LayoutInflater li = LayoutInflater.from(getContext());
-                View dialog = li.inflate(R.layout.create_dialog, null);
+                View dialog = li.inflate(R.layout.create_contact, null);
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
                 mDialogBuilder.setView(dialog);
                 final EditText alterDialogName = (EditText) dialog.findViewById(R.id.contactName);
                 final EditText alterDialogPhoneNumber = (EditText) dialog.findViewById(R.id.contactPhoneNumber);
                 Contacts selectedItem = (Contacts) adapter.getItem(position).getData();
-                alterDialogName.setText(selectedItem.getName());
+                alterDialogName.setText(selectedItem.getContactName());
                 alterDialogPhoneNumber.setText(selectedItem.getPhone_number());
                 mDialogBuilder
                         .setCancelable(false)
@@ -86,7 +86,7 @@ public class ItemContactsFragment extends Fragment {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Contacts selectedItem = (Contacts) adapter.getItem(position).getData();
-                                        selectedItem.setName(alterDialogName.getText().toString());
+                                        selectedItem.setContactName(alterDialogName.getText().toString());
                                         selectedItem.setPhone_number(alterDialogPhoneNumber.getText().toString());
                                         dbStorage.update(adapter.getItem(position));
                                         try {
@@ -157,7 +157,7 @@ public class ItemContactsFragment extends Fragment {
 
     public void onClickAddDialogButton() {
         LayoutInflater li = LayoutInflater.from(getContext());
-        View dialog = li.inflate(R.layout.create_dialog, null);
+        View dialog = li.inflate(R.layout.create_contact, null);
         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
         mDialogBuilder.setView(dialog);
         final EditText alterDialogName = (EditText) dialog.findViewById(R.id.contactName);
@@ -167,7 +167,7 @@ public class ItemContactsFragment extends Fragment {
                 .setPositiveButton("create contact",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DataFromDB<Contacts> contact = new DataFromDB<Contacts>(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
+                                DataFromDB<Contacts> contact = new DataFromDB<>(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
                                 dbStorage.create(contact);
                                 Log.d(TAG, "onClick: "+ dbStorage.toString());
                                 try {

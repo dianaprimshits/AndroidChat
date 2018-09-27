@@ -7,6 +7,7 @@ import android.util.Log;
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ChatRoomDAO;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,33 @@ public class SQLiteChatRoomsManager implements StorageManager {
                 super.onPostExecute(chatRooms);
             }
         }.execute().get();
+        return new ArrayList<>(data);
+    }
+
+    @Override
+    public ArrayList<DataFromDB> getSimilarData(String search) throws InterruptedException, ExecutionException {
+        List<DataFromDB> data = new AsyncTask<String, Void, List<DataFromDB>>() {
+            @Override
+            protected List<DataFromDB> doInBackground(String ... data) {
+                ArrayList<DataFromDB> displayList = new ArrayList<>();
+
+                AppDatabase db = App.getInstance().getDatabase();
+                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+
+                Log.d("!!!!!LOG!!", "doInBackground: " + chatRoomDAO.getSimilarChatRooms(data[0]));
+                List<ChatRooms> chatRoomList = chatRoomDAO.getSimilarChatRooms(data[0]);
+
+                for(int i = 0; i < chatRoomList.size(); i++) {
+                    displayList.add(new DataFromDB(chatRoomList.get(i)));
+                }
+                return displayList;
+            }
+
+            @Override
+            protected void onPostExecute(List<DataFromDB> chatRooms) {
+                super.onPostExecute(chatRooms);
+            }
+        }.execute(search).get();
         return new ArrayList<>(data);
     }
 }

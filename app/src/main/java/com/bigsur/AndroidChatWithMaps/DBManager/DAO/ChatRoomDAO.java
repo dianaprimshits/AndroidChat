@@ -26,4 +26,7 @@ public interface ChatRoomDAO {
 
     @Query("SELECT * FROM chat_rooms WHERE chat_room_id = :chatRoomId")
     ChatRooms getByID(int chatRoomId);
+
+    @Query("SELECT * FROM chat_rooms WHERE chat_room_name LIKE :search")
+    List<ChatRooms> getSimilarChatRooms(String search);
 }

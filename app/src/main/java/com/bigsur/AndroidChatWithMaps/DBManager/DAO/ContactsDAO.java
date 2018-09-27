@@ -18,7 +18,7 @@ public interface ContactsDAO {
     @Update
     void update(Contacts contact);
 
-    @Query("delete from contacts where _id = :id")
+    @Query("DELETE FROM contacts WHERE _id = :id")
     void delete(int id);
 
     @Query("SELECT * FROM contacts")
@@ -26,5 +26,8 @@ public interface ContactsDAO {
 
     @Query("SELECT * FROM contacts WHERE _id = :id")
     Contacts getByID(int id);
+
+    @Query("SELECT * FROM contacts WHERE contact_name LIKE :search OR phone_number LIKE :search")
+    List<Contacts> getSimilarContacts(String search);
 
 }

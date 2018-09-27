@@ -1,7 +1,7 @@
 Changing AuthManager methods
 
 
-Old commit name & commit message have been corrected. Credentials fields
+Old commit chatRoomName & commit message have been corrected. Credentials fields
 are defined using constructor. Singleton (single thread) is used for
 creating and receiving AuthenticationManager entity. Methods in the
 AuthManager interface have been changed. Their implementation has also

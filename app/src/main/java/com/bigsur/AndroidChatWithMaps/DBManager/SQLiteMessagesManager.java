@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.DAO.MessagesDAO;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
 
 import java.util.ArrayList;
@@ -90,5 +91,11 @@ public class SQLiteMessagesManager implements StorageManager {
             }
         }.execute().get();
         return new ArrayList<>(data);
+    }
+
+    @Override
+    public List<DataFromDB> getSimilarData(String search) throws ExecutionException, InterruptedException {
+        //do nothing
+        return null;
     }
 }
