@@ -89,8 +89,8 @@ public class ChatRooms implements DataWithIcon {
 
 
     public String toString(){
-        return String.format("Chat Room's id: %d \n chatRoomName: %s.",
-                getId(), getName());
+        return String.format("Chat Room's id: %d \n chatRoomName: %s \n chatRoomLastMessageDate: %s \n chatRoomLastMessage %s",
+                getId(), getName(), getLastMessageDate(), getLastMessage());
     }
 
     public void setChatRoomName(String chatRoomName) {

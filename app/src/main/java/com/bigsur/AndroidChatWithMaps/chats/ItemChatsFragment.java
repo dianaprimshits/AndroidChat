@@ -150,11 +150,11 @@ public class ItemChatsFragment extends Fragment {
                 }
 
                 searchAdapter.getFilter().filter(newText);
-
-                searchView.setOnClickListener(new View.OnClickListener() {
+                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
+                        dialogIntent.putExtra("contactName", searchAdapter.getItem(position).getName());
                         startActivity(dialogIntent);
                     }
                 });
@@ -170,9 +170,9 @@ public class ItemChatsFragment extends Fragment {
                     e.printStackTrace();
                 }
                 searchAdapter.getFilter().filter(query);
-                searchView.setOnClickListener(new View.OnClickListener() {
+                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
                         startActivity(dialogIntent);
                     }

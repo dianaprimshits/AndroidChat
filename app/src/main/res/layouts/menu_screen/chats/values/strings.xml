@@ -16,4 +16,5 @@
     <string name="log_out">Log Out</string>
     <string name="settings_edit_name">Edit name</string>
     <string name="edit_username">Edit username</string>
+    <string name="messageHint">Message</string>
 </resources>

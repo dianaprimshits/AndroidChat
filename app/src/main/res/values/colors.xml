@@ -16,4 +16,6 @@
     <color name="settingsFrTV">#88929e</color>
     <color name="settingsFrDelimiter">#151f2b</color>
 
+    <color name="dialogActivityBackground">#151e27</color>
+
 </resources>
