@@ -5,24 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/settingsFrFreeSpace"
+    android:id="@+id/settingsFragment"
     >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/settings_toolbar"
-        style="@style/SettingsToolbar"
-        android:layout_width="389dp"
-        android:layout_height="27dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="2dp" />
 
     <android.support.constraint.ConstraintLayout
 
         android:id="@+id/photoLayout"
-        android:layout_width="0dp"
-        android:layout_height="130dp"
+        android:layout_width="386dp"
+        android:layout_height="118dp"
         android:background="@color/settingsToolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -45,21 +36,17 @@
 
         <TextView
             android:id="@+id/settingsTVUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="39dp"
+            android:layout_width="193dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="35dp"
             android:text="@string/settingsTvUsername"
             android:textAlignment="textStart"
             android:textSize="18sp"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintLeft_toRightOf="@+id/circleImageView"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="137dp"
+            tools:layout_editor_absoluteY="33dp"
+            app:layout_constraintLeft_toLeftOf="@+id/settingsTVStatus"/>
 
 
         <TextView
@@ -67,17 +54,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="9dp"
             android:text="@string/settingsTvStatus"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.118"
-            app:layout_constraintLeft_toRightOf="@+id/circleImageView"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsTVUsername"
             app:layout_constraintVertical_bias="0.0"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_bias="0.38" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -282,6 +269,7 @@
 
 
     <ImageButton
+        android:id="@+id/settingsFrEditNameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/edit_button"
@@ -289,12 +277,22 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.972"
+        app:layout_constraintHorizontal_bias="0.973"
         android:background="@null"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/settingsFrUserInfo"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.234" />
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="0.228"
+        app:layout_constraintBottom_toTopOf="@+id/settingsFrUserInfo" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/settings_toolbar"
+        style="@style/SettingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="0dp"
+        app:layout_constraintHorizontal_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

@@ -131,7 +131,7 @@ public class ItemChatsFragment extends Fragment {
         menu.clear();
         inflater.inflate(R.menu.top_chat_menu, menu);
         final MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             SQLiteContactsManager contactsManager = new SQLiteContactsManager();
@@ -151,6 +151,13 @@ public class ItemChatsFragment extends Fragment {
 
                 searchAdapter.getFilter().filter(newText);
 
+                searchView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
+                        startActivity(dialogIntent);
+                    }
+                });
                 return true;
             }
 
@@ -158,23 +165,21 @@ public class ItemChatsFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 try {
                     searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll(), chatRoomsManager.getAll());
+                    lvMain.setAdapter(searchAdapter);
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
                 searchAdapter.getFilter().filter(query);
-                lvMain.setAdapter(searchAdapter);
+                searchView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
+                        startActivity(dialogIntent);
+                    }
+                });
                 return true;
             }
         });
-
-        searchView.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
-                  startActivity(dialogIntent);
-              }
-          }
-        );
 
     }
 
@@ -220,7 +225,6 @@ public class ItemChatsFragment extends Fragment {
         LayoutInflater li = LayoutInflater.from(getContext());
         View dialog = li.inflate(R.layout.create_contact, null);
         //открывается список как при search, только с одними контактами
-
 
     }
 }

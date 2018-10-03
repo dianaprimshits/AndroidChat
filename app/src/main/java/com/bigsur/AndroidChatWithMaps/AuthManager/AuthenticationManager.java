@@ -37,6 +37,7 @@ public class AuthenticationManager implements AuthManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("LOGLOGLOGLOG!!!11!!!", "init: " + SecuredPreferenceStore.getSharedInstance().getAll().toString());
 
     }
 
@@ -71,6 +72,8 @@ public class AuthenticationManager implements AuthManager {
         return credentials;
     }
 
+
+
     public void login(Credentials credentials, Runnable onSuccess, Runnable onFail) {
         if (credentials == null
            || credentials.getLogin().isEmpty()
@@ -93,6 +96,16 @@ public class AuthenticationManager implements AuthManager {
         onSuccess.run();
     }
 
+
+    public void changeLogin(String login) {
+        String loginKey = "TEXT_LOGIN";
+        String passKey = "TEXT_PASSWORD";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        prefStore.edit().putString(loginKey, login).apply();
+        Log.d("!!!LOG!!!", String.format("login %s, password %s", prefStore.getString(loginKey, null), prefStore.getString(passKey, null)));
+
+    }
+
     public void tryLoginWithSavedData(final Runnable onSuccess, final Runnable onFail) {
         login(getSavedCredentials(),
                 new Runnable() {
@@ -110,4 +123,6 @@ public class AuthenticationManager implements AuthManager {
                 }
         );
     }
+
+
 }
