@@ -3,7 +3,6 @@ package com.bigsur.AndroidChatWithMaps.Home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +35,13 @@ public class MenuScreenActivity extends AppCompatActivity {
 
     private void setupBottomNavigationView(){
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
+        bottomNavigationView.enableAnimation(false);
+        bottomNavigationView.enableShiftingMode(false);
+        bottomNavigationView.enableItemShiftingMode(false);
+        bottomNavigationView.setTextVisibility(false);
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationViewEx.OnNavigationItemSelectedListener() {

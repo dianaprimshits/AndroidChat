@@ -6,16 +6,15 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true">
 
-        <android.support.design.widget.BottomNavigationView
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/bottomNavViewBar"
             android:background="@drawable/menu_activity_border_bottom"
             app:itemIconTint="@color/bot_item_color"
             app:menu="@menu/bottom_navigation_menu"
-
             >
-        </android.support.design.widget.BottomNavigationView>
+        </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
 
     </RelativeLayout>
 
