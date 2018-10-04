@@ -11,12 +11,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DialogActivity extends AppCompatActivity {
+    SQLiteChatRoomsManager chatRoomManager = new SQLiteChatRoomsManager();
     ImageButton buttonBack;
     EditText messageET;
     ImageButton buttonSend;
@@ -49,6 +51,7 @@ public class DialogActivity extends AppCompatActivity {
                         String currentDateTime = time.format(new Date());
                         ChatRooms chatRoom = new ChatRooms(contactName.getText().toString(), messageET.getText().toString(),currentDateTime);
                         Log.d("!!!!!!LOG!!!!!!!", "onClick: "+ chatRoom.toString());
+
                 }
             }
         };
