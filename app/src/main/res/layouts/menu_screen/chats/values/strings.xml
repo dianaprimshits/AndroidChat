@@ -17,4 +17,13 @@
     <string name="settings_edit_name">Edit name</string>
     <string name="edit_username">Edit username</string>
     <string name="messageHint">Message</string>
+    <string name="username">Username</string>
+    <string name="settingsLoginTv">Login</string>
+    <string name="settingsFrSetupLoginTV">You can choose a login. If you do, other people will be able to find  you by this login and contact you without knowing your phone number.</string>
+    <string name="login">Login</string>
+    <string name="phone">Phone</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="setupPhone">Setup Phone</string>
+    <string name="settingsFrSetupBioTV">Any details such as age, occupation or city.</string>
+    <string name="bio">Bio</string>
 </resources>

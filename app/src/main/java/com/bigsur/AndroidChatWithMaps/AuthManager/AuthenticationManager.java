@@ -14,6 +14,7 @@ import devliving.online.securedpreferencestore.SecuredPreferenceStore;
 public class AuthenticationManager implements AuthManager {
 
     private static AuthenticationManager instance;
+    private String TAG = "!!!TAG!!!";
 
     private AuthenticationManager() {
     }
@@ -73,14 +74,13 @@ public class AuthenticationManager implements AuthManager {
     }
 
 
-
     public void login(Credentials credentials, Runnable onSuccess, Runnable onFail) {
         if (credentials == null
-           || credentials.getLogin().isEmpty()
-           || credentials.getPassword().isEmpty()
-           || credentials.getLogin() == null
-           || credentials.getPassword() == null
-        ) {
+                || credentials.getLogin().isEmpty()
+                || credentials.getPassword().isEmpty()
+                || credentials.getLogin() == null
+                || credentials.getPassword() == null
+                ) {
             onFail.run();
             return;
         }
@@ -99,12 +99,66 @@ public class AuthenticationManager implements AuthManager {
 
     public void changeLogin(String login) {
         String loginKey = "TEXT_LOGIN";
-        String passKey = "TEXT_PASSWORD";
         SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
         prefStore.edit().putString(loginKey, login).apply();
-        Log.d("!!!LOG!!!", String.format("login %s, password %s", prefStore.getString(loginKey, null), prefStore.getString(passKey, null)));
+        Log.d("!!!LOG!!!", String.format("login %s, password", prefStore.getString(loginKey, null)));
+    }
+
+    public boolean loginValidationCheck(String login) {
+        if (login == null || login.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public void changeUsername(String username) {
+        String key = "TEXT_USERNAME";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        prefStore.edit().putString(key, username).apply();
+        Log.d("!!!LOG!!!", String.format("username: %s", prefStore.getString(key, null)));
 
     }
+
+
+    public String getUsername() {
+        String key = "TEXT_USERNAME";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        return prefStore.getString(key, null);
+    }
+
+
+    public void changePhoneNumber(String phone) {
+        String key = "TEXT_PHONE_NUMBER";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        prefStore.edit().putString(key, phone).apply();
+        Log.d("!!!LOG!!!", String.format("phone number: %s", prefStore.getString(key, null)));
+
+    }
+
+
+    public String getPhoneNumber() {
+        String key = "TEXT_PHONE_NUMBER";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        Log.d("!!!LOG!!!", String.format("phone number: %s", prefStore.getString(key, null)));
+        return prefStore.getString(key, null);
+    }
+
+    public void changeBio(String bio) {
+        String key = "BIO";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        prefStore.edit().putString(key, bio).apply();
+        Log.d("!!!LOG!!!", String.format("bio: %s", prefStore.getString(key, null)));
+    }
+
+
+    public String getBio() {
+        String key = "BIO";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        Log.d("!!!LOG!!!", String.format("bio: %s", prefStore.getString(key, null)));
+        return prefStore.getString(key, null);
+    }
+
 
     public void tryLoginWithSavedData(final Runnable onSuccess, final Runnable onFail) {
         login(getSavedCredentials(),

@@ -20,7 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity" />
-        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.UserInfoEditActivity"/>
+        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupBioActivity"/>
+        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupLoginActivity"/>
+        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupPhoneActivity"/>
+        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupUsernameActivity"/>
         <activity android:name="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity"
             android:parentActivityName="com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity">
         </activity>

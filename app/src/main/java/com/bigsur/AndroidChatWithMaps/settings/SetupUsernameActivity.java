@@ -13,11 +13,11 @@ import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
 import com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity;
 import com.bigsur.AndroidChatWithMaps.R;
 
-public class UserInfoEditActivity extends AppCompatActivity {
+public class SetupUsernameActivity extends AppCompatActivity {
     ImageButton backButton;
     ImageButton checkButton;
     EditText usernameED;
-
+    final AuthenticationManager authManager = AuthenticationManager.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,8 +28,7 @@ public class UserInfoEditActivity extends AppCompatActivity {
         usernameED = (EditText) findViewById(R.id.settingsFrEditNameEV);
         checkButton = (ImageButton) findViewById(R.id.settingsFrEditNameButtonCheck);
 
-        final AuthenticationManager authManager = AuthenticationManager.getInstance();
-        usernameED.setText(authManager.getSavedCredentials().getLogin());
+        usernameED.setText(authManager.getUsername());
 
         View.OnClickListener onClickButton = new View.OnClickListener() {
             @Override
@@ -39,8 +38,8 @@ public class UserInfoEditActivity extends AppCompatActivity {
                         onBackPressed();
                         break;
                     case R.id.settingsFrEditNameButtonCheck:
-                        authManager.changeLogin(usernameED.getText().toString());
-                        Intent intent = new Intent(UserInfoEditActivity.this, MenuScreenActivity.class);
+                        authManager.changeUsername(usernameED.getText().toString());
+                        Intent intent = new Intent(SetupUsernameActivity.this, MenuScreenActivity.class);
                         startActivity(intent);
                         break;
                 }

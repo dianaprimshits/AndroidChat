@@ -2,6 +2,7 @@ package com.bigsur.AndroidChatWithMaps.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,17 +15,22 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.AuthManager.AuthManager;
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity;
 
 public class ItemSettingsFragment extends Fragment implements View.OnClickListener{
 
-    AuthManager authManager = AuthenticationManager.getInstance();
+    AuthenticationManager authManager = AuthenticationManager.getInstance();
     Toolbar toolbar;
-    TextView textView;
+    TextView tvUsername;
+    TextView tvLogin;
+    TextView tvPhone;
+    TextView tvBio;
     ImageButton editUserNameButton;
+    ConstraintLayout userInfoLL;
+    ConstraintLayout phoneLL;
+    ConstraintLayout bioLL;
 
 
     public static ItemSettingsFragment newInstance() {
@@ -43,12 +49,20 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings_fragment, container, false);
         findViewsById(view);
+
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
-        textView.setText(authManager.getSavedCredentials().getLogin());
+
+        tvUsername.setText(authManager.getUsername());
+        tvLogin.setText(authManager.getSavedCredentials().getLogin());
+        tvPhone.setText(authManager.getPhoneNumber());
+        tvBio.setText(authManager.getBio());
 
         editUserNameButton.setOnClickListener(this);
+        userInfoLL.setOnClickListener(this);
+        phoneLL.setOnClickListener(this);
+        bioLL.setOnClickListener(this);
         return view;
     }
 
@@ -62,8 +76,14 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
 
     private void findViewsById(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.settings_toolbar);
-        textView = (TextView) view.findViewById(R.id.settingsTVUsername);
+        tvUsername = (TextView) view.findViewById(R.id.settingsTVUsername);
+        tvLogin = (TextView) view.findViewById(R.id.settingsFrSetupUserNameTV);
+        tvBio = (TextView) view.findViewById(R.id.settingsFrTVBio);
+        tvPhone = (TextView) view.findViewById(R.id.settingsFrTVPhone);
         editUserNameButton = (ImageButton) view.findViewById(R.id.settingsFrEditNameButton);
+        userInfoLL = (ConstraintLayout) view.findViewById(R.id.settingsFrUsername);
+        phoneLL = (ConstraintLayout) view.findViewById(R.id.settingsFrPhoneNumber);
+        bioLL = (ConstraintLayout) view.findViewById(R.id.settingsFrBio);
     }
 
     @Override
@@ -71,11 +91,8 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
         int id = item.getItemId();
         switch (id) {
             case R.id.settingsFrLogout:
-
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
-
-
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,8 +103,20 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settingsFrEditNameButton:
-                Intent intent = new Intent(getActivity(), UserInfoEditActivity.class);
+                Intent intent = new Intent(getActivity(), SetupUsernameActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.settingsFrUsername:
+                Intent intentSetupUserName = new Intent(getActivity(), SetupLoginActivity.class);
+                startActivity(intentSetupUserName);
+                break;
+            case R.id.settingsFrPhoneNumber:
+                Intent intentSetupPhone = new Intent(getActivity(), SetupPhoneActivity.class);
+                startActivity(intentSetupPhone);
+                break;
+            case R.id.settingsFrBio:
+                Intent intentSetupBio = new Intent(getActivity(), SetupBioActivity.class);
+                startActivity(intentSetupBio);
                 break;
         }
     }
