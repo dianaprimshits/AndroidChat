@@ -135,6 +135,27 @@ public class SQLiteContactsManager implements StorageManager {
         }.execute(search).get();
         return new ArrayList<>(data);
     }
+
+    public int getContactsNumber() throws ExecutionException, InterruptedException {
+        int data = new AsyncTask<Void, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Void... params) {
+
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
+
+                List<Contacts> contactsList = contactsDao.getAll();
+
+                return contactsList.size();
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+            }
+        }.execute().get();
+        return data;
+    }
 }
 
 

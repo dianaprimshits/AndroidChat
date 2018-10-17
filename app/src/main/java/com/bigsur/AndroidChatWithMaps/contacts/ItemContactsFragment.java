@@ -20,11 +20,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.CustomAdapterForContacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
@@ -33,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ItemContactsFragment extends Fragment {
     private static final String TAG = "!!!LOG!!!";
+    TextView contactsNumberTV;
     ListView lvMain;
     Toolbar toolbar;
     CustomAdapterForContacts adapter;
@@ -60,7 +62,19 @@ public class ItemContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         findViewsById(view);
+
+
         try {
+            String contactsTVText;
+            int contactsNumber = dbStorage.getContactsNumber();
+            int contactsNumberLastDigit = contactsNumber % 10;
+            if (contactsNumberLastDigit == 1) {
+                contactsTVText = String.format("%d contact", contactsNumber);
+            } else {
+                contactsTVText = String.format("%d contacts", contactsNumber);
+            }
+
+            contactsNumberTV.setText(contactsTVText);
             adapter = new CustomAdapterForContacts(getContext(), dbStorage.getAll());
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -146,6 +160,7 @@ public class ItemContactsFragment extends Fragment {
     private void findViewsById(View view) {
         lvMain = (ListView) view.findViewById(R.id.lvMain);
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
+        contactsNumberTV = (TextView) view.findViewById(R.id.contactsNumberTV);
     }
 
 
