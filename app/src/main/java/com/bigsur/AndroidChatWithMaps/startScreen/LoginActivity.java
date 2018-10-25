@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthManager;
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
 import com.bigsur.AndroidChatWithMaps.AuthManager.Credentials;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         login = (EditText) findViewById(R.id.editLogin);
         password = (EditText) findViewById(R.id.editPassword);
         loginButton = (Button) findViewById(R.id.buttonLogin);

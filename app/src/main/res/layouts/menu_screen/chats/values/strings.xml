@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="addContact">add contact</string>
-    <string name="hint_search">Seeeearch</string>
+    <string name="hint_search">Search</string>
 
     //settings fragment
     <string name="buttonAddPhoto">add photo</string>
@@ -26,4 +26,7 @@
     <string name="setupPhone">Setup Phone</string>
     <string name="settingsFrSetupBioTV">Any details such as age, occupation or city.</string>
     <string name="bio">Bio</string>
+    <string name="contacts">Contacts</string>
+    <string name="search">Seearch</string>
+    <string name="people">People</string>
 </resources>

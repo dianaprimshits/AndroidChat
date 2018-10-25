@@ -11,8 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".App">
+        android:name=".App"
 
+        >
+
+        <activity android:name="com.bigsur.AndroidChatWithMaps.contacts.ContactsSearchActivity"
+            android:parentActivityName="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity">
+        </activity>
         <activity android:name="com.bigsur.AndroidChatWithMaps.startScreen.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

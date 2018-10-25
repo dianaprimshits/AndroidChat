@@ -3,6 +3,7 @@ package com.bigsur.AndroidChatWithMaps.chats;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -17,8 +18,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,14 +36,23 @@ import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.concurrent.ExecutionException;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public class ItemChatsFragment extends Fragment {
+
+public class ItemChatsFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "!!!LOG!!!";
     ListView lvMain;
     Toolbar toolbar;
     AdapterForChatRooms adapter;
     AdapterForChatsSearchResult searchAdapter;
     SQLiteContactsManager dbStorage = new SQLiteContactsManager();
+    ImageButton imageButtonAdd;
+    ImageButton imageButtonClose;
+    ConstraintLayout chatsAddingTranslucentLt;
+    Animation animationRotateCenter;
+    ImageButton chatAddBt;
+    ImageButton groupChatAddBt;
 
 
     public static ItemChatsFragment newInstance() {
@@ -62,6 +75,9 @@ public class ItemChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
         findViewsById(view);
+
+        imageButtonAdd.setOnClickListener(this);
+        imageButtonClose.setOnClickListener(this);
 
 
         SQLiteContactsManager contactsManager = new SQLiteContactsManager();
@@ -132,6 +148,8 @@ public class ItemChatsFragment extends Fragment {
         inflater.inflate(R.menu.top_chat_menu, menu);
         final MenuItem searchItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setQueryHint("Search");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             SQLiteContactsManager contactsManager = new SQLiteContactsManager();
@@ -205,6 +223,12 @@ public class ItemChatsFragment extends Fragment {
     private void findViewsById(View view) {
         lvMain = (ListView) view.findViewById(R.id.lvMain);
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
+        imageButtonAdd = (ImageButton) view.findViewById(R.id.chatsAddingBt);
+        chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
+        imageButtonClose = (ImageButton) view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
+        animationRotateCenter = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center);
+        chatAddBt = (ImageButton) view.findViewById(R.id.chatAddButton);
+        groupChatAddBt = (ImageButton) view.findViewById(R.id.groupChatAddButton);
     }
 
 
@@ -227,6 +251,31 @@ public class ItemChatsFragment extends Fragment {
         //открывается список как при search, только с одними контактами
 
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.chatsAddingBt:
+                imageButtonAdd.startAnimation(animationRotateCenter);
+                chatsAddingTranslucentLt.setVisibility(VISIBLE);
+                imageButtonClose.setVisibility(VISIBLE);
+                imageButtonAdd.setVisibility(GONE);
+                Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!!!");
+                break;
+            case R.id.chatsAddingTranslucentLayoutBtClose:
+                chatsAddingTranslucentLt.setVisibility(GONE);
+                imageButtonClose.setVisibility(GONE);
+                imageButtonAdd.setVisibility(VISIBLE);
+                break;
+            case R.id.chatAddButton:
+                //do smth
+                break;
+            case R.id.addGroupDialog:
+                //do smth
+                break;
+        }
+    }
+
 }
 
 

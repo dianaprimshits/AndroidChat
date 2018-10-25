@@ -9,19 +9,17 @@
         android:id="@+id/chat_toolbar"
         style="@style/SettingsToolbar"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_height="56dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="0dp"
         android:background="@color/settingsFrDelimiter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -32,17 +30,145 @@
         android:id="@+id/listview_for_chats"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="0dp"
         app:layout_constraintTop_toBottomOf="@+id/view">
 
         <include
             layout="@layout/listview"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
+
+
+
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:orientation="vertical"
+        android:background="@color/chatsAddingTranslucentLayout"
+        android:id="@+id/chatsAddingTranslucentLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/chatsAddingTranslucentLayoutBtClose"
+            android:background="@drawable/close_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="65dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+        <ImageButton
+            android:id="@+id/groupChatAddButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/group_chat_add_icon"
+            app:layout_constraintBottom_toTopOf="@+id/chatsAddingTranslucentLayoutBtClose"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="36dp"/>
+
+
+        <ImageButton
+            android:id="@+id/chatAddButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/chat_add_icon"
+            app:layout_constraintBottom_toTopOf="@+id/groupChatAddButton"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="36dp"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            app:layout_constraintBottom_toBottomOf="@id/groupChatAddButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@id/chatAddButton"
+            app:layout_constraintTop_toTopOf="chatAddButton"
+            tools:layout_editor_absoluteY="349dp">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/settingsToolbar">
+
+                    <TextView
+                        android:id="@+id/addDialogTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/addDialog"
+                        android:textColor="@color/lightGrey" />
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/settingsToolbar">
+
+                    <TextView
+                        android:id="@+id/addGroupDialogTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_group_dialog"
+                        android:textColor="@color/lightGrey" />
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <ImageButton
+        android:id="@+id/chatsAddingBt"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="65dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/pencil_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>

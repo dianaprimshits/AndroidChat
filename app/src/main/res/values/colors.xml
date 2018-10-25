@@ -17,5 +17,6 @@
     <color name="settingsFrDelimiter">#151f2b</color>
 
     <color name="dialogActivityBackground">#151e27</color>
+    <color name="chatsAddingTranslucentLayout">#33686759</color>
 
 </resources>

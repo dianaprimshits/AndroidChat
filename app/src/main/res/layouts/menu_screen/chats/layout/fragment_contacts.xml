@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/chat_toolbar"
+        android:id="@+id/contacts_toolbar"
         style="@style/SettingsToolbar"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -16,7 +16,19 @@
         android:layout_marginTop="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:title="@null">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contacts"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="10dp"
+            android:textSize="22dp"
+            android:textColor="@color/white"/>
+
+    </android.support.v7.widget.Toolbar>
 
 
     <View
@@ -25,7 +37,7 @@
         android:layout_alignParentStart="true"
         android:background="@color/settingsFrDelimiter"
         android:id="@+id/contactsFrDelimiter1"
-        app:layout_constraintTop_toBottomOf="@+id/chat_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/contacts_toolbar"
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -37,7 +49,7 @@
         android:layout_height="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/contacts_toolbar"
         app:layout_constraintBottom_toTopOf="@+id/listview_for_contacts"
         app:layout_constraintHorizontal_bias="0.047"
         app:layout_constraintVertical_bias="1.0">
@@ -90,8 +102,8 @@
         android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent">
         <include layout="@layout/listview" />
-        app
     </RelativeLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

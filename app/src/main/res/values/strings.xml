@@ -10,8 +10,8 @@
     <string name="signInButton">SIGN IN</string>
 
     //add or delete dialogs
-    <string name="addDialog">add dialog</string>
-    <string name="add_group_dialog">add group dialog</string>
+    <string name="addDialog">New Chat</string>
+    <string name="add_group_dialog">New Group</string>
     <string name="delete_dialog">delete dialog</string>
     <string name="delete_group_dialog">delete group dialog</string>
     <string name="setName">name</string>

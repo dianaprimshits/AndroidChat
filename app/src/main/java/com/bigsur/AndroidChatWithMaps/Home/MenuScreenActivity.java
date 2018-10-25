@@ -30,7 +30,6 @@ public class MenuScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_screen_activity);
         setupBottomNavigationView();
-
     }
 
     private void setupBottomNavigationView(){
