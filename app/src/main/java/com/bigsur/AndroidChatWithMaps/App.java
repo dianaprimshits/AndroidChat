@@ -1,9 +1,10 @@
 package com.bigsur.AndroidChatWithMaps;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.AppDatabase;
+
+import androidx.room.Room;
 
 
 public class App extends Application {
@@ -12,11 +13,16 @@ public class App extends Application {
 
     private AppDatabase database;
 
+
+
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
         database = Room.databaseBuilder(this, AppDatabase.class, "database")
+                .fallbackToDestructiveMigration()
                 .build();
     }
 

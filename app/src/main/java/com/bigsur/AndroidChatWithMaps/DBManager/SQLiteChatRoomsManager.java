@@ -1,6 +1,7 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,9 +16,10 @@ import java.util.concurrent.ExecutionException;
 
 public class SQLiteChatRoomsManager implements StorageManager {
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void create(final DataFromDB data) {
-        new AsyncTask<DataFromDB, Void, Void>() {
+        new  AsyncTask<DataFromDB, Void, Void>() {
             @Override
             protected Void doInBackground(DataFromDB... data) {
                 AppDatabase db = App.getInstance().getDatabase();
@@ -30,6 +32,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void update(final DataFromDB data) {
         new AsyncTask<DataFromDB, Void, Void>() {
@@ -45,6 +48,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void delete(final int id) {
         new AsyncTask<Integer, Void, Void>() {
@@ -63,7 +67,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
 
     @Override
     public DataFromDB getById(final int id) throws ExecutionException, InterruptedException {
-        DataFromDB data = new AsyncTask<Integer, Void, DataFromDB>() {
+        @SuppressLint("StaticFieldLeak") DataFromDB data = new AsyncTask<Integer, Void, DataFromDB>() {
             @Override
             protected DataFromDB doInBackground(Integer... data) {
                 AppDatabase db = App.getInstance().getDatabase();
@@ -85,7 +89,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
 
     @Override
     public ArrayList<DataFromDB> getAll() throws InterruptedException, ExecutionException {
-        List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
+        @SuppressLint("StaticFieldLeak") List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
             @Override
             protected List<DataFromDB> doInBackground(Void ... data) {
                 ArrayList<DataFromDB> displayList = new ArrayList<>();
@@ -112,7 +116,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
 
     @Override
     public ArrayList<DataFromDB> getSimilarData(String search) throws InterruptedException, ExecutionException {
-        List<DataFromDB> data = new AsyncTask<String, Void, List<DataFromDB>>() {
+        @SuppressLint("StaticFieldLeak") List<DataFromDB> data = new AsyncTask<String, Void, List<DataFromDB>>() {
             @Override
             protected List<DataFromDB> doInBackground(String ... data) {
                 ArrayList<DataFromDB> displayList = new ArrayList<>();

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/contacts_toolbar"
         style="@style/SettingsToolbar"
         android:layout_width="0dp"
@@ -25,10 +25,10 @@
             android:text="@string/contacts"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="10dp"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:textColor="@color/white"/>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <View
@@ -43,16 +43,14 @@
 
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contactsNumberLayout"
         android:layout_width="0dp"
         android:layout_height="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contacts_toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/listview_for_contacts"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/contactsFrDelimiter1"
+        app:layout_constraintBottom_toTopOf="@+id/listview_for_contacts">
 
 
         <TextView
@@ -73,7 +71,7 @@
             app:layout_constraintTop_toTopOf="@+id/contactsNumberLayout"
             app:layout_constraintVertical_bias="0.538" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <View
@@ -106,4 +104,4 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

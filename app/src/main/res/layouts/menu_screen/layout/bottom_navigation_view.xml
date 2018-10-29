@@ -12,8 +12,7 @@
             android:id="@+id/bottomNavViewBar"
             android:background="@drawable/menu_activity_border_bottom"
             app:itemIconTint="@color/bot_item_color"
-            app:menu="@menu/bottom_navigation_menu"
-            >
+            app:menu="@menu/bottom_navigation_menu">
         </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
 
     </RelativeLayout>

@@ -1,7 +1,6 @@
 package com.bigsur.AndroidChatWithMaps.startScreen;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +11,8 @@ import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
 import com.bigsur.AndroidChatWithMaps.AuthManager.Credentials;
 import com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity;
 import com.bigsur.AndroidChatWithMaps.R;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText login;

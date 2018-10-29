@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +9,7 @@
     >
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/photoLayout"
         android:layout_width="0dp"
@@ -65,7 +65,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintHorizontal_bias="0.38" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/settingsFrDelimiter1"
@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/photoLayout" />
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settingsFrUserInfo"
         android:layout_width="0dp"
         android:layout_height="210dp"
@@ -104,7 +104,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settingsFrUsername"
             android:layout_width="0dp"
             android:layout_height="70dp"
@@ -131,7 +131,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settingsFrSetupUserNameTV" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <View
@@ -159,7 +159,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settingsFrPhoneNumber"
             android:layout_width="0dp"
             android:layout_height="70dp"
@@ -189,7 +189,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/settingsFrTVPhone" />
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <View
@@ -217,7 +217,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -249,10 +249,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/settingsFrTVBio" />
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <ImageButton
@@ -273,7 +273,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/settings_toolbar"
         style="@style/SettingsToolbar"
         android:layout_width="0dp"
@@ -283,4 +283,4 @@
         tools:layout_editor_absoluteY="0dp"
         app:layout_constraintHorizontal_bias="0.0" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

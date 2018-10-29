@@ -1,5 +1,6 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SQLiteMessagesManager implements StorageManager {
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void create(final DataFromDB data) {
         new AsyncTask<DataFromDB, Void, Void>() {
@@ -29,6 +31,7 @@ public class SQLiteMessagesManager implements StorageManager {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void update(final DataFromDB data) {
         new AsyncTask<DataFromDB, Void, Void>() {
@@ -44,6 +47,7 @@ public class SQLiteMessagesManager implements StorageManager {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void delete(final int id) {
         new AsyncTask<Integer, Void, Void>() {
@@ -68,7 +72,7 @@ public class SQLiteMessagesManager implements StorageManager {
 
     @Override
     public ArrayList<DataFromDB> getAll() throws InterruptedException, ExecutionException {
-        List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
+        @SuppressLint("StaticFieldLeak") List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
             @Override
             protected List<DataFromDB> doInBackground(Void ... data) {
                 ArrayList<DataFromDB> displayList = new ArrayList<>();

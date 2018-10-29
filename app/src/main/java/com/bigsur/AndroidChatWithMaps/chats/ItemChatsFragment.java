@@ -3,13 +3,6 @@ package com.bigsur.AndroidChatWithMaps.chats;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +29,13 @@ import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.concurrent.ExecutionException;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -49,17 +49,12 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     SQLiteContactsManager dbStorage = new SQLiteContactsManager();
     ImageButton imageButtonAdd;
     ImageButton imageButtonClose;
-    ConstraintLayout chatsAddingTranslucentLt;
+  //  ConstraintLayout chatsAddingTranslucentLt;
     Animation animationRotateCenter;
-    Animation up;
-    Animation down;
     ImageButton chatAddBt;
     ImageButton groupChatAddBt;
     TextView newChatTv;
     TextView newGroupTv;
-    ConstraintLayout addDialogLt;
-    ConstraintLayout addGroupLt;
-    ConstraintLayout addChatBlock;
 
 
     public static ItemChatsFragment newInstance() {
@@ -231,7 +226,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         lvMain = (ListView) view.findViewById(R.id.lvMain);
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
         imageButtonAdd = (ImageButton) view.findViewById(R.id.chatsAddingBt);
-        chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
+       // chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
         imageButtonClose = (ImageButton) view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
         animationRotateCenter = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center);
         //chatAddBt = (ImageButton) view.findViewById(R.id.chatAddButton);
@@ -289,7 +284,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
 
 
 
-                chatsAddingTranslucentLt.setVisibility(VISIBLE);
+             //   chatsAddingTranslucentLt.setVisibility(VISIBLE);
                 imageButtonClose.setVisibility(VISIBLE);
                 imageButtonAdd.setVisibility(GONE);
                 Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!!!");
@@ -308,7 +303,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
 
                 imageButtonClose.setVisibility(GONE);
                 imageButtonAdd.setVisibility(VISIBLE);
-                chatsAddingTranslucentLt.setVisibility(GONE);
+               // chatsAddingTranslucentLt.setVisibility(GONE);
                 break;
            /* case R.id.chatAddButton:
                 //do smth
