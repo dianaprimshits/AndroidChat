@@ -36,9 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view">
 
         <include
-            layout="@layout/listview"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            layout="@layout/listview_lt" />
     </RelativeLayout>
 
 
@@ -78,35 +76,26 @@
             app:layout_constraintVertical_bias="1.0" />
 
 
-        <ImageButton
-            android:id="@+id/groupChatAddButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/group_chat_add_icon"
-            app:layout_constraintBottom_toTopOf="@+id/chatsAddingTranslucentLayoutBtClose"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="36dp"/>
-
-
-        <ImageButton
-            android:id="@+id/chatAddButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/chat_add_icon"
-            app:layout_constraintBottom_toTopOf="@+id/groupChatAddButton"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="36dp"/>
-
         <android.support.constraint.ConstraintLayout
             android:layout_width="88dp"
             android:layout_height="88dp"
-            app:layout_constraintBottom_toBottomOf="@id/groupChatAddButton"
+            app:layout_constraintBottom_toTopOf="@id/chatsAddingTranslucentLayoutBtClose"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="@id/chatAddButton"
-            app:layout_constraintTop_toTopOf="chatAddButton"
             tools:layout_editor_absoluteY="349dp">
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/groupChatAddButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/group_chat_add_icon"
+                app:layout_constraintBottom_toTopOf="parent"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="36dp"/>
 
 
             <android.support.constraint.ConstraintLayout

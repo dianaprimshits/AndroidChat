@@ -51,8 +51,15 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     ImageButton imageButtonClose;
     ConstraintLayout chatsAddingTranslucentLt;
     Animation animationRotateCenter;
+    Animation up;
+    Animation down;
     ImageButton chatAddBt;
     ImageButton groupChatAddBt;
+    TextView newChatTv;
+    TextView newGroupTv;
+    ConstraintLayout addDialogLt;
+    ConstraintLayout addGroupLt;
+    ConstraintLayout addChatBlock;
 
 
     public static ItemChatsFragment newInstance() {
@@ -227,8 +234,11 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
         imageButtonClose = (ImageButton) view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
         animationRotateCenter = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center);
-        chatAddBt = (ImageButton) view.findViewById(R.id.chatAddButton);
+        //chatAddBt = (ImageButton) view.findViewById(R.id.chatAddButton);
         groupChatAddBt = (ImageButton) view.findViewById(R.id.groupChatAddButton);
+        newChatTv = (TextView) view.findViewById(R.id.addDialogTv);
+        newGroupTv = (TextView) view.findViewById(R.id.addGroupDialogTv);
+
     }
 
 
@@ -256,23 +266,56 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.chatsAddingBt:
-                imageButtonAdd.startAnimation(animationRotateCenter);
+
+                chatAddBt.setScaleX(40.0f);
+                chatAddBt.setScaleY(40.0f);
+                groupChatAddBt.setScaleX(40.0f);
+                groupChatAddBt.setScaleY(40.0f);
+                newChatTv.setScaleX(70.0f);
+                newChatTv.setScaleY(30.0f);
+                newGroupTv.setScaleX(80.0f);
+                newGroupTv.setScaleY(30.0f);
+
+
+                imageButtonAdd.setAnimation(animationRotateCenter);
+              /*  up = AnimationUtils.loadAnimation(getContext(), R.anim.layout_up);
+                chatAddBt.setAnimation(up);
+                groupChatAddBt.setAnimation(up);
+                newChatTv.setAnimation(up);
+                newGroupTv.setAnimation(up);
+                addDialogLt.setAnimation(up);
+                addGroupLt.setAnimation(up);
+                */
+
+
+
                 chatsAddingTranslucentLt.setVisibility(VISIBLE);
                 imageButtonClose.setVisibility(VISIBLE);
                 imageButtonAdd.setVisibility(GONE);
                 Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!!!");
                 break;
+
             case R.id.chatsAddingTranslucentLayoutBtClose:
-                chatsAddingTranslucentLt.setVisibility(GONE);
+
+               /* down = AnimationUtils.loadAnimation(getContext(), R.anim.layout_up);
+                chatAddBt.setAnimation(down);
+                groupChatAddBt.setAnimation(down);
+                newChatTv.setAnimation(down);
+                newGroupTv.setAnimation(down);
+                addDialogLt.setAnimation(down);
+                */
+
+
                 imageButtonClose.setVisibility(GONE);
                 imageButtonAdd.setVisibility(VISIBLE);
+                chatsAddingTranslucentLt.setVisibility(GONE);
                 break;
-            case R.id.chatAddButton:
+           /* case R.id.chatAddButton:
                 //do smth
                 break;
             case R.id.addGroupDialog:
                 //do smth
-                break;
+                break;*/
         }
     }
 

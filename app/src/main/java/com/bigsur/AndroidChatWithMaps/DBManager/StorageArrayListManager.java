@@ -1,6 +1,5 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
-import java.util.ArrayList;
 /*
 public class StorageArrayListManager implements StorageManager {
     private static ArrayList<Contacts> contacts;
