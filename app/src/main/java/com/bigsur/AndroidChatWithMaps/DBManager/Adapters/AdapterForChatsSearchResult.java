@@ -84,23 +84,6 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
 //        date.setText(selectedItem.getDate());
         return view;
     }
-/*
-    public void filter(String text){
-       // dataCopy.clear();
-        if(text.isEmpty()) {
-            this.dataAfterSerach.addAll(dataForSearch);
-        } else {
-            String lowerCaseText = text.toLowerCase();
-            for(DataWithIcon dataWithIcon: dataForSearch) {
-                if(dataWithIcon.getName().toLowerCase().contains(lowerCaseText)) {
-                    dataAfterSerach.add(dataWithIcon);
-                }
-            }
-        }
-
-        notifyDataSetChanged();
-    }
-*/
 
 
     @Override

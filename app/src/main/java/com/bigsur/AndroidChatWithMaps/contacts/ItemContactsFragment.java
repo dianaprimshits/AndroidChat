@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatsSearchResult;
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.CustomAdapterForContacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
@@ -40,7 +39,6 @@ public class ItemContactsFragment extends Fragment {
     TextView contactsNumberTV;
     ListView lvMain;
     Toolbar toolbar;
-    AdapterForChatsSearchResult searchAdapter;
     CustomAdapterForContacts adapter;
     SQLiteContactsManager dbStorage = new SQLiteContactsManager();
 
@@ -154,7 +152,6 @@ public class ItemContactsFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.top_contact_menu, menu);
-
     }
 
 

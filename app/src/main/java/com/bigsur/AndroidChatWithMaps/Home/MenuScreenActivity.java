@@ -1,11 +1,6 @@
 package com.bigsur.AndroidChatWithMaps.Home;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -15,6 +10,12 @@ import com.bigsur.AndroidChatWithMaps.contacts.ItemContactsFragment;
 import com.bigsur.AndroidChatWithMaps.maps.ItemMapsFragment;
 import com.bigsur.AndroidChatWithMaps.settings.ItemSettingsFragment;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 public class MenuScreenActivity extends AppCompatActivity {
@@ -31,14 +32,13 @@ public class MenuScreenActivity extends AppCompatActivity {
         setContentView(R.layout.menu_screen_activity);
         setupBottomNavigationView();
     }
-
     private void setupBottomNavigationView(){
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
         BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
-       /* bottomNavigationView.enableAnimation(false);
-        bottomNavigationView.enableShiftingMode(false);
-        bottomNavigationView.enableItemShiftingMode(false);
-        bottomNavigationView.setTextVisibility(false);*/
+        bottomNavigationView.enableAnimation(false);
+     //   bottomNavigationView.enableShiftingMode(false);
+     //   bottomNavigationView.enableItemShiftingMode(false);
+        bottomNavigationView.setTextVisibility(false);
 
 
 
@@ -69,4 +69,3 @@ public class MenuScreenActivity extends AppCompatActivity {
                 });
     }
 }
-
