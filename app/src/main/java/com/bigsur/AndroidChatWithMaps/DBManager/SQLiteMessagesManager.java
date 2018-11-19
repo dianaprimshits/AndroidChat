@@ -1,6 +1,5 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 
 public class SQLiteMessagesManager implements StorageManager {
 
-    @SuppressLint("StaticFieldLeak")
     @Override
     public void create(final DataFromDB data) {
         new AsyncTask<DataFromDB, Void, Void>() {
@@ -30,8 +28,6 @@ public class SQLiteMessagesManager implements StorageManager {
         }.execute(data);
     }
 
-
-    @SuppressLint("StaticFieldLeak")
     @Override
     public void update(final DataFromDB data) {
         new AsyncTask<DataFromDB, Void, Void>() {
@@ -47,7 +43,6 @@ public class SQLiteMessagesManager implements StorageManager {
     }
 
 
-    @SuppressLint("StaticFieldLeak")
     @Override
     public void delete(final int id) {
         new AsyncTask<Integer, Void, Void>() {
@@ -66,15 +61,15 @@ public class SQLiteMessagesManager implements StorageManager {
 
     @Override
     public DataFromDB getById(final int id) throws ExecutionException, InterruptedException {
-       return null;
+        return null;
     }
 
 
     @Override
     public ArrayList<DataFromDB> getAll() throws InterruptedException, ExecutionException {
-        @SuppressLint("StaticFieldLeak") List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
+        List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
             @Override
-            protected List<DataFromDB> doInBackground(Void ... data) {
+            protected List<DataFromDB> doInBackground(Void... data) {
                 ArrayList<DataFromDB> displayList = new ArrayList<>();
 
                 AppDatabase db = App.getInstance().getDatabase();
@@ -83,10 +78,36 @@ public class SQLiteMessagesManager implements StorageManager {
                 Log.d("!!!!!LOG!!", "doInBackground: " + messagesDAO.getAll().toString());
                 List<Messages> messagesList = messagesDAO.getAll();
 
-                for(int i = 0; i < messagesList.size(); i++) {
+                for (int i = 0; i < messagesList.size(); i++) {
                     displayList.add(new DataFromDB(messagesList.get(i)));
                 }
                 return displayList;
+            }
+
+            @Override
+            protected void onPostExecute(List<DataFromDB> messages) {
+                super.onPostExecute(messages);
+            }
+        }.execute().get();
+        return new ArrayList<>(data);
+    }
+
+    public List<DataFromDB> getByChatRoomId(int chatRoomId) throws ExecutionException, InterruptedException {
+        List<DataFromDB> data = new AsyncTask<Integer, Void, List<DataFromDB>>() {
+            @Override
+            protected List<DataFromDB> doInBackground(Integer... params) {
+                ArrayList<DataFromDB> result = new ArrayList<DataFromDB>();
+
+                AppDatabase db = App.getInstance().getDatabase();
+                MessagesDAO messagesDAO = db.getMessagesDao();
+
+                Log.d("!!!!!LOG!!", "doInBackground: " + messagesDAO.getAll().toString());
+                List<Messages> messagesList = messagesDAO.getByChatRoomId(params[0]);
+
+                for (int i = 0; i < messagesList.size(); i++) {
+                    result.add(new DataFromDB(messagesList.get(i)));
+                }
+                return result;
             }
 
             @Override

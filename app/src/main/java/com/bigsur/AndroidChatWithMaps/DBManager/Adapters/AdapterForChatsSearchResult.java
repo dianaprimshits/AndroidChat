@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class AdapterForChatsSearchResult extends BaseAdapter implements Filterable {
     Context context;
     private ArrayList<DataWithIcon> dataForSearch;
-    LayoutInflater lInflater;
     ArrayList<DataWithIcon> dataAfterSerach;
 
     public AdapterForChatsSearchResult(Context context, ArrayList<DataFromDB> contacts, ArrayList<DataFromDB> chatRooms) {
@@ -45,7 +44,6 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
         this.dataForSearch.addAll(newList);
         this.dataAfterSerach.addAll(dataForSearch);
         this.context = context;
-        lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -75,7 +73,7 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
         ImageView avatar = (ImageView) view.findViewById(R.id.chatAvatar);
         TextView name = (TextView) view.findViewById(R.id.chatName);
         TextView subname = (TextView) view.findViewById(R.id.chatLastMessage);
-        TextView date = (TextView) view.findViewById(R.id.chatLastMessageDate);
+ //       TextView date = (TextView) view.findViewById(R.id.chatLastMessageDate);
 
         DataWithIcon selectedItem = getItem(position);
         name.setText(selectedItem.getName());
@@ -108,7 +106,6 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
                 return result;
             }
 
-            @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                // dataForSearch = (ArrayList<DataWithIcon>) results.values;

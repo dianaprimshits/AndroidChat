@@ -1,26 +1,20 @@
 package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
-import static androidx.room.ForeignKey.CASCADE;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+
+import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "messages",
-        foreignKeys = {
-        @ForeignKey(entity = Contacts.class,
-                parentColumns = "_id",
-                childColumns = "contact_id",
-                onDelete = CASCADE),
-        @ForeignKey(entity = ChatRooms.class,
-                parentColumns = "chat_room_id",
-                childColumns = "chat_room_id",
-                onDelete = CASCADE)},
-        indices = {@Index(value = "date",
-                          unique = true),
-                   @Index(value = "message",
+        foreignKeys = {@ForeignKey(entity = ChatRooms.class,
+                         parentColumns = "chat_room_id",
+                         childColumns = "message_to",
+                         onDelete = CASCADE)},
+        indices = {@Index(value = "message_id",
                           unique = true)
         })
 
@@ -31,17 +25,18 @@ public class Messages {
     private String message;
     @ColumnInfo(name = "date")
     private String date;
-    @ColumnInfo(name = "contact_id")
-    private int contactId;
-    @ColumnInfo(name = "chat_room_id")
-    private int chatRoomId;
+    @ColumnInfo(name = "message_from")
+    private int messageFrom;
+    //here will be chatRoomId
+    @ColumnInfo(name = "message_to")
+    private int messageTo;
 
 
-    public Messages(String message, String date, int contactId, int chatRoomId) {
+    public Messages(String message, String date, int messageFrom, int messageTo) {
         this.message = message;
         this.date = date;
-        this.contactId = contactId;
-        this.chatRoomId = chatRoomId;
+        this.messageFrom = messageFrom;
+        this.messageTo = messageTo;
     }
 
     public int getId() {
@@ -56,17 +51,17 @@ public class Messages {
         return date;
     }
 
-    public int getContactId() {
-        return contactId;
+    public int getMessageFrom() {
+        return messageFrom;
     }
 
-    public int getChatRoomId() {
-        return chatRoomId;
+    public int getMessageTo() {
+        return messageTo;
     }
 
 
     public String toString() {
-        return String.format("\n Message id: %d \n Message text: %s \n Message created at: %t \n Contact id: %d. \n Chat room id: %d",
-                getId(), getMessage(), getDate(), getContactId(), getChatRoomId());
+        return String.format("\n Message id: %d \n Message text: %s \n Message created at: %t \n Message from(id): %d. \n Message to(id): %d",
+                getId(), getMessage(), getDate(), getMessageFrom(), getMessageTo());
     }
 }

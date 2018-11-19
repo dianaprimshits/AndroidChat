@@ -1,10 +1,11 @@
 package com.bigsur.AndroidChatWithMaps.DBManager.DAO;
 
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-import androidx.room.Update;
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
 
@@ -23,5 +24,8 @@ public interface MessagesDAO {
 
     @Query("SELECT * FROM messages")
     List<Messages> getAll();
+
+    @Query("SELECT * FROM messages WHERE message_to = :chatRoomId")
+    List<Messages> getByChatRoomId(int chatRoomId);
 
 }

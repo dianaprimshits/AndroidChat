@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/settingsFrFreeSpace"
-    android:id="@+id/settingsFragment"
-    >
+    android:id="@+id/settingsFragment">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
 
         android:id="@+id/photoLayout"
         android:layout_width="0dp"
@@ -18,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/dialog_toolbar">
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -65,7 +64,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintHorizontal_bias="0.38" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:id="@+id/settingsFrDelimiter1"
@@ -77,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/photoLayout" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/settingsFrUserInfo"
         android:layout_width="0dp"
         android:layout_height="210dp"
@@ -104,7 +103,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/settingsFrUsername"
             android:layout_width="0dp"
             android:layout_height="70dp"
@@ -131,7 +130,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settingsFrSetupUserNameTV" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
 
         <View
@@ -159,7 +158,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/settingsFrPhoneNumber"
             android:layout_width="0dp"
             android:layout_height="70dp"
@@ -189,7 +188,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/settingsFrTVPhone" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
 
         <View
@@ -217,7 +216,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -249,10 +248,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/settingsFrTVBio" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
     <ImageButton
@@ -273,8 +272,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/settings_toolbar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/dialog_toolbar"
         style="@style/SettingsToolbar"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -283,4 +282,4 @@
         tools:layout_editor_absoluteY="0dp"
         app:layout_constraintHorizontal_bias="0.0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

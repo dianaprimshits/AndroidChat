@@ -2,10 +2,10 @@ package com.bigsur.AndroidChatWithMaps.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -75,7 +75,7 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
 
 
     private void findViewsById(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.settings_toolbar);
+        toolbar = (Toolbar) view.findViewById(R.id.dialog_toolbar);
         tvUsername = (TextView) view.findViewById(R.id.settingsTVUsername);
         tvLogin = (TextView) view.findViewById(R.id.settingsFrSetupUserNameTV);
         tvBio = (TextView) view.findViewById(R.id.settingsFrTVBio);

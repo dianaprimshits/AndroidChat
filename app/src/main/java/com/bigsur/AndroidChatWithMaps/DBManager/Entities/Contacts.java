@@ -1,24 +1,16 @@
 package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "contacts",
         indices = {@Index(value = {"contact_name", "phone_number"},
                           unique = true)})
 public class Contacts implements DataWithIcon {
     @PrimaryKey(autoGenerate = true)public int _id;
-
-    public String getContactName() {
-        return contactName;
-    }
-
-    public String getPhone_number() {
-        return phone_number;
-    }
-
     @ColumnInfo(name = "contact_name")
     private String contactName;
     private String phone_number;
@@ -34,6 +26,15 @@ public class Contacts implements DataWithIcon {
 
     public int getId() {
        return _id;
+    }
+
+
+    public String getContactName() {
+        return getName();
+    }
+
+    public String getPhone_number() {
+        return getSubname();
     }
 
     @Override

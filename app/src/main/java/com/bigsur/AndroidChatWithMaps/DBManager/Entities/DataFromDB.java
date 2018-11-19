@@ -9,7 +9,7 @@ public class DataFromDB<T> {
         this.data = data;
     }
 
-    public String toSting() {
+    public String toString() {
         return String.format("{%s, %s}", data.getClass().getSimpleName(), data);
     }
 

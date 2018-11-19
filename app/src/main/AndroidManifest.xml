@@ -4,6 +4,11 @@
     package="com.bigsur.AndroidChatWithMaps">
 
 
+
+    <!--Internet Permission-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

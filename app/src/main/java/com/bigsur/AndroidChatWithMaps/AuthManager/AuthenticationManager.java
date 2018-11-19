@@ -14,7 +14,7 @@ import devliving.online.securedpreferencestore.SecuredPreferenceStore;
 public class AuthenticationManager implements AuthManager {
 
     private static AuthenticationManager instance;
-    private String TAG = "!!!TAG!!!";
+    private String TAG = "!!!LOG!!!";
 
     private AuthenticationManager() {
     }
@@ -55,6 +55,20 @@ public class AuthenticationManager implements AuthManager {
         } catch (Exception e) {
             Log.e("!LOG!SECURED-PREFERENCE", "", e);
         }
+    }
+
+    public void saveUserId(int id) {
+        String key = "ID";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        prefStore.edit().putInt(key, id).apply();
+        Log.d("!!!LOG!!!", String.format("id: %s", prefStore.getString(key, null)));
+    }
+
+    public int getUserId() {
+        String key = "ID";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        Log.d("!!!LOG!!!", String.format("id: %s", prefStore.getInt(key, 0)));
+        return prefStore.getInt(key, 0);
     }
 
     public Credentials getSavedCredentials() {
@@ -177,6 +191,4 @@ public class AuthenticationManager implements AuthManager {
                 }
         );
     }
-
-
 }

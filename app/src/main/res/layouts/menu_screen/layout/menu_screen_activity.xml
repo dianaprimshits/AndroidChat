@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,7 +12,6 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/navigation"
         android:animateLayoutChanges="true">
     </FrameLayout>
 
@@ -25,7 +24,7 @@
     </RelativeLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>
 
 
 

@@ -1,8 +1,13 @@
 package com.bigsur.AndroidChatWithMaps.chats;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,19 +27,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatsSearchResult;
+import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.contacts.ContactsSearchActivity;
 
 import java.util.concurrent.ExecutionException;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
-import androidx.fragment.app.Fragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -45,16 +44,17 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     ListView lvMain;
     Toolbar toolbar;
     AdapterForChatRooms adapter;
-    AdapterForChatsSearchResult searchAdapter;
     SQLiteContactsManager dbStorage = new SQLiteContactsManager();
     ImageButton imageButtonAdd;
     ImageButton imageButtonClose;
-  //  ConstraintLayout chatsAddingTranslucentLt;
-    Animation animationRotateCenter;
+    ConstraintLayout chatsAddingTranslucentLt;
+    ConstraintLayout addDialogBlock;
     ImageButton chatAddBt;
     ImageButton groupChatAddBt;
     TextView newChatTv;
     TextView newGroupTv;
+    Animation up;
+    Animation down;
 
 
     public static ItemChatsFragment newInstance() {
@@ -75,14 +75,9 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
-
         findViewsById(view);
-
         imageButtonAdd.setOnClickListener(this);
         imageButtonClose.setOnClickListener(this);
-
-
-        SQLiteContactsManager contactsManager = new SQLiteContactsManager();
         SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
 
         try {
@@ -91,6 +86,26 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
             e.printStackTrace();
         }
         lvMain.setAdapter(adapter);
+
+
+        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
+                        ChatRooms chatRoom = (ChatRooms) adapter.getItem(position);
+                        dialogIntent.putExtra("contactName", chatRoom.getName());
+
+                        dialogIntent.putExtra("id", chatRoom.getId());
+                        dialogIntent.putExtra("coming from", "chatRooms");
+
+                        startActivity(dialogIntent);
+                    }
+                });
+            }
+        });
 
 
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -148,59 +163,6 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.top_chat_menu, menu);
-        final MenuItem searchItem = menu.findItem(R.id.search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setQueryHint("Search");
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            SQLiteContactsManager contactsManager = new SQLiteContactsManager();
-            SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
-
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                try {
-                    if(searchAdapter == null) {
-                        searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll(), chatRoomsManager.getAll());
-                        lvMain.setAdapter(searchAdapter);
-                    }
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-
-                searchAdapter.getFilter().filter(newText);
-                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
-                        dialogIntent.putExtra("contactName", searchAdapter.getItem(position).getName());
-                        startActivity(dialogIntent);
-                    }
-                });
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                try {
-                    searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll(), chatRoomsManager.getAll());
-                    lvMain.setAdapter(searchAdapter);
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-                searchAdapter.getFilter().filter(query);
-                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
-                        startActivity(dialogIntent);
-                    }
-                });
-                return true;
-            }
-        });
-
     }
 
 
@@ -208,14 +170,10 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.addDialog:
-                onClickAddDialogButton();
+            case R.id.chat_search_button:
+                Intent searchIntent = new Intent(getActivity(), ContactsSearchActivity.class);
+                startActivity(searchIntent);
                 return true;
-
-            case R.id.addGroupDialog:
-                // do smth
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -226,19 +184,17 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         lvMain = (ListView) view.findViewById(R.id.lvMain);
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
         imageButtonAdd = (ImageButton) view.findViewById(R.id.chatsAddingBt);
-       // chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
+        chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
         imageButtonClose = (ImageButton) view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
-        animationRotateCenter = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center);
-        //chatAddBt = (ImageButton) view.findViewById(R.id.chatAddButton);
+        chatAddBt = (ImageButton) view.findViewById(R.id.chatAddButton);
         groupChatAddBt = (ImageButton) view.findViewById(R.id.groupChatAddButton);
         newChatTv = (TextView) view.findViewById(R.id.addDialogTv);
         newGroupTv = (TextView) view.findViewById(R.id.addGroupDialogTv);
-
+        addDialogBlock = (ConstraintLayout) view.findViewById(R.id.addDialogBlock);
     }
 
 
     private void refreshDialogList() throws ExecutionException, InterruptedException {
-        SQLiteContactsManager contactsManager = new SQLiteContactsManager();
         SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
 
         try {
@@ -249,42 +205,21 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         lvMain.setAdapter(adapter);
     }
 
-
-    public void onClickAddDialogButton() {
-        LayoutInflater li = LayoutInflater.from(getContext());
-        View dialog = li.inflate(R.layout.create_contact, null);
-        //открывается список как при search, только с одними контактами
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.chatsAddingBt:
 
-                chatAddBt.setScaleX(40.0f);
-                chatAddBt.setScaleY(40.0f);
-                groupChatAddBt.setScaleX(40.0f);
-                groupChatAddBt.setScaleY(40.0f);
-                newChatTv.setScaleX(70.0f);
-                newChatTv.setScaleY(30.0f);
-                newGroupTv.setScaleX(80.0f);
-                newGroupTv.setScaleY(30.0f);
-
-
-                imageButtonAdd.setAnimation(animationRotateCenter);
-              /*  up = AnimationUtils.loadAnimation(getContext(), R.anim.layout_up);
+                Animation animationRotateCenterRight = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center_right);
+                imageButtonAdd.setAnimation(animationRotateCenterRight);
+                up = AnimationUtils.loadAnimation(getContext(), R.anim.layout_up);
                 chatAddBt.setAnimation(up);
                 groupChatAddBt.setAnimation(up);
                 newChatTv.setAnimation(up);
                 newGroupTv.setAnimation(up);
-                addDialogLt.setAnimation(up);
-                addGroupLt.setAnimation(up);
-                */
+                addDialogBlock.setAnimation(up);
 
-
-
-             //   chatsAddingTranslucentLt.setVisibility(VISIBLE);
+                chatsAddingTranslucentLt.setVisibility(VISIBLE);
                 imageButtonClose.setVisibility(VISIBLE);
                 imageButtonAdd.setVisibility(GONE);
                 Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!!!");
@@ -292,19 +227,21 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
 
             case R.id.chatsAddingTranslucentLayoutBtClose:
 
-               /* down = AnimationUtils.loadAnimation(getContext(), R.anim.layout_up);
+                down = AnimationUtils.loadAnimation(getContext(), R.anim.layout_down);
                 chatAddBt.setAnimation(down);
                 groupChatAddBt.setAnimation(down);
                 newChatTv.setAnimation(down);
                 newGroupTv.setAnimation(down);
-                addDialogLt.setAnimation(down);
-                */
+                addDialogBlock.setAnimation(down);
 
-
+                Animation animationRotateCenterLeft = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center_left);
+                imageButtonClose.setAnimation(animationRotateCenterLeft);
                 imageButtonClose.setVisibility(GONE);
                 imageButtonAdd.setVisibility(VISIBLE);
-               // chatsAddingTranslucentLt.setVisibility(GONE);
+                imageButtonAdd.setAnimation(animationRotateCenterLeft);
+                chatsAddingTranslucentLt.setVisibility(GONE);
                 break;
+
            /* case R.id.chatAddButton:
                 //do smth
                 break;

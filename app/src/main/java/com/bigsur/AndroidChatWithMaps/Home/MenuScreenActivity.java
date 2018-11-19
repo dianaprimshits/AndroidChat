@@ -1,6 +1,11 @@
 package com.bigsur.AndroidChatWithMaps.Home;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -11,11 +16,7 @@ import com.bigsur.AndroidChatWithMaps.maps.ItemMapsFragment;
 import com.bigsur.AndroidChatWithMaps.settings.ItemSettingsFragment;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+
 
 
 public class MenuScreenActivity extends AppCompatActivity {
@@ -36,8 +37,8 @@ public class MenuScreenActivity extends AppCompatActivity {
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
         BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
         bottomNavigationView.enableAnimation(false);
-     //   bottomNavigationView.enableShiftingMode(false);
-     //   bottomNavigationView.enableItemShiftingMode(false);
+        bottomNavigationView.enableShiftingMode(false);
+        bottomNavigationView.enableItemShiftingMode(false);
         bottomNavigationView.setTextVisibility(false);
 
 

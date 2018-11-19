@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SQLiteContactsManager implements StorageManager {
 
-    @SuppressLint("StaticFieldLeak")
+
     @Override
     public void create(final DataFromDB data) {
         new AsyncTask<DataFromDB, Void, Void>() {
@@ -31,7 +31,6 @@ public class SQLiteContactsManager implements StorageManager {
     }
 
 
-    @SuppressLint("StaticFieldLeak")
     @Override
     public void update(final DataFromDB data) {
         new AsyncTask<DataFromDB, Void, Void>() {
@@ -46,7 +45,6 @@ public class SQLiteContactsManager implements StorageManager {
     }
 
 
-    @SuppressLint("StaticFieldLeak")
     @Override
     public void delete(final int id) {
        new AsyncTask<Integer, Void, Void>() {

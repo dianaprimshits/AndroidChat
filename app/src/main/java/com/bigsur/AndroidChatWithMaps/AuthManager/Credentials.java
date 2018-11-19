@@ -12,10 +12,6 @@ public class Credentials {
         this.password = passString;
     }
 
-    public Credentials() {
-
-    }
-
 
     public String getLogin() {
         return login;
@@ -24,6 +20,7 @@ public class Credentials {
     public String getPassword() {
         return password;
     }
+
 
 
     public void setLogin(String login) {

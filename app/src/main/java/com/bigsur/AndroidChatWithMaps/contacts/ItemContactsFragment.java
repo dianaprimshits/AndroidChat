@@ -4,6 +4,10 @@ package com.bigsur.AndroidChatWithMaps.contacts;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,26 +29,19 @@ import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.chats.DialogActivity;
 
 import java.util.concurrent.ExecutionException;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
-
-public class ItemContactsFragment extends Fragment {
+public class ItemContactsFragment extends Fragment  {
+    private static int DEFAULT_ID = -1;
     private static final String TAG = "!!!LOG!!!";
     TextView contactsNumberTV;
     ListView lvMain;
     Toolbar toolbar;
     CustomAdapterForContacts adapter;
     SQLiteContactsManager dbStorage = new SQLiteContactsManager();
-
-
-
-
     public static ItemContactsFragment newInstance() {
         ItemContactsFragment fragment = new ItemContactsFragment();
         Log.d(TAG, "newInstance: ItemContactsFragment.");
@@ -63,9 +60,7 @@ public class ItemContactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
-
         findViewsById(view);
-
         try {
             String contactsTVText;
             int contactsNumber = dbStorage.getContactsNumber();
@@ -82,6 +77,25 @@ public class ItemContactsFragment extends Fragment {
             e.printStackTrace();
         }
         lvMain.setAdapter(adapter);
+
+
+        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
+                        Contacts contact = (Contacts) adapter.getItem(position).getData();
+                        dialogIntent.putExtra("contactName", contact.getName());
+
+                        dialogIntent.putExtra("id", contact.getId());
+                        dialogIntent.putExtra("coming from", "contacts");
+                        startActivity(dialogIntent);
+                    }
+                });
+            }
+        });
 
 
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -136,19 +150,18 @@ public class ItemContactsFragment extends Fragment {
                 negativeButton.setLayoutParams(buttonLL);
 
                 Toast.makeText(getContext(), "Item clicked", Toast.LENGTH_LONG).show();
-                return false;
+                return true;
             }
         });
-
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         return view;
     }
 
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.create_contact_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.top_contact_menu, menu);
@@ -162,19 +175,18 @@ public class ItemContactsFragment extends Fragment {
             case R.id.contactsAdd:
                 onClickAddDialogButton();
                 return true;
-
-            case R.id.contact_search:
+            case R.id.contact_fr_search:
                 Intent goSearchIntent = new Intent(getActivity(), ContactsSearchActivity.class);
                 startActivity(goSearchIntent);
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
 
     private void findViewsById(View view) {
         lvMain = (ListView) view.findViewById(R.id.lvMain);
+        toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
         toolbar = (Toolbar) view.findViewById(R.id.contacts_toolbar);
         contactsNumberTV = (TextView) view.findViewById(R.id.contactsNumberTV);
     }
@@ -234,6 +246,5 @@ public class ItemContactsFragment extends Fragment {
         positiveButton.setLayoutParams(buttonLL);
         negativeButton.setLayoutParams(buttonLL);
     }
-
 }
 
