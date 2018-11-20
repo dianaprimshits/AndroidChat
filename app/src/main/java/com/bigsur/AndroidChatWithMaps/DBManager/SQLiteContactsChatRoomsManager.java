@@ -21,7 +21,6 @@ public class SQLiteContactsChatRoomsManager implements StorageManager {
             protected Void doInBackground(DataFromDB... data) {
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
-
                 contactsChatRoomsDao.insert((ContactsChatRooms) data[0].getData());
                 return null;
             }
@@ -173,5 +172,22 @@ public class SQLiteContactsChatRoomsManager implements StorageManager {
     @Override
     public List<DataFromDB> getSimilarData(String search) throws ExecutionException, InterruptedException {
         return null;
+    }
+
+    public int getContactsNumber(int chatRoomId) throws ExecutionException, InterruptedException {
+        int data = new AsyncTask<Integer, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Integer ... data) {
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
+                return contactsChatRoomsDao.getContactsNumber(data[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Integer contactsInChatRoom) {
+                super.onPostExecute(contactsInChatRoom);
+            }
+        }.execute(chatRoomId).get();
+        return data;
     }
 }

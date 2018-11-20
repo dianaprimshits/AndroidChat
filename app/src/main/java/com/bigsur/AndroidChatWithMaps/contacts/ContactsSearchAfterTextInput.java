@@ -66,7 +66,7 @@ public class ContactsSearchAfterTextInput extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent dialogIntent = new Intent(getActivity(), DialogActivity.class);
-                dialogIntent.putExtra("contactName", searchAdapter.getItem(position).getName());
+                dialogIntent.putExtra("name", searchAdapter.getItem(position).getName());
 
                 Log.d("!!!!!!!!!LOL!!!!!!!", "onItemClick:" + searchAdapter.getItem(position).getClass().getSimpleName());
                 Log.d("!!!!!!!!!LOL!!!!!!!", "onItemClick:" + searchAdapter.getItem(position).getId());

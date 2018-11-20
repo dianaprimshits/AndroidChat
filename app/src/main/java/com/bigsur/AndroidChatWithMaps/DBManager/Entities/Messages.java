@@ -59,9 +59,4 @@ public class Messages {
         return messageTo;
     }
 
-
-    public String toString() {
-        return String.format("\n Message id: %d \n Message text: %s \n Message created at: %t \n Message from(id): %d. \n Message to(id): %d",
-                getId(), getMessage(), getDate(), getMessageFrom(), getMessageTo());
-    }
 }

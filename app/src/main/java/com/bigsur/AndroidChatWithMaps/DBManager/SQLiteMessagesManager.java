@@ -1,7 +1,6 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DBManager.DAO.MessagesDAO;
@@ -74,8 +73,6 @@ public class SQLiteMessagesManager implements StorageManager {
 
                 AppDatabase db = App.getInstance().getDatabase();
                 MessagesDAO messagesDAO = db.getMessagesDao();
-
-                Log.d("!!!!!LOG!!", "doInBackground: " + messagesDAO.getAll().toString());
                 List<Messages> messagesList = messagesDAO.getAll();
 
                 for (int i = 0; i < messagesList.size(); i++) {
@@ -97,11 +94,8 @@ public class SQLiteMessagesManager implements StorageManager {
             @Override
             protected List<DataFromDB> doInBackground(Integer... params) {
                 ArrayList<DataFromDB> result = new ArrayList<DataFromDB>();
-
                 AppDatabase db = App.getInstance().getDatabase();
                 MessagesDAO messagesDAO = db.getMessagesDao();
-
-                Log.d("!!!!!LOG!!", "doInBackground: " + messagesDAO.getAll().toString());
                 List<Messages> messagesList = messagesDAO.getByChatRoomId(params[0]);
 
                 for (int i = 0; i < messagesList.size(); i++) {
@@ -114,7 +108,7 @@ public class SQLiteMessagesManager implements StorageManager {
             protected void onPostExecute(List<DataFromDB> messages) {
                 super.onPostExecute(messages);
             }
-        }.execute().get();
+        }.execute(chatRoomId).get();
         return new ArrayList<>(data);
     }
 

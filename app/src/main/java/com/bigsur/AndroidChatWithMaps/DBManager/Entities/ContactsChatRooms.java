@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 
-@Entity(tableName = "groups",
+@Entity(tableName = "connections",
         primaryKeys = {"contact_id", "chat_id"},
         foreignKeys = {
         @ForeignKey(entity = Contacts.class,

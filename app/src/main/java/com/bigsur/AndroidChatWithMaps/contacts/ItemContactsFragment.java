@@ -35,7 +35,6 @@ import java.util.concurrent.ExecutionException;
 
 
 public class ItemContactsFragment extends Fragment  {
-    private static int DEFAULT_ID = -1;
     private static final String TAG = "!!!LOG!!!";
     TextView contactsNumberTV;
     ListView lvMain;
@@ -87,7 +86,7 @@ public class ItemContactsFragment extends Fragment  {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
                         Contacts contact = (Contacts) adapter.getItem(position).getData();
-                        dialogIntent.putExtra("contactName", contact.getName());
+                        dialogIntent.putExtra("name", contact.getName());
 
                         dialogIntent.putExtra("id", contact.getId());
                         dialogIntent.putExtra("coming from", "contacts");

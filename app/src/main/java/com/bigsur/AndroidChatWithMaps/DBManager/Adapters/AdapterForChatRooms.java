@@ -65,14 +65,10 @@ public class AdapterForChatRooms extends BaseAdapter {
 
         ImageView avatar = (ImageView) view.findViewById(R.id.chatAvatar);
         TextView name = (TextView) view.findViewById(R.id.chatName);
-        TextView subname = (TextView) view.findViewById(R.id.chatLastMessage);
-        TextView date = (TextView) view.findViewById(R.id.chatLastMessageDate);
 
         DataWithIcon selectedItem = getItem(position);
         name.setText(selectedItem.getName().toString());
-        subname.setText(selectedItem.getSubname().toString());
         avatar.setImageResource(selectedItem.getAvatar());
-        date.setText(selectedItem.getDate());
         return view;
 
     }

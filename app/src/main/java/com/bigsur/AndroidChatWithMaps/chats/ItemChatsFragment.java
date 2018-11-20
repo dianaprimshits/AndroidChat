@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteChatRoomsManager;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.contacts.ContactsSearchActivity;
 
@@ -44,7 +43,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     ListView lvMain;
     Toolbar toolbar;
     AdapterForChatRooms adapter;
-    SQLiteContactsManager dbStorage = new SQLiteContactsManager();
+    SQLiteChatRoomsManager dbStorage = new SQLiteChatRoomsManager();
     ImageButton imageButtonAdd;
     ImageButton imageButtonClose;
     ConstraintLayout chatsAddingTranslucentLt;
@@ -96,7 +95,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
                         ChatRooms chatRoom = (ChatRooms) adapter.getItem(position);
-                        dialogIntent.putExtra("contactName", chatRoom.getName());
+                        dialogIntent.putExtra("name", chatRoom.getName());
 
                         dialogIntent.putExtra("id", chatRoom.getId());
                         dialogIntent.putExtra("coming from", "chatRooms");

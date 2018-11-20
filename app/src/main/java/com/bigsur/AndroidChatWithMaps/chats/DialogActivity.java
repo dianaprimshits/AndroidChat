@@ -44,13 +44,15 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     EditText messageET;
     ImageButton buttonSend;
     TextView contactNameTV;
+
     int contactOrChatRoomId;
+    int contactId;
     int chatRoomId;
-    String contactOrChatName;
+    String dialogName;
     String intentComingFrom;
+
     private static int MAX_MESSAGE_LENGTH = Integer.MAX_VALUE - 1;
     private static int DEFAULT_VALUE = -1;
-    ArrayList<Messages> messages = new ArrayList<>();
     ListView messagesLV;
     MessageAdapter adapter;
 
@@ -60,7 +62,15 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
 
+        //getting id from pref
         yourId = authManager.getUserId();
+
+        //getting data, coming with intent
+        Intent intent = getIntent();
+        dialogName = getIntent().getStringExtra("name");
+        contactOrChatRoomId = intent.getIntExtra("id", DEFAULT_VALUE);
+        intentComingFrom = intent.getStringExtra("coming from");
+
 
         buttonBack = (ImageButton) findViewById(R.id.dialogActivityToolbarButtonBack);
         messageET = (EditText) findViewById(R.id.dialogActivityMessageET);
@@ -68,25 +78,29 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         contactNameTV = (TextView) findViewById(R.id.dialogActivityToolbarContactName);
         messagesLV = (ListView) findViewById(R.id.lvMessage);
 
-        Intent intent = getIntent();
-        contactOrChatName = getIntent().getStringExtra("contactName");
-        contactOrChatRoomId = intent.getIntExtra("id", DEFAULT_VALUE);
-        intentComingFrom = intent.getStringExtra("coming from");
-
-        try {
-            chatRoomId = getChatRoomId();
-            messagesDisplay(chatRoomId);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        contactNameTV.setText(contactOrChatName);
+        contactNameTV.setText(dialogName);
         Log.d(TAG, "CHAT ROOM ID  " + contactOrChatRoomId);
         Log.d(TAG, "COMING FROM  " + intentComingFrom);
 
 
         buttonBack.setOnClickListener(this);
         buttonSend.setOnClickListener(this);
+
+        try {
+            if (intentComingFrom.equals("chatRooms")) {
+                chatRoomId = contactOrChatRoomId;
+                messagesDisplay(chatRoomId);
+            } else if (intentComingFrom.equals("contacts")) {
+                contactId = contactOrChatRoomId;
+
+                if (getContactChatConnectionNumber() > 0) {
+                    chatRoomId = getChatRoomId(contactId);
+                    messagesDisplay(chatRoomId);
+                }
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -96,8 +110,6 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                 onBackPressed();
                 break;
             case R.id.dialogActivityMessageSendButton:
-                //create chat, create message.
-
                 messageET.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.MAX_VALUE - 1)});
 
                 if (messageET.getText().toString().isEmpty()) {
@@ -105,40 +117,72 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                     return;
                 }
 
-
-                ChatRooms chatRoom = new ChatRooms(contactOrChatName);
-                Log.d("!!!!!!LOG!!!!!!!", "onClick: " + chatRoom.getName());
+                if (intentComingFrom.equals("contacts")) {
+                    try {
+                        if (getContactChatConnectionNumber() > 0) {
+                            ChatRooms chatRoom = new ChatRooms(dialogName);
+                            chatRoomManager.create(new DataFromDB(chatRoom));
+                            ContactsChatRooms connection = new ContactsChatRooms(contactId, chatRoom.getId());
+                            contactsChatRoomsManager.create(new DataFromDB(connection));
+                            Log.d("!!!!!!LOG!!!!!!!", "onClick: " + chatRoom.getName());
+                        }
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 Messages newMessage = new Messages(messageET.getText().toString(),
-                        new SimpleDateFormat("h:mm a").format(new Date()),
-                        yourId,
-                        chatRoomId);
-                messages.add(newMessage);
+                                new SimpleDateFormat("h:mm a").format(new Date()),
+                                yourId,
+                                chatRoomId);
+                messagesManager.create(new DataFromDB(newMessage));
                 Log.d("!!!!!!LOG!!!!!!!", "onClick: " + newMessage.getMessage());
                 messageET.setText("");
+                try {
+                    messagesDisplay(chatRoomId);
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
         }
 
     }
 
-    public int getChatRoomId() throws ExecutionException, InterruptedException {
-        if (intentComingFrom.equals("contacts")) {
-            List<DataFromDB> result = contactsChatRoomsManager.getByContactId(contactOrChatRoomId);
-            ArrayList<ContactsChatRooms> contactEntries = new ArrayList<>();
 
-            for (DataFromDB item : result) {
-                contactEntries.add((ContactsChatRooms) item.getData());
-            }
+    public int getContactChatConnectionNumber() throws ExecutionException, InterruptedException {
+        List<DataFromDB> result = contactsChatRoomsManager.getByContactId(contactOrChatRoomId);
+        if (result.isEmpty()) {
+            return 0;
+        }
+        return result.size();
+    }
 
-            int entriesNumber = contactEntries.size();
+    public ArrayList<ContactsChatRooms> getChatsWithGivenContact(int contactId) throws ExecutionException, InterruptedException {
+        List<DataFromDB> result = contactsChatRoomsManager.getByContactId(contactId);
+        ArrayList<ContactsChatRooms> contactEntries = new ArrayList<>();
 
-            if (entriesNumber == 0) {
-                return chatRoomCreating().getId();
-            }
-            if (entriesNumber == 1) {
-                return contactEntries.get(0).getChatRoomId();
+        for (DataFromDB item : result) {
+            contactEntries.add((ContactsChatRooms) item.getData());
+        }
+        return contactEntries;
+    }
+
+
+    public int getChatRoomId(int contactId) throws ExecutionException, InterruptedException {
+        ArrayList<ContactsChatRooms> chatRoomsWithGivenContacts = getChatsWithGivenContact(contactId);
+        ArrayList<Integer> chatRoomIDs = new ArrayList<>();
+
+        for (ContactsChatRooms connection : chatRoomsWithGivenContacts) {
+            chatRoomIDs.add(connection.getChatRoomId());
+        }
+
+        for (int chatRoomId : chatRoomIDs) {
+            int contactsNumber = contactsChatRoomsManager.getContactsNumber(chatRoomId);
+
+            if (contactsNumber == 1) {
+                return chatRoomId;
             }
         }
-        return contactOrChatRoomId;
+        return -1;
     }
 
 
@@ -155,12 +199,4 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         messagesLV.setAdapter(adapter);
     }
 
-
-    public ChatRooms chatRoomCreating() {
-        ChatRooms chatRoom = new ChatRooms(contactOrChatName);
-        chatRoomManager.create(new DataFromDB<>(chatRoom));
-        ContactsChatRooms connection = new ContactsChatRooms(contactOrChatRoomId, chatRoom.getId());
-        contactsChatRoomsManager.create(new DataFromDB<>(connection));
-        return chatRoom;
-    }
 }
