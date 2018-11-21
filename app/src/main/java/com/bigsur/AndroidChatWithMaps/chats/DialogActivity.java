@@ -123,11 +123,12 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                             chatRoomManager.create(new DataFromDB(chatRoom));
                             //говнокод. нужно посмотреть айдишник только что созданного в бд чата
                             //ищу через MAX по id стобцу
-                            int lastId = chatRoomManager.getLastId();
+                            chatRoomId = chatRoomManager.getLastId();
 
-                            ContactsChatRooms connection = new ContactsChatRooms(contactId, lastId);
+                            ContactsChatRooms connection = new ContactsChatRooms(contactId, chatRoomId);
                             contactsChatRoomsManager.create(new DataFromDB(connection));
                         }
+
                     } catch (ExecutionException | InterruptedException e) {
                         e.printStackTrace();
                     }
