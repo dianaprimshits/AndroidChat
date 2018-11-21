@@ -31,4 +31,7 @@ public interface ChatRoomDAO {
 
     @Query("SELECT * FROM chat_rooms WHERE chat_room_name LIKE :search")
     List<ChatRooms> getSimilarChatRooms(String search);
+
+    @Query("SELECT MAX(chat_room_id) FROM chat_rooms")
+    int getLastId();
 }

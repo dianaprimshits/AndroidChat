@@ -1,7 +1,6 @@
 package com.bigsur.AndroidChatWithMaps.DBManager;
 
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -65,7 +64,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
 
     @Override
     public DataFromDB getById(final int id) throws ExecutionException, InterruptedException {
-        @SuppressLint("StaticFieldLeak") DataFromDB data = new AsyncTask<Integer, Void, DataFromDB>() {
+        DataFromDB data = new AsyncTask<Integer, Void, DataFromDB>() {
             @Override
             protected DataFromDB doInBackground(Integer... data) {
                 AppDatabase db = App.getInstance().getDatabase();
@@ -87,7 +86,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
 
     @Override
     public ArrayList<DataFromDB> getAll() throws InterruptedException, ExecutionException {
-        @SuppressLint("StaticFieldLeak") List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
+        List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
             @Override
             protected List<DataFromDB> doInBackground(Void ... data) {
                 ArrayList<DataFromDB> displayList = new ArrayList<>();
@@ -114,7 +113,7 @@ public class SQLiteChatRoomsManager implements StorageManager {
 
     @Override
     public ArrayList<DataFromDB> getSimilarData(String search) throws InterruptedException, ExecutionException {
-        @SuppressLint("StaticFieldLeak") List<DataFromDB> data = new AsyncTask<String, Void, List<DataFromDB>>() {
+        List<DataFromDB> data = new AsyncTask<String, Void, List<DataFromDB>>() {
             @Override
             protected List<DataFromDB> doInBackground(String ... data) {
                 ArrayList<DataFromDB> displayList = new ArrayList<>();
@@ -137,5 +136,26 @@ public class SQLiteChatRoomsManager implements StorageManager {
             }
         }.execute(search).get();
         return new ArrayList<>(data);
+    }
+
+    public int getLastId() throws ExecutionException, InterruptedException {
+        Integer lastId = new AsyncTask<Void, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Void... params) {
+
+                AppDatabase db = App.getInstance().getDatabase();
+                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+
+                Integer lastId = chatRoomDAO.getLastId();
+
+                return lastId;
+            }
+
+            @Override
+            protected void onPostExecute(Integer lastId) {
+                super.onPostExecute(lastId);
+            }
+        }.execute().get();
+        return lastId;
     }
 }

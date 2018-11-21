@@ -5,15 +5,19 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 @Entity(tableName = "connections",
         primaryKeys = {"contact_id", "chat_id"},
         foreignKeys = {
         @ForeignKey(entity = Contacts.class,
                 parentColumns = "_id",
-                childColumns = "contact_id"),
+                childColumns = "contact_id",
+                onDelete = CASCADE),
         @ForeignKey(entity = ChatRooms.class,
                 parentColumns = "chat_room_id",
-                childColumns = "chat_id")},
+                childColumns = "chat_id",
+                onDelete = CASCADE)},
         indices = {@Index(value = {"contact_id", "chat_id"},
                 unique = true)})
 public class ContactsChatRooms {

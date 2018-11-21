@@ -124,7 +124,6 @@ public class SQLiteContactsChatRoomsManager implements StorageManager {
                 ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
 
                 int contactId = data[0];
-                Log.d("!!!!!LOG!!", "doInBackground: " + contactsChatRoomsDao.getAll().toString());
                 List<ContactsChatRooms> contactsChatRooms = contactsChatRoomsDao.getByContactsID(contactId);
 
                 for(int i = 0; i < contactsChatRooms.size(); i++) {

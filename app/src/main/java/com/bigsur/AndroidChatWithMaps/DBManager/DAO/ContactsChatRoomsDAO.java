@@ -2,7 +2,6 @@ package com.bigsur.AndroidChatWithMaps.DBManager.DAO;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ContactsChatRooms;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface ContactsChatRoomsDAO {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insert(ContactsChatRooms contactsChatRooms);
 
     @Query("DELETE FROM connections WHERE contact_id = :contactsId AND chat_id = :chatRoomsId")

@@ -51,7 +51,6 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     String dialogName;
     String intentComingFrom;
 
-    private static int MAX_MESSAGE_LENGTH = Integer.MAX_VALUE - 1;
     private static int DEFAULT_VALUE = -1;
     ListView messagesLV;
     MessageAdapter adapter;
@@ -93,7 +92,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
             } else if (intentComingFrom.equals("contacts")) {
                 contactId = contactOrChatRoomId;
 
-                if (getContactChatConnectionNumber() > 0) {
+                if (getContactChatConnectionNumber(contactId) > 0) {
                     chatRoomId = getChatRoomId(contactId);
                     messagesDisplay(chatRoomId);
                 }
@@ -119,12 +118,15 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
 
                 if (intentComingFrom.equals("contacts")) {
                     try {
-                        if (getContactChatConnectionNumber() > 0) {
+                        if (getContactChatConnectionNumber(contactId) == 0) {
                             ChatRooms chatRoom = new ChatRooms(dialogName);
                             chatRoomManager.create(new DataFromDB(chatRoom));
-                            ContactsChatRooms connection = new ContactsChatRooms(contactId, chatRoom.getId());
+                            //говнокод. нужно посмотреть айдишник только что созданного в бд чата
+                            //ищу через MAX по id стобцу
+                            int lastId = chatRoomManager.getLastId();
+
+                            ContactsChatRooms connection = new ContactsChatRooms(contactId, lastId);
                             contactsChatRoomsManager.create(new DataFromDB(connection));
-                            Log.d("!!!!!!LOG!!!!!!!", "onClick: " + chatRoom.getName());
                         }
                     } catch (ExecutionException | InterruptedException e) {
                         e.printStackTrace();
@@ -148,8 +150,8 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     }
 
 
-    public int getContactChatConnectionNumber() throws ExecutionException, InterruptedException {
-        List<DataFromDB> result = contactsChatRoomsManager.getByContactId(contactOrChatRoomId);
+    public int getContactChatConnectionNumber(int contactId) throws ExecutionException, InterruptedException {
+        List<DataFromDB> result = contactsChatRoomsManager.getByContactId(contactId);
         if (result.isEmpty()) {
             return 0;
         }
