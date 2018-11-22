@@ -11,7 +11,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataWithIcon;
@@ -24,19 +23,13 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
     private ArrayList<DataWithIcon> dataForSearch;
     ArrayList<DataWithIcon> dataAfterSerach;
 
-    public AdapterForChatsSearchResult(Context context, ArrayList<DataFromDB> contacts, ArrayList<DataFromDB> chatRooms) {
+    public AdapterForChatsSearchResult(Context context, ArrayList<DataFromDB> contacts) {
         ArrayList<DataWithIcon> newList = new ArrayList<>();
 
-        if (chatRooms.size() == 0) {
-            for (int i = 0; i < contacts.size() + chatRooms.size(); i++) {
-                newList.add((Contacts) contacts.get(i).getData());
-            }
-        } else {
-            for (int i = 0; i < contacts.size() + chatRooms.size(); i++) {
-                newList.add((Contacts) contacts.get(i).getData());
-                newList.add((ChatRooms) chatRooms.get(i).getData());
-            }
+        for (int i = 0; i < contacts.size(); i++) {
+            newList.add((Contacts) contacts.get(i).getData());
         }
+
 
         this.dataForSearch = new ArrayList<>();
         this.dataAfterSerach = new ArrayList<>();
@@ -73,13 +66,12 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
         ImageView avatar = (ImageView) view.findViewById(R.id.chatAvatar);
         TextView name = (TextView) view.findViewById(R.id.chatName);
         TextView subname = (TextView) view.findViewById(R.id.chatLastMessage);
- //       TextView date = (TextView) view.findViewById(R.id.chatLastMessageDate);
+
 
         DataWithIcon selectedItem = getItem(position);
         name.setText(selectedItem.getName());
         subname.setText(selectedItem.getSubname());
 //        avatar.setImageResource(selectedItem.getAvatar());
-//        date.setText(selectedItem.getDate());
         return view;
     }
 
@@ -108,7 +100,7 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-               // dataForSearch = (ArrayList<DataWithIcon>) results.values;
+                // dataForSearch = (ArrayList<DataWithIcon>) results.values;
 
                 notifyDataSetChanged();
             }

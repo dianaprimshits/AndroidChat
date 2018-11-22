@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatsSearchResult;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.chats.DialogActivity;
@@ -24,7 +23,6 @@ public class ContactsSearchAfterTextInput extends Fragment {
     AdapterForChatsSearchResult searchAdapter;
     ListView lvMain;
     SQLiteContactsManager contactsManager = new SQLiteContactsManager();
-    SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
     String searchText = "";
 
 
@@ -54,7 +52,7 @@ public class ContactsSearchAfterTextInput extends Fragment {
 
         try {
             if (searchAdapter == null) {
-                searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll(), chatRoomsManager.getAll());
+                searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll());
                 lvMain.setAdapter(searchAdapter);
             }
         } catch (InterruptedException | ExecutionException e) {

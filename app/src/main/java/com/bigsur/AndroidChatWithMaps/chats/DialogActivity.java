@@ -61,10 +61,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
 
-        //getting id from pref
         yourId = authManager.getUserId();
-
-        //getting data, coming with intent
         Intent intent = getIntent();
         dialogName = getIntent().getStringExtra("name");
         contactOrChatRoomId = intent.getIntExtra("id", DEFAULT_VALUE);
@@ -140,7 +137,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                                 chatRoomId);
                 messagesManager.create(new DataFromDB(newMessage));
                 Log.d("!!!!!!LOG!!!!!!!", "onClick: " + newMessage.getMessage());
-                messageET.setText("");
+                                messageET.setText("");
                 try {
                     messagesDisplay(chatRoomId);
                 } catch (ExecutionException | InterruptedException e) {

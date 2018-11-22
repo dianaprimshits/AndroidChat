@@ -2,12 +2,12 @@ package com.bigsur.AndroidChatWithMaps.DBManager.Adapters;
 
 
 import android.content.Context;
-import android.view.Gravity;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
@@ -48,24 +48,26 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
         View view = convertView;
-        if (view == null) {
-            view = lInflater.inflate(R.layout.message_list, parent, false);
-        }
-
         Messages message = getMessages(position);
-        ((TextView) view.findViewById(R.id.messageTextTv)).setText(message.getMessage());
-        ((TextView) view.findViewById(R.id.messageDateTv)).setText(message.getDate() + "");
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        if (message.getMessageFrom() == authManager.getUserId()) {
-            params.gravity = Gravity.RIGHT;
-            view.setLayoutParams(params);
+        if (view == null) {
+            view = lInflater.inflate(R.layout.message_list_right, parent, false);
+            viewHolder = new ViewHolder(view);
+            view.setTag(viewHolder);
         }
-        params.gravity = Gravity.RIGHT;
-        view.setLayoutParams(params);
+        else{
+            viewHolder = (ViewHolder) view.getTag();
+        }
+
+        setAlignment(viewHolder, message);
+
+
+
+        viewHolder.messageTextTV.setText(message.getMessage());
+        viewHolder.messageDateTV.setText(message.getDate() + "");
+
 
         return view;
     }
@@ -73,4 +75,38 @@ public class MessageAdapter extends BaseAdapter {
     Messages getMessages(int position) {
         return ((Messages) getItem(position));
     }
+
+
+    private class ViewHolder {
+        TextView messageTextTV;
+        TextView messageDateTV;
+        ConstraintLayout messageBlock;
+        ConstraintLayout contentWithBG;
+
+        ViewHolder(View view){
+            messageTextTV = (TextView) view.findViewById(R.id.messageTextTv);
+            messageDateTV = (TextView) view.findViewById(R.id.messageDateTv);
+            messageBlock = (ConstraintLayout) view.findViewById(R.id.messageBlock);
+            contentWithBG = (ConstraintLayout) view.findViewById(R.id.contentWithBG);
+        }
+    }
+
+
+    private void setAlignment(ViewHolder viewHolder, Messages message) {
+        if (message.getMessageFrom() == authManager.getUserId()) {
+            ConstraintSet set = new ConstraintSet();
+            set.clone(viewHolder.messageBlock);
+            set.connect(viewHolder.contentWithBG.getId(), ConstraintSet.RIGHT, viewHolder.messageBlock.getId(), ConstraintSet.RIGHT, 10);
+            set.applyTo(viewHolder.messageBlock);
+
+        } else {
+            viewHolder.contentWithBG.setBackgroundResource(R.drawable.rounded_foreign_message_color);
+            ConstraintSet set = new ConstraintSet();
+            set.clone(viewHolder.messageBlock);
+            set.connect(viewHolder.contentWithBG.getId(), ConstraintSet.LEFT, viewHolder.messageBlock.getId(), ConstraintSet.LEFT, 10);
+            set.applyTo(viewHolder.messageBlock);
+
+        }
+    }
+
 }
