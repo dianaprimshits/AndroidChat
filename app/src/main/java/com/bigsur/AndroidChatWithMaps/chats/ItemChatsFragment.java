@@ -77,6 +77,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         findViewsById(view);
         imageButtonAdd.setOnClickListener(this);
         imageButtonClose.setOnClickListener(this);
+        chatAddBt.setOnClickListener(this);
         SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
 
         try {
@@ -221,6 +222,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                 chatsAddingTranslucentLt.setVisibility(VISIBLE);
                 imageButtonClose.setVisibility(VISIBLE);
                 imageButtonAdd.setVisibility(GONE);
+                chatAddBt.setVisibility(VISIBLE);
                 Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!!!");
                 break;
 
@@ -240,13 +242,13 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                 imageButtonAdd.setAnimation(animationRotateCenterLeft);
                 chatsAddingTranslucentLt.setVisibility(GONE);
                 break;
+            case R.id.chatAddButton:
+                Intent addChatIntent = new Intent(getActivity(), AddChatActivity.class);
+                startActivity(addChatIntent);
 
-           /* case R.id.chatAddButton:
-                //do smth
-                break;
-            case R.id.addGroupDialog:
-                //do smth
-                break;*/
+           // case R.id.addGroupDialog:
+           //     do smth
+           //     break;
         }
     }
 

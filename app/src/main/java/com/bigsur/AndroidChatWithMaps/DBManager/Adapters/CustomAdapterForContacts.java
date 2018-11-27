@@ -37,7 +37,7 @@ public class CustomAdapterForContacts extends ArrayAdapter<DataFromDB> {
         TextView contactPhoneNumber = (TextView) rowView.findViewById(R.id.contactPhoneNumber);
         Contacts selectedItem = (Contacts) getItem(position).getData();
         contactName.setText(selectedItem.getContactName());
-        contactPhoneNumber.setText(selectedItem.getPhone_number());
+        contactPhoneNumber.setText(selectedItem.getPhoneNumber());
         return rowView;
 
     }

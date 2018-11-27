@@ -71,7 +71,7 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
         DataWithIcon selectedItem = getItem(position);
         name.setText(selectedItem.getName());
         subname.setText(selectedItem.getSubname());
-//        avatar.setImageResource(selectedItem.getAvatar());
+//      avatar.setImageResource(selectedItem.getAvatar());
         return view;
     }
 

@@ -108,7 +108,7 @@ public class ItemContactsFragment extends Fragment  {
                 final EditText alterDialogPhoneNumber = (EditText) dialog.findViewById(R.id.contactPhoneNumber);
                 Contacts selectedItem = (Contacts) adapter.getItem(position).getData();
                 alterDialogName.setText(selectedItem.getContactName());
-                alterDialogPhoneNumber.setText(selectedItem.getPhone_number());
+                alterDialogPhoneNumber.setText(selectedItem.getPhoneNumber());
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("update",
@@ -116,7 +116,7 @@ public class ItemContactsFragment extends Fragment  {
                                     public void onClick(DialogInterface dialog, int id) {
                                         Contacts selectedItem = (Contacts) adapter.getItem(position).getData();
                                         selectedItem.setContactName(alterDialogName.getText().toString());
-                                        selectedItem.setPhone_number(alterDialogPhoneNumber.getText().toString());
+                                        selectedItem.setPhoneNumber(alterDialogPhoneNumber.getText().toString());
                                         dbStorage.update(adapter.getItem(position));
                                         try {
                                             refreshDialogList();

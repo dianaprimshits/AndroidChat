@@ -13,14 +13,15 @@ public class Contacts implements DataWithIcon {
     @PrimaryKey(autoGenerate = true)public int _id;
     @ColumnInfo(name = "contact_name")
     private String contactName;
-    private String phone_number;
+    @ColumnInfo(name = "phone_number")
+    private String phoneNumber;
     @ColumnInfo(name = "contact_avatar")
     private int contactAvatar;
 
 
-    public Contacts(String contactName, String phone_number) {
+    public Contacts(String contactName, String phoneNumber) {
         this.contactName = contactName;
-        this.phone_number = phone_number;
+        this.phoneNumber = phoneNumber;
     }
 
 
@@ -33,7 +34,7 @@ public class Contacts implements DataWithIcon {
         return getName();
     }
 
-    public String getPhone_number() {
+    public String getPhoneNumber() {
         return getSubname();
     }
 
@@ -44,7 +45,7 @@ public class Contacts implements DataWithIcon {
 
     @Override
     public String getSubname() {
-        return phone_number;
+        return phoneNumber;
     }
 
     @Override
@@ -72,8 +73,8 @@ public class Contacts implements DataWithIcon {
         this.contactName = contactName;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phone_number) {
+        this.phoneNumber = phone_number;
     }
 
 
