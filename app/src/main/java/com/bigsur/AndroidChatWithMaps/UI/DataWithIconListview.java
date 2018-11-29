@@ -10,7 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
-import com.bigsur.AndroidChatWithMaps.chats.DialogActivity;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.DialogActivity;
+import com.bigsur.AndroidChatWithMaps.UI.Contacts.CustomAdapterForContacts;
 
 
 public class DataWithIconListview extends ListView {
@@ -31,14 +33,15 @@ public class DataWithIconListview extends ListView {
     }
 
 
-    public void init(final BaseAdapter adapter, final String comingFrom, final Activity activity) {
+    public void init(final DataWithIconManager manager, final BaseAdapter adapter, final String comingFrom, final Activity activity) {
+
         this.setAdapter(adapter);
 
 
         this.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent dialogIntent = new Intent(activity, DialogActivity.class );
+                Intent dialogIntent = new Intent(activity, DialogActivity.class);
                 DataWithIcon data = (DataWithIcon) adapter.getItem(position);
                 dialogIntent.putExtra("name", data.getName());
 
@@ -47,5 +50,13 @@ public class DataWithIconListview extends ListView {
                 activity.startActivity(dialogIntent);
             }
         });
+
+        manager.addDataChangeListener(this, new Runnable() {
+            @Override
+            public void run() {
+                setAdapter(new CustomAdapterForContacts(getContext(), manager.getAll()));
+            }
+        });
+
     }
 }

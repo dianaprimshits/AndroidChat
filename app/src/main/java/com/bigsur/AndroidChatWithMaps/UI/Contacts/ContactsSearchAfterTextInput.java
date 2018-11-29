@@ -12,9 +12,7 @@ import android.widget.ListView;
 
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.chats.DialogActivity;
-
-import java.util.concurrent.ExecutionException;
+import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.DialogActivity;
 
 
 public class ContactsSearchAfterTextInput extends Fragment {
@@ -48,13 +46,9 @@ public class ContactsSearchAfterTextInput extends Fragment {
             return;
         }
 
-        try {
-            if (searchAdapter == null) {
-                searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll());
-                lvMain.setAdapter(searchAdapter);
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        if (searchAdapter == null) {
+            searchAdapter = new AdapterForChatsSearchResult(getContext(), contactsManager.getAll());
+            lvMain.setAdapter(searchAdapter);
         }
 
         searchAdapter.getFilter().filter(searchText);
@@ -69,11 +63,11 @@ public class ContactsSearchAfterTextInput extends Fragment {
 
                 dialogIntent.putExtra("id", searchAdapter.getItem(position).getId());
 
-                if(searchAdapter.getItem(position).getClass().getSimpleName().equals("Contacts")) {
+                if (searchAdapter.getItem(position).getClass().getSimpleName().equals("Contacts")) {
                     dialogIntent.putExtra("coming from", "contacts");
                 }
 
-                if(searchAdapter.getItem(position).getClass().getSimpleName().equals("ChatRooms")) {
+                if (searchAdapter.getItem(position).getClass().getSimpleName().equals("ChatRooms")) {
                     dialogIntent.putExtra("coming from", "chatRooms");
                 }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class SQLiteChatRoomsManager implements DataWithIconManager {
+public class SQLiteChatRoomsManager extends DataWithIconManager {
 
 
     @Override
@@ -25,6 +25,7 @@ public class SQLiteChatRoomsManager implements DataWithIconManager {
                 ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
 
                 chatRoomDAO.insert((ChatRooms) data[0]);
+                dataUpdated();
                 return null;
             }
         }.execute(data);
@@ -40,6 +41,7 @@ public class SQLiteChatRoomsManager implements DataWithIconManager {
                 ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
 
                 chatRoomDAO.update((ChatRooms) data[0]);
+                dataUpdated();
                 return null;
             }
         }.execute(data);
@@ -56,6 +58,7 @@ public class SQLiteChatRoomsManager implements DataWithIconManager {
 
                 int id = data[0];
                 chatRoomDAO.delete(id);
+                dataUpdated();
                 return null;
             }
         }.execute(id);
@@ -63,51 +66,61 @@ public class SQLiteChatRoomsManager implements DataWithIconManager {
 
 
     @Override
-    public DataWithIcon getById(final int id) throws ExecutionException, InterruptedException {
-        DataWithIcon data = new AsyncTask<Integer, Void, DataWithIcon>() {
-            @Override
-            protected DataWithIcon doInBackground(Integer... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+    public DataWithIcon getById(final int id) {
+        DataWithIcon data = null;
+        try {
+            data = new AsyncTask<Integer, Void, DataWithIcon>() {
+                @Override
+                protected DataWithIcon doInBackground(Integer... data) {
+                    AppDatabase db = App.getInstance().getDatabase();
+                    ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
 
-                int id = data[0];
-                ChatRooms c = chatRoomDAO.getByID(id);
-                return c;
-            }
+                    int id = data[0];
+                    ChatRooms c = chatRoomDAO.getByID(id);
+                    return c;
+                }
 
-            @Override
-            protected void onPostExecute(DataWithIcon chatRoom) {
-                super.onPostExecute(chatRoom);
-            }
-        }.execute(id).get();
+                @Override
+                protected void onPostExecute(DataWithIcon chatRoom) {
+                    super.onPostExecute(chatRoom);
+                }
+            }.execute(id).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
 
     @Override
-    public ArrayList<DataWithIcon> getAll() throws InterruptedException, ExecutionException {
-        List<DataWithIcon> data = new AsyncTask<Void, Void, List<DataWithIcon>>() {
-            @Override
-            protected List<DataWithIcon> doInBackground(Void ... data) {
-                ArrayList<DataWithIcon> displayList = new ArrayList<>();
+    public ArrayList<DataWithIcon> getAll() {
+        List<DataWithIcon> data = null;
+        try {
+            data = new AsyncTask<Void, Void, List<DataWithIcon>>() {
+                @Override
+                protected List<DataWithIcon> doInBackground(Void ... data) {
+                    ArrayList<DataWithIcon> displayList = new ArrayList<>();
 
-                AppDatabase db = App.getInstance().getDatabase();
-                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+                    AppDatabase db = App.getInstance().getDatabase();
+                    ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
 
-                Log.d("!!!!!LOG!!", "doInBackground: " + chatRoomDAO.getAll().toString());
-                List<ChatRooms> chatRoomList = chatRoomDAO.getAll();
+                    Log.d("!!!!!LOG!!", "doInBackground: " + chatRoomDAO.getAll().toString());
+                    List<ChatRooms> chatRoomList = chatRoomDAO.getAll();
 
-                for(int i = 0; i < chatRoomList.size(); i++) {
-                    displayList.add(chatRoomList.get(i));
+                    for(int i = 0; i < chatRoomList.size(); i++) {
+                        displayList.add(chatRoomList.get(i));
+                    }
+                    return displayList;
                 }
-                return displayList;
-            }
 
-            @Override
-            protected void onPostExecute(List<DataWithIcon> chatRooms) {
-                super.onPostExecute(chatRooms);
-            }
-        }.execute().get();
+                @Override
+                protected void onPostExecute(List<DataWithIcon> chatRooms) {
+                    super.onPostExecute(chatRooms);
+                }
+            }.execute().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return new ArrayList<>(data);
     }
 

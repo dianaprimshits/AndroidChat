@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.chats.ItemChatsFragment;
+import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.ItemChatsFragment;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.ItemContactsFragment;
 import com.bigsur.AndroidChatWithMaps.maps.ItemMapsFragment;
 import com.bigsur.AndroidChatWithMaps.settings.ItemSettingsFragment;

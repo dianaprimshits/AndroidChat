@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class SQLiteContactsManager implements DataWithIconManager {
+public class SQLiteContactsManager extends DataWithIconManager {
 
 
     @Override
@@ -28,6 +28,7 @@ public class SQLiteContactsManager implements DataWithIconManager {
                 return null;
             }
         }.execute(data);
+        dataUpdated();
     }
 
 
@@ -42,6 +43,7 @@ public class SQLiteContactsManager implements DataWithIconManager {
                 return null;
             }
         }.execute(data);
+        dataUpdated();
     }
 
 
@@ -58,55 +60,66 @@ public class SQLiteContactsManager implements DataWithIconManager {
                 return null;
             }
         }.execute(id);
+        dataUpdated();
     }
 
 
     @Override
-    public DataWithIcon getById(final int id) throws ExecutionException, InterruptedException {
-        DataWithIcon data = new AsyncTask<Integer, Void, DataWithIcon>() {
-            @Override
-            protected DataWithIcon doInBackground(Integer... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
+    public DataWithIcon getById(final int id) {
+        DataWithIcon data = null;
+        try {
+            data = new AsyncTask<Integer, Void, DataWithIcon>() {
+                @Override
+                protected DataWithIcon doInBackground(Integer... data) {
+                    AppDatabase db = App.getInstance().getDatabase();
+                    ContactsDAO contactsDao = db.getContactsDao();
 
-                int id = data[0];
-                Contacts c = contactsDao.getByID(id);
-                return c;
-            }
+                    int id = data[0];
+                    Contacts c = contactsDao.getByID(id);
+                    return c;
+                }
 
-            @Override
-            protected void onPostExecute(DataWithIcon contact) {
-                super.onPostExecute(contact);
-            }
-        }.execute(id).get();
+                @Override
+                protected void onPostExecute(DataWithIcon contact) {
+                    super.onPostExecute(contact);
+                }
+            }.execute(id).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 
 
     @Override
-    public ArrayList<DataWithIcon> getAll() throws InterruptedException, ExecutionException {
-       List<DataWithIcon> data = new AsyncTask<Void, Void, List<DataWithIcon>>() {
-            @Override
-            protected List<DataWithIcon> doInBackground(Void ... data) {
-                ArrayList<DataWithIcon> displayList = new ArrayList<>();
+    public ArrayList<DataWithIcon> getAll() {
+        List<DataWithIcon> data = null;
+        try {
+            data = new AsyncTask<Void, Void, List<DataWithIcon>>() {
+                 @Override
+                 protected List<DataWithIcon> doInBackground(Void ... data) {
+                     ArrayList<DataWithIcon> displayList = new ArrayList<>();
 
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
+                     AppDatabase db = App.getInstance().getDatabase();
+                     ContactsDAO contactsDao = db.getContactsDao();
 
-                Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
-                List<Contacts> contactsList = contactsDao.getAll();
+                     Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
+                     List<Contacts> contactsList = contactsDao.getAll();
 
-                for(int i = 0; i < contactsList.size(); i++) {
-                    displayList.add(contactsList.get(i));
-                }
-                return displayList;
-            }
+                     for(int i = 0; i < contactsList.size(); i++) {
+                         displayList.add(contactsList.get(i));
+                     }
+                     return displayList;
+                 }
 
-            @Override
-            protected void onPostExecute(List<DataWithIcon> contacts) {
-                super.onPostExecute(contacts);
-            }
-        }.execute().get();
+                 @Override
+                 protected void onPostExecute(List<DataWithIcon> contacts) {
+                     super.onPostExecute(contacts);
+                 }
+             }.execute().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return new ArrayList<>(data);
     }
 

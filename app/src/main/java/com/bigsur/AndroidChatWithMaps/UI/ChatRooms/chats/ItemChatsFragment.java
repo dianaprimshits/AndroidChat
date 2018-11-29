@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.chats;
+package com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -80,11 +80,9 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         chatAddBt.setOnClickListener(this);
         SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
 
-        try {
-            adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+
+        adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
+
         lvMain.setAdapter(adapter);
 
 
@@ -94,7 +92,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                 lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
+                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class);
                         ChatRooms chatRoom = (ChatRooms) adapter.getItem(position);
                         dialogIntent.putExtra("name", chatRoom.getName());
 
@@ -113,6 +111,8 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
                 LayoutInflater li = LayoutInflater.from(getContext());
                 View dialog = li.inflate(R.layout.long_click_chat_rooms_listview, null);
+
+
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
                 mDialogBuilder.setView(dialog);
                 final TextView alterDialogName = (TextView) dialog.findViewById(R.id.chatRoomName);
@@ -196,12 +196,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
 
     private void refreshDialogList() throws ExecutionException, InterruptedException {
         SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
-
-        try {
-            adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
         lvMain.setAdapter(adapter);
     }
 
@@ -246,9 +241,9 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                 Intent addChatIntent = new Intent(getActivity(), AddChatActivity.class);
                 startActivity(addChatIntent);
 
-           // case R.id.addGroupDialog:
-           //     do smth
-           //     break;
+                // case R.id.addGroupDialog:
+                //     do smth
+                //     break;
         }
     }
 

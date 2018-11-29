@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.chats;
+package com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats;
 
 
 import android.content.Intent;

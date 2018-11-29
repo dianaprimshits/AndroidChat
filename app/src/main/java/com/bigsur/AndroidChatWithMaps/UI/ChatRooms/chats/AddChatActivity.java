@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.chats;
+package com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats;
 
 
 import android.content.DialogInterface;
@@ -54,11 +54,9 @@ public class AddChatActivity extends AppCompatActivity implements View.OnClickLi
 
         backBt.setOnClickListener(this);
 
-        try {
-            adapterForChatAdd = new AdapterForChatAdd(getApplicationContext(), dbStorage.getAll());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+
+        adapterForChatAdd = new AdapterForChatAdd(getApplicationContext(), dbStorage.getAll());
+
         lvMain.setAdapter(adapterForChatAdd);
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

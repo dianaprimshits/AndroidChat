@@ -21,24 +21,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.UI.ContactsChatsLongClickAlterDialog;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
 
-import java.util.concurrent.ExecutionException;
 
-
-public class ItemContactsFragment extends Fragment  {
+public class ItemContactsFragment extends Fragment {
     private static final String TAG = "!!!LOG!!!";
     TextView contactsNumberTV;
-  //  ListView lvMain;
     Toolbar toolbar;
-   // CustomAdapterForContacts adapter;
     DataWithIconListview lvMain;
-   DataWithIconManager dbStorage = new SQLiteChatRoomsManager();
+    DataWithIconManager dbStorage = new SQLiteContactsManager();
+    ContactsChatsLongClickAlterDialog alterDialog;
+
+
     public static ItemContactsFragment newInstance() {
         ItemContactsFragment fragment = new ItemContactsFragment();
         Log.d(TAG, "newInstance: ItemContactsFragment.");
@@ -58,21 +58,47 @@ public class ItemContactsFragment extends Fragment  {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         findViewsById(view);
-        try {
-            String contactsTVText;
-            int contactsNumber = dbStorage.getAll().size();
-            int contactsNumberLastDigit = contactsNumber % 10;
-            if (contactsNumberLastDigit == 1) {
-                contactsTVText = String.format("%d contact", contactsNumber);
-            } else {
-                contactsTVText = String.format("%d contacts", contactsNumber);
-            }
 
-            contactsNumberTV.setText(contactsTVText);
-            lvMain.init(new CustomAdapterForContacts(getContext(), dbStorage.getAll()), "contacts", getActivity());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        String contactsTVText;
+        int contactsNumber = dbStorage.getAll().size();
+        int contactsNumberLastDigit = contactsNumber % 10;
+        if (contactsNumberLastDigit == 1) {
+            contactsTVText = String.format("%d contact", contactsNumber);
+        } else {
+            contactsTVText = String.format("%d contacts", contactsNumber);
         }
+
+        contactsNumberTV.setText(contactsTVText);
+        lvMain.init(dbStorage, new CustomAdapterForContacts(getContext(), dbStorage.getAll()), "contacts", getActivity());
+
+
+        dbStorage.addDataChangeListener(this, new Runnable() {
+            @Override
+            public void run() {
+                String contactsTVText;
+                int contactsNumber = dbStorage.getAll().size();
+                int contactsNumberLastDigit = contactsNumber % 10;
+                if (contactsNumberLastDigit == 1) {
+                    contactsTVText = String.format("%d contact", contactsNumber);
+                } else {
+                    contactsTVText = String.format("%d contacts", contactsNumber);
+                }
+                contactsNumberTV.setText(contactsTVText);
+            }
+        });
+
+       /* lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                alterDialog = new ContactsChatsLongClickAlterDialog(getContext());
+                try {
+                    alterDialog.init(getContext(), view, dbStorage, new CustomAdapterForContacts(getContext(), dbStorage.getAll()), position);
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });*/
 
 
         /*lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -131,7 +157,7 @@ public class ItemContactsFragment extends Fragment  {
             }
         });*/
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         return view;
     }
 
@@ -169,18 +195,7 @@ public class ItemContactsFragment extends Fragment  {
     }
 
 
-    private void refreshDialogList() throws ExecutionException, InterruptedException {
-        String contactsTVText;
-        int contactsNumber = dbStorage.getAll().size();
-        int contactsNumberLastDigit = contactsNumber % 10;
-        if (contactsNumberLastDigit == 1) {
-            contactsTVText = String.format("%d contact", contactsNumber);
-        } else {
-            contactsTVText = String.format("%d contacts", contactsNumber);
-        }
-        contactsNumberTV.setText(contactsTVText);
-        lvMain.setAdapter(new CustomAdapterForContacts(getContext(), dbStorage.getAll()));
-    }
+
 
 
     public void onClickAddDialogButton() {
@@ -197,12 +212,8 @@ public class ItemContactsFragment extends Fragment  {
                             public void onClick(DialogInterface dialog, int id) {
                                 DataWithIcon contact = new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
                                 dbStorage.create(contact);
-                                Log.d(TAG, "onClick: "+ dbStorage.toString());
-                                try {
-                                    refreshDialogList();
-                                } catch (ExecutionException | InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                Log.d(TAG, "onClick: " + dbStorage.toString());
+
                             }
                         })
                 .setNegativeButton("cancel",
