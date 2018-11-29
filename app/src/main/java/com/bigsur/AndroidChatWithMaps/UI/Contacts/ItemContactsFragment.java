@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.contacts;
+package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 
 import android.content.DialogInterface;
@@ -16,20 +16,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.CustomAdapterForContacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.SQLiteChatRoomsManager;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.chats.DialogActivity;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
 
 import java.util.concurrent.ExecutionException;
 
@@ -37,10 +34,11 @@ import java.util.concurrent.ExecutionException;
 public class ItemContactsFragment extends Fragment  {
     private static final String TAG = "!!!LOG!!!";
     TextView contactsNumberTV;
-    ListView lvMain;
+  //  ListView lvMain;
     Toolbar toolbar;
-    CustomAdapterForContacts adapter;
-    SQLiteContactsManager dbStorage = new SQLiteContactsManager();
+   // CustomAdapterForContacts adapter;
+    DataWithIconListview lvMain;
+   DataWithIconManager dbStorage = new SQLiteChatRoomsManager();
     public static ItemContactsFragment newInstance() {
         ItemContactsFragment fragment = new ItemContactsFragment();
         Log.d(TAG, "newInstance: ItemContactsFragment.");
@@ -62,7 +60,7 @@ public class ItemContactsFragment extends Fragment  {
         findViewsById(view);
         try {
             String contactsTVText;
-            int contactsNumber = dbStorage.getContactsNumber();
+            int contactsNumber = dbStorage.getAll().size();
             int contactsNumberLastDigit = contactsNumber % 10;
             if (contactsNumberLastDigit == 1) {
                 contactsTVText = String.format("%d contact", contactsNumber);
@@ -71,33 +69,13 @@ public class ItemContactsFragment extends Fragment  {
             }
 
             contactsNumberTV.setText(contactsTVText);
-            adapter = new CustomAdapterForContacts(getContext(), dbStorage.getAll());
-        } catch (ExecutionException | InterruptedException e) {
+            lvMain.init(new CustomAdapterForContacts(getContext(), dbStorage.getAll()), "contacts", getActivity());
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        lvMain.setAdapter(adapter);
 
 
-        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class );
-                        Contacts contact = (Contacts) adapter.getItem(position).getData();
-                        dialogIntent.putExtra("name", contact.getName());
-
-                        dialogIntent.putExtra("id", contact.getId());
-                        dialogIntent.putExtra("coming from", "contacts");
-                        startActivity(dialogIntent);
-                    }
-                });
-            }
-        });
-
-
-        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
                 LayoutInflater li = LayoutInflater.from(getContext());
@@ -151,7 +129,7 @@ public class ItemContactsFragment extends Fragment  {
                 Toast.makeText(getContext(), "Item clicked", Toast.LENGTH_LONG).show();
                 return true;
             }
-        });
+        });*/
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         return view;
@@ -184,7 +162,7 @@ public class ItemContactsFragment extends Fragment  {
 
 
     private void findViewsById(View view) {
-        lvMain = (ListView) view.findViewById(R.id.lvMain);
+        lvMain = (DataWithIconListview) view.findViewById(R.id.lvMain);
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
         toolbar = (Toolbar) view.findViewById(R.id.contacts_toolbar);
         contactsNumberTV = (TextView) view.findViewById(R.id.contactsNumberTV);
@@ -193,7 +171,7 @@ public class ItemContactsFragment extends Fragment  {
 
     private void refreshDialogList() throws ExecutionException, InterruptedException {
         String contactsTVText;
-        int contactsNumber = dbStorage.getContactsNumber();
+        int contactsNumber = dbStorage.getAll().size();
         int contactsNumberLastDigit = contactsNumber % 10;
         if (contactsNumberLastDigit == 1) {
             contactsTVText = String.format("%d contact", contactsNumber);
@@ -201,8 +179,7 @@ public class ItemContactsFragment extends Fragment  {
             contactsTVText = String.format("%d contacts", contactsNumber);
         }
         contactsNumberTV.setText(contactsTVText);
-        adapter = new CustomAdapterForContacts(getContext(), dbStorage.getAll());
-        lvMain.setAdapter(adapter);
+        lvMain.setAdapter(new CustomAdapterForContacts(getContext(), dbStorage.getAll()));
     }
 
 
@@ -218,7 +195,7 @@ public class ItemContactsFragment extends Fragment  {
                 .setPositiveButton("create contact",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DataFromDB<Contacts> contact = new DataFromDB<>(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
+                                DataWithIcon contact = new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
                                 dbStorage.create(contact);
                                 Log.d(TAG, "onClick: "+ dbStorage.toString());
                                 try {

@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
-import com.bigsur.AndroidChatWithMaps.DBManager.AppDatabase;
+import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
 
 
 

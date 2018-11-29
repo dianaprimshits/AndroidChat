@@ -1,11 +1,11 @@
-package com.bigsur.AndroidChatWithMaps.DBManager;
+package com.bigsur.AndroidChatWithMaps.DB.Messages;
 
 import android.os.AsyncTask;
 
 import com.bigsur.AndroidChatWithMaps.App;
-import com.bigsur.AndroidChatWithMaps.DBManager.DAO.MessagesDAO;
+import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
+import com.bigsur.AndroidChatWithMaps.DB.StorageManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
 
 import java.util.ArrayList;
 import java.util.List;

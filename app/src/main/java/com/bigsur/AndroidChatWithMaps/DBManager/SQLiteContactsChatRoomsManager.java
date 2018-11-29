@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
+import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
+import com.bigsur.AndroidChatWithMaps.DB.StorageManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ContactsChatRoomsDAO;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ContactsChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;

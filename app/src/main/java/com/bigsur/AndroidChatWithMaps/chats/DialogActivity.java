@@ -15,14 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.SQLiteChatRoomsManager;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.Messages;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.SQLiteMessagesManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.MessageAdapter;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ContactsChatRooms;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsChatRoomsManager;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteMessagesManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.text.SimpleDateFormat;
@@ -117,7 +117,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                     try {
                         if (getContactChatConnectionNumber(contactId) == 0) {
                             ChatRooms chatRoom = new ChatRooms(dialogName);
-                            chatRoomManager.create(new DataFromDB(chatRoom));
+                            chatRoomManager.create(chatRoom);
                             //говнокод. нужно посмотреть айдишник только что созданного в бд чата
                             //ищу через MAX по id стобцу
                             chatRoomId = chatRoomManager.getLastId();

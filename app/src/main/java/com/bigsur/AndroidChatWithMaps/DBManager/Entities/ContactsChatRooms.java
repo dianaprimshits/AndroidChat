@@ -5,6 +5,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
+
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "connections",

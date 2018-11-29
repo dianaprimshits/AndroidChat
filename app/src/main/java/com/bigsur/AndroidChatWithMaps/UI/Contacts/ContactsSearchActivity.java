@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.contacts;
+package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 
 import android.os.Bundle;

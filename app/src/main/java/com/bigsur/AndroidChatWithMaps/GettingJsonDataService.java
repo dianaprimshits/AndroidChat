@@ -2,9 +2,9 @@ package com.bigsur.AndroidChatWithMaps;
 
 
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationInstance;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.Messages;
 
 import java.util.List;
 

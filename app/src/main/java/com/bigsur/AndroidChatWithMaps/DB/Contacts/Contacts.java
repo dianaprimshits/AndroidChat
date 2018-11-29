@@ -1,10 +1,12 @@
-package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
+package com.bigsur.AndroidChatWithMaps.DB.Contacts;
 
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 
 @Entity(tableName = "contacts",
         indices = {@Index(value = {"contact_name", "phone_number"},
@@ -54,11 +56,9 @@ public class Contacts implements DataWithIcon {
     }
 
     @Override
-    public int getDate() {
+    public int getExtraTitle() {
         return 0;
     }
-
-
 
     public int getContactAvatar() {
         return contactAvatar;

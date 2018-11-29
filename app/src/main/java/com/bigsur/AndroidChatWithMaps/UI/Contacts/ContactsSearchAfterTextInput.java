@@ -1,5 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.contacts;
-
+package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatsSearchResult;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.chats.DialogActivity;
 

@@ -1,10 +1,12 @@
-package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
+package com.bigsur.AndroidChatWithMaps.DB.ChatRooms;
 
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 
 @Entity(tableName = "chat_rooms",
         indices = {@Index(value = "chat_room_id",
@@ -50,10 +52,10 @@ public class ChatRooms implements DataWithIcon {
     }
 
     @Override
-    public int getDate() {
-        //do nothing
+    public int getExtraTitle() {
         return 0;
     }
+
 
     @Override
     public String getSubname() {

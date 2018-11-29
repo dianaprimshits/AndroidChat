@@ -27,10 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteChatRoomsManager;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.contacts.ContactsSearchActivity;
+import com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity;
 
 import java.util.concurrent.ExecutionException;
 

@@ -1,17 +1,17 @@
-package com.bigsur.AndroidChatWithMaps.DBManager;
+package com.bigsur.AndroidChatWithMaps.DB;
 
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ChatRoomDAO;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRoomDAO;
 import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ContactsChatRoomsDAO;
-import com.bigsur.AndroidChatWithMaps.DBManager.DAO.ContactsDAO;
-import com.bigsur.AndroidChatWithMaps.DBManager.DAO.MessagesDAO;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.ContactsDAO;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.MessagesDAO;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
 import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ContactsChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.Messages;
 
 
 

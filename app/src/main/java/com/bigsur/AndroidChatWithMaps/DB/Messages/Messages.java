@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
+package com.bigsur.AndroidChatWithMaps.DB.Messages;
 
 
 import android.arch.persistence.room.ColumnInfo;
@@ -6,6 +6,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 

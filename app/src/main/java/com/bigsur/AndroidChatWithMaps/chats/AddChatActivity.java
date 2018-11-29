@@ -23,17 +23,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatAdd;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
-import com.bigsur.AndroidChatWithMaps.DBManager.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.concurrent.ExecutionException;
 
 public class AddChatActivity extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
-    SQLiteContactsManager dbStorage = new SQLiteContactsManager();
+    DataWithIconManager dbStorage = new SQLiteContactsManager();
     AdapterForChatAdd adapterForChatAdd;
     ListView lvMain;
     ImageButton backBt;
@@ -141,7 +142,7 @@ public class AddChatActivity extends AppCompatActivity implements View.OnClickLi
                 .setPositiveButton("create contact",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DataFromDB<Contacts> contact = new DataFromDB<>(new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString()));
+                                DataWithIcon contact = new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
                                 dbStorage.create(contact);
                                 try {
                                     refreshListView();

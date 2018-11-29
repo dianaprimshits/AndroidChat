@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.DBManager.Adapters;
+package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 
 import android.content.Context;
@@ -11,9 +11,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.ArrayList;
@@ -23,11 +22,11 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
     private ArrayList<DataWithIcon> dataForSearch;
     ArrayList<DataWithIcon> dataAfterSerach;
 
-    public AdapterForChatsSearchResult(Context context, ArrayList<DataFromDB> contacts) {
+    public AdapterForChatsSearchResult(Context context, ArrayList<DataWithIcon> contacts) {
         ArrayList<DataWithIcon> newList = new ArrayList<>();
 
         for (int i = 0; i < contacts.size(); i++) {
-            newList.add((Contacts) contacts.get(i).getData());
+            newList.add((Contacts) contacts.get(i));
         }
 
 

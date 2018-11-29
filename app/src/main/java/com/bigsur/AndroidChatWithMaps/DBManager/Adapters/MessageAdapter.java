@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Messages;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.Messages;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.ArrayList;

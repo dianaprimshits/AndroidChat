@@ -10,9 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.ChatRooms;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.ArrayList;
@@ -22,11 +21,11 @@ public class AdapterForChatRooms extends BaseAdapter {
     private ArrayList<ChatRooms> data;
     LayoutInflater lInflater;
 
-    public AdapterForChatRooms(Context context, ArrayList<DataFromDB> chatRooms) {
+    public AdapterForChatRooms(Context context, ArrayList<DataWithIcon> chatRooms) {
 
         ArrayList<ChatRooms> chats = new ArrayList<>();
         for (int i = 0; i < chatRooms.size(); i++) {
-            chats.add((ChatRooms) chatRooms.get(i).getData());
+            chats.add((ChatRooms) chatRooms.get(i));
         }
 
 

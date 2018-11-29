@@ -10,8 +10,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.Contacts;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.R;
 
 import java.util.ArrayList;
@@ -25,11 +25,11 @@ public class AdapterForChatAdd extends BaseAdapter implements Filterable {
     ArrayList<Contacts> filteredList;
     ValueFilter valueFilter;
 
-    public AdapterForChatAdd(Context context, ArrayList<DataFromDB> contacts) {
+    public AdapterForChatAdd(Context context, ArrayList<DataWithIcon> contacts) {
         filteredList = new ArrayList<>();
         contactList = new ArrayList<>();
         for (int i = 0; i < contacts.size(); i++) {
-            contactList.add((Contacts) contacts.get(i).getData());
+            contactList.add((Contacts) contacts.get(i));
         }
         Collections.sort(contactList, ALPHABETICAL_ORDER);
         filteredList.addAll(contactList);

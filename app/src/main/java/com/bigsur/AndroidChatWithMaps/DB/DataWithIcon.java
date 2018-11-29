@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.DBManager.Entities;
+package com.bigsur.AndroidChatWithMaps.DB;
 
 
 
@@ -12,5 +12,5 @@ public interface DataWithIcon {
 
     int getAvatar();
 
-    int getDate();
+    int getExtraTitle();
 }
