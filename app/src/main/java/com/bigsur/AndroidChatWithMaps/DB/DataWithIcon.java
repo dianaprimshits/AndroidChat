@@ -12,5 +12,5 @@ public interface DataWithIcon {
 
     int getAvatar();
 
-    int getExtraTitle();
+    String getExtraTitle();
 }

@@ -14,7 +14,17 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class SQLiteChatRoomsManager extends DataWithIconManager {
+    static SQLiteChatRoomsManager instance;
 
+    private SQLiteChatRoomsManager() {
+    }
+
+    public static SQLiteChatRoomsManager getInstance() {
+        if (instance == null) {
+            instance = new SQLiteChatRoomsManager();
+        }
+        return instance;
+    }
 
     @Override
     public void create(final DataWithIcon data) {
@@ -25,10 +35,10 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
                 ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
 
                 chatRoomDAO.insert((ChatRooms) data[0]);
-                dataUpdated();
                 return null;
             }
         }.execute(data);
+        dataUpdated();
     }
 
 
@@ -41,10 +51,10 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
                 ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
 
                 chatRoomDAO.update((ChatRooms) data[0]);
-                dataUpdated();
                 return null;
             }
         }.execute(data);
+        dataUpdated();
     }
 
 
@@ -58,10 +68,10 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
 
                 int id = data[0];
                 chatRoomDAO.delete(id);
-                dataUpdated();
                 return null;
             }
         }.execute(id);
+        dataUpdated();
     }
 
 

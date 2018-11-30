@@ -1,7 +1,5 @@
 package com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -9,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,21 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatRooms;
-import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
-import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.SQLiteChatRoomsManager;
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.DB.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity;
-
-import java.util.concurrent.ExecutionException;
+import com.bigsur.AndroidChatWithMaps.UI.Contacts.CustomContactsAdapter;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -40,10 +31,10 @@ import static android.view.View.VISIBLE;
 
 public class ItemChatsFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "!!!LOG!!!";
-    ListView lvMain;
+    DataWithIconListview lvMain;
     Toolbar toolbar;
-    AdapterForChatRooms adapter;
-    SQLiteChatRoomsManager dbStorage = new SQLiteChatRoomsManager();
+    CustomContactsAdapter adapter;
+    DataWithIconManager dbStorage = ViewableChatManager.getInstance();
     ImageButton imageButtonAdd;
     ImageButton imageButtonClose;
     ConstraintLayout chatsAddingTranslucentLt;
@@ -78,35 +69,11 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         imageButtonAdd.setOnClickListener(this);
         imageButtonClose.setOnClickListener(this);
         chatAddBt.setOnClickListener(this);
-        SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
+
+        lvMain.init(dbStorage, new CustomContactsAdapter(getContext(), dbStorage), "chatRooms", getActivity());
 
 
-        adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
-
-        lvMain.setAdapter(adapter);
-
-
-        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent dialogIntent = new Intent(getActivity(), DialogActivity.class);
-                        ChatRooms chatRoom = (ChatRooms) adapter.getItem(position);
-                        dialogIntent.putExtra("name", chatRoom.getName());
-
-                        dialogIntent.putExtra("id", chatRoom.getId());
-                        dialogIntent.putExtra("coming from", "chatRooms");
-
-                        startActivity(dialogIntent);
-                    }
-                });
-            }
-        });
-
-
-        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+      /*  lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
                 LayoutInflater li = LayoutInflater.from(getContext());
@@ -117,7 +84,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                 mDialogBuilder.setView(dialog);
                 final TextView alterDialogName = (TextView) dialog.findViewById(R.id.chatRoomName);
 
-                alterDialogName.setText(adapter.getItem(position).getName());
+                alterDialogName.setText(adapter.getItem(position));
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("cancel",
@@ -151,7 +118,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                 Toast.makeText(getContext(), "Item clicked", Toast.LENGTH_LONG).show();
                 return false;
             }
-        });
+        });*/
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         return view;
@@ -181,7 +148,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
 
 
     private void findViewsById(View view) {
-        lvMain = (ListView) view.findViewById(R.id.lvMain);
+        lvMain = (DataWithIconListview) view.findViewById(R.id.lvMain);
         toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
         imageButtonAdd = (ImageButton) view.findViewById(R.id.chatsAddingBt);
         chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
@@ -193,12 +160,6 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         addDialogBlock = (ConstraintLayout) view.findViewById(R.id.addDialogBlock);
     }
 
-
-    private void refreshDialogList() throws ExecutionException, InterruptedException {
-        SQLiteChatRoomsManager chatRoomsManager = new SQLiteChatRoomsManager();
-        adapter = new AdapterForChatRooms(getContext(), chatRoomsManager.getAll());
-        lvMain.setAdapter(adapter);
-    }
 
     @Override
     public void onClick(View v) {

@@ -63,12 +63,8 @@ public class MessageAdapter extends BaseAdapter {
 
         setAlignment(viewHolder, message);
 
-
-
         viewHolder.messageTextTV.setText(message.getMessage());
         viewHolder.messageDateTV.setText(message.getDate() + "");
-
-
         return view;
     }
 

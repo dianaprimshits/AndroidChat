@@ -37,8 +37,8 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     private static final String TAG = "!!!!!LOG!!!!!";
     AuthenticationManager authManager = AuthenticationManager.getInstance();
     int yourId;
-    SQLiteChatRoomsManager chatRoomManager = new SQLiteChatRoomsManager();
-    SQLiteMessagesManager messagesManager = new SQLiteMessagesManager();
+    SQLiteChatRoomsManager chatRoomManager = SQLiteChatRoomsManager.getInstance();
+    SQLiteMessagesManager messagesManager = SQLiteMessagesManager.getInstance();
     SQLiteContactsChatRoomsManager contactsChatRoomsManager = new SQLiteContactsChatRoomsManager();
     ImageButton buttonBack;
     EditText messageET;

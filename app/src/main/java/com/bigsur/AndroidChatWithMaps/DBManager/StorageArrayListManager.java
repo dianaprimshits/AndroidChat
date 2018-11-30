@@ -67,10 +67,10 @@ public class StorageArrayListManager implements StorageManager {
         return sb.toString();
     }
 
-    //public CustomAdapterForContacts getAdapter(Context context) {
+    //public CustomContactsAdapter getAdapter(Context context) {
     //
     // return new ArrayAdapter<Contacts>(context, R.layout.listview, contacts);
-    //    return new CustomAdapterForContacts(context, contacts);
+    //    return new CustomContactsAdapter(context, contacts);
     //}
 
 }

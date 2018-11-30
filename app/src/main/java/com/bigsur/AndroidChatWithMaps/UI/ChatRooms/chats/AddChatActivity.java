@@ -24,9 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
-import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.DB.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatAdd;
 import com.bigsur.AndroidChatWithMaps.R;
 
@@ -34,7 +34,7 @@ import java.util.concurrent.ExecutionException;
 
 public class AddChatActivity extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
-    DataWithIconManager dbStorage = new SQLiteContactsManager();
+    DataWithIconManager dbStorage = ViewableChatManager.getInstance();
     AdapterForChatAdd adapterForChatAdd;
     ListView lvMain;
     ImageButton backBt;

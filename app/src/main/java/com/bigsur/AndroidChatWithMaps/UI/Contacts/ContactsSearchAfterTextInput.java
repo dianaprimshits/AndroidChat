@@ -18,7 +18,7 @@ import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.DialogActivity;
 public class ContactsSearchAfterTextInput extends Fragment {
     AdapterForChatsSearchResult searchAdapter;
     ListView lvMain;
-    SQLiteContactsManager contactsManager = new SQLiteContactsManager();
+    SQLiteContactsManager contactsManager = SQLiteContactsManager.getInstance();
     String searchText = "";
 
 

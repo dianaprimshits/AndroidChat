@@ -12,6 +12,18 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class SQLiteMessagesManager implements StorageManager {
+    static SQLiteMessagesManager instance;
+
+    private SQLiteMessagesManager() {
+    }
+
+
+    public static SQLiteMessagesManager getInstance() {
+        if (instance == null) {
+            instance = new SQLiteMessagesManager();
+        }
+        return instance;
+    }
 
     @Override
     public void create(final DataFromDB data) {
@@ -116,5 +128,29 @@ public class SQLiteMessagesManager implements StorageManager {
     public List<DataFromDB> getSimilarData(String search) throws ExecutionException, InterruptedException {
         //do nothing
         return null;
+    }
+
+    public Messages getLastMessage(int chatId) {
+        Messages data = null;
+        try {
+            data = new AsyncTask<Integer, Void, Messages>() {
+                @Override
+                protected Messages doInBackground(Integer... params) {
+                    ArrayList<DataFromDB> result = new ArrayList<>();
+                    AppDatabase db = App.getInstance().getDatabase();
+                    MessagesDAO messagesDAO = db.getMessagesDao();
+                    Messages message = messagesDAO.getLastMessage(params[0]);
+                    return message;
+                }
+
+                @Override
+                protected void onPostExecute(Messages message) {
+                    super.onPostExecute(message);
+                }
+            }.execute(chatId).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }

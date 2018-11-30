@@ -16,6 +16,18 @@ import java.util.concurrent.ExecutionException;
 
 public class SQLiteContactsManager extends DataWithIconManager {
 
+    static SQLiteContactsManager instance;
+
+    private SQLiteContactsManager() {
+    }
+
+
+    public static SQLiteContactsManager getInstance() {
+        if (instance == null) {
+            instance = new SQLiteContactsManager();
+        }
+        return instance;
+    }
 
     @Override
     public void create(final DataWithIcon data) {

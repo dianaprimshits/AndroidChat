@@ -26,4 +26,7 @@ public interface MessagesDAO {
     @Query("SELECT * FROM messages WHERE message_to = :chatRoomId")
     List<Messages> getByChatRoomId(int chatRoomId);
 
+    @Query("SELECT * FROM messages WHERE message_to = :chatId AND date = (SELECT MAX(date) FROM messages WHERE message_to = :chatId)")
+    Messages getLastMessage(int chatId);
 }
+

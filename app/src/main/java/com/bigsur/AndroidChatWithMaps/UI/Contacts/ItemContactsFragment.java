@@ -35,7 +35,7 @@ public class ItemContactsFragment extends Fragment {
     TextView contactsNumberTV;
     Toolbar toolbar;
     DataWithIconListview lvMain;
-    DataWithIconManager dbStorage = new SQLiteContactsManager();
+    DataWithIconManager dbStorage = SQLiteContactsManager.getInstance();
     ContactsChatsLongClickAlterDialog alterDialog;
 
 
@@ -69,7 +69,7 @@ public class ItemContactsFragment extends Fragment {
         }
 
         contactsNumberTV.setText(contactsTVText);
-        lvMain.init(dbStorage, new CustomAdapterForContacts(getContext(), dbStorage.getAll()), "contacts", getActivity());
+        lvMain.init(dbStorage, new CustomContactsAdapter(getContext(), dbStorage), "contacts", getActivity());
 
 
         dbStorage.addDataChangeListener(this, new Runnable() {
@@ -92,7 +92,7 @@ public class ItemContactsFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 alterDialog = new ContactsChatsLongClickAlterDialog(getContext());
                 try {
-                    alterDialog.init(getContext(), view, dbStorage, new CustomAdapterForContacts(getContext(), dbStorage.getAll()), position);
+                    alterDialog.init(getContext(), view, dbStorage, new CustomContactsAdapter(getContext(), dbStorage.getAll()), position);
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }

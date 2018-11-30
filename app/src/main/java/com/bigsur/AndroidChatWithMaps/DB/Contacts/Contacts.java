@@ -56,8 +56,8 @@ public class Contacts implements DataWithIcon {
     }
 
     @Override
-    public int getExtraTitle() {
-        return 0;
+    public String getExtraTitle() {
+        return "";
     }
 
     public int getContactAvatar() {

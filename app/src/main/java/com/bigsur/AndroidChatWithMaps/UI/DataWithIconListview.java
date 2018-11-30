@@ -12,7 +12,6 @@ import android.widget.ListView;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.DialogActivity;
-import com.bigsur.AndroidChatWithMaps.UI.Contacts.CustomAdapterForContacts;
 
 
 public class DataWithIconListview extends ListView {
@@ -54,7 +53,7 @@ public class DataWithIconListview extends ListView {
         manager.addDataChangeListener(this, new Runnable() {
             @Override
             public void run() {
-                setAdapter(new CustomAdapterForContacts(getContext(), manager.getAll()));
+                adapter.notifyDataSetChanged();
             }
         });
 

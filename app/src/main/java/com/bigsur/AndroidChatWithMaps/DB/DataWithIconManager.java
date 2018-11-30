@@ -2,10 +2,10 @@ package com.bigsur.AndroidChatWithMaps.DB;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.WeakHashMap;
 
 public abstract class DataWithIconManager {
-    HashMap<Object, Runnable> listeners = new HashMap<>();
+    WeakHashMap<Object, Runnable> listeners = new WeakHashMap<>();
 
     public abstract void create(DataWithIcon data);
     public abstract void update(DataWithIcon data);
