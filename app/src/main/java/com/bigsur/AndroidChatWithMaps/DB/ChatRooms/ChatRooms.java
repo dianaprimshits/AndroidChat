@@ -6,7 +6,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
+
+import java.util.Date;
 
 @Entity(tableName = "chat_rooms",
         indices = {@Index(value = "chat_room_id",
@@ -25,6 +27,10 @@ public class ChatRooms implements DataWithIcon {
 
     public ChatRooms(String chatRoomName) {
         this.chatRoomName = chatRoomName;
+    }
+
+    public ChatRooms(ChatRooms chatRooms) {
+        this.chatRoomName = chatRooms.getName();
     }
 
 
@@ -52,8 +58,8 @@ public class ChatRooms implements DataWithIcon {
     }
 
     @Override
-    public String getExtraTitle() {
-        return "";
+    public Date getExtraTitle() {
+        return null;
     }
 
 

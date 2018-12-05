@@ -11,9 +11,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,7 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
         ArrayList<DataWithIcon> newList = new ArrayList<>();
 
         for (int i = 0; i < contacts.size(); i++) {
-            newList.add((Contacts) contacts.get(i));
+            newList.add(contacts.get(i));
         }
 
 

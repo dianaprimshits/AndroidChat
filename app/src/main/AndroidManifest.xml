@@ -21,22 +21,22 @@
         >
 
         <activity android:name="com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity"
-            android:parentActivityName="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity">
+            android:parentActivityName=".UI.Home.MenuScreenActivity">
         </activity>
         <activity android:name=".UI.ChatRooms.chats.AddChatActivity" />
-        <activity android:name="com.bigsur.AndroidChatWithMaps.startScreen.StartActivity">
+        <activity android:name=".UI.startScreen.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity" />
-        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupBioActivity"/>
-        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupLoginActivity"/>
-        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupPhoneActivity"/>
-        <activity android:name="com.bigsur.AndroidChatWithMaps.settings.SetupUsernameActivity"/>
-        <activity android:name="com.bigsur.AndroidChatWithMaps.Home.MenuScreenActivity"
-            android:parentActivityName="com.bigsur.AndroidChatWithMaps.startScreen.LoginActivity">
+        <activity android:name=".UI.startScreen.LoginActivity" />
+        <activity android:name=".UI.settings.SetupBioActivity"/>
+        <activity android:name=".UI.settings.SetupLoginActivity"/>
+        <activity android:name=".UI.settings.SetupPhoneActivity"/>
+        <activity android:name=".UI.settings.SetupUsernameActivity"/>
+        <activity android:name=".UI.Home.MenuScreenActivity"
+            android:parentActivityName=".UI.startScreen.LoginActivity">
         </activity>
         <activity android:name=".UI.ChatRooms.chats.DialogActivity" />
     </application>

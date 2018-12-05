@@ -16,17 +16,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
-import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContact;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.UI.ContactsChatsLongClickAlterDialog;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
 
 
@@ -35,8 +35,7 @@ public class ItemContactsFragment extends Fragment {
     TextView contactsNumberTV;
     Toolbar toolbar;
     DataWithIconListview lvMain;
-    DataWithIconManager dbStorage = SQLiteContactsManager.getInstance();
-    ContactsChatsLongClickAlterDialog alterDialog;
+    DataWithIconManager dbStorage = ViewableContactManager.getInstance();
 
 
     public static ItemContactsFragment newInstance() {
@@ -101,61 +100,19 @@ public class ItemContactsFragment extends Fragment {
         });*/
 
 
-        /*lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-                LayoutInflater li = LayoutInflater.from(getContext());
-                View dialog = li.inflate(R.layout.create_contact, null);
+              /*  DataModifier dataModifier = new ContactsModifier(getContext());
+                dataModifier.init(getContext(), new CustomContactsAdapter(getContext(), dbStorage), position);
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
-                mDialogBuilder.setView(dialog);
-                final EditText alterDialogName = (EditText) dialog.findViewById(R.id.contactName);
-                final EditText alterDialogPhoneNumber = (EditText) dialog.findViewById(R.id.contactPhoneNumber);
-                Contacts selectedItem = (Contacts) adapter.getItem(position).getData();
-                alterDialogName.setText(selectedItem.getContactName());
-                alterDialogPhoneNumber.setText(selectedItem.getPhoneNumber());
-                mDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("update",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Contacts selectedItem = (Contacts) adapter.getItem(position).getData();
-                                        selectedItem.setContactName(alterDialogName.getText().toString());
-                                        selectedItem.setPhoneNumber(alterDialogPhoneNumber.getText().toString());
-                                        dbStorage.update(adapter.getItem(position));
-                                        try {
-                                            refreshDialogList();
-                                        } catch (ExecutionException | InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                })
-                        .setNegativeButton("delete",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Contacts selectedItem = (Contacts) adapter.getItem(position).getData();
-                                        dbStorage.delete(selectedItem.getId());
-                                        try {
-                                            refreshDialogList();
-                                        } catch (ExecutionException | InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
+
+                mDialogBuilder.setView(dataModifier.getView());
                 AlertDialog alertDialog = mDialogBuilder.create();
-                alertDialog.show();
-
-                final Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                final Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-                LinearLayout.LayoutParams buttonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-                buttonLL.weight = 1;
-                buttonLL.gravity = Gravity.CENTER;
-                positiveButton.setLayoutParams(buttonLL);
-                negativeButton.setLayoutParams(buttonLL);
-
-                Toast.makeText(getContext(), "Item clicked", Toast.LENGTH_LONG).show();
+                alertDialog.show();*/
                 return true;
             }
-        });*/
+        });
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         return view;
@@ -195,9 +152,6 @@ public class ItemContactsFragment extends Fragment {
     }
 
 
-
-
-
     public void onClickAddDialogButton() {
         LayoutInflater li = LayoutInflater.from(getContext());
         View dialog = li.inflate(R.layout.create_contact, null);
@@ -210,7 +164,7 @@ public class ItemContactsFragment extends Fragment {
                 .setPositiveButton("create contact",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DataWithIcon contact = new Contacts(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
+                                DataWithIcon contact = new ViewableContact(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
                                 dbStorage.create(contact);
                                 Log.d(TAG, "onClick: " + dbStorage.toString());
 

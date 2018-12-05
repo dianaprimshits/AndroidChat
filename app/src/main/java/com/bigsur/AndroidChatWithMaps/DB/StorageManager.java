@@ -1,8 +1,6 @@
 package com.bigsur.AndroidChatWithMaps.DB;
 
 
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 

@@ -1,6 +1,8 @@
 package com.bigsur.AndroidChatWithMaps.DB;
 
 
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
+
 import java.util.ArrayList;
 import java.util.WeakHashMap;
 

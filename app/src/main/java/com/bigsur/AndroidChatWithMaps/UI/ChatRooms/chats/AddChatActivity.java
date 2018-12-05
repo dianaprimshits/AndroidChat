@@ -24,11 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.DB.ViewableChat.ViewableChatManager;
-import com.bigsur.AndroidChatWithMaps.DBManager.Adapters.AdapterForChatAdd;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.concurrent.ExecutionException;
 

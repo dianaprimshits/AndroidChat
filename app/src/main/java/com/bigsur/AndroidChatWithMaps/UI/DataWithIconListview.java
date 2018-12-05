@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.DialogActivity;
 

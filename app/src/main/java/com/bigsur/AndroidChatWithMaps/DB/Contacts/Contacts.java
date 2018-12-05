@@ -6,7 +6,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
+
+import java.util.Date;
 
 @Entity(tableName = "contacts",
         indices = {@Index(value = {"contact_name", "phone_number"},
@@ -56,8 +58,8 @@ public class Contacts implements DataWithIcon {
     }
 
     @Override
-    public String getExtraTitle() {
-        return "";
+    public Date getExtraTitle() {
+        return null;
     }
 
     public int getContactAvatar() {
@@ -81,4 +83,5 @@ public class Contacts implements DataWithIcon {
     public void setContactAvatar(int contactAvatar) {
         this.contactAvatar = contactAvatar;
     }
+
 }

@@ -30,4 +30,6 @@
     <string name="search">Seearch</string>
     <string name="people">People</string>
     <string name="chatsAndContacts">Chats and Contacts</string>
+    <string name="renameContact">Rename contact</string>
+    <string name="deleteContact">Delete contact</string>
 </resources>

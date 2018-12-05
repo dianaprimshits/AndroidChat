@@ -6,8 +6,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
 import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
+import com.bigsur.AndroidChatWithMaps.DB.DateConverter;
+
+import java.util.Date;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -26,7 +30,8 @@ public class Messages {
     @ColumnInfo(name = "message")
     private String message;
     @ColumnInfo(name = "date")
-    private String date;
+    @TypeConverters({DateConverter.class})
+    private Date date;
     @ColumnInfo(name = "message_from")
     private int messageFrom;
     //here will be chatRoomId
@@ -34,7 +39,7 @@ public class Messages {
     private int messageTo;
 
 
-    public Messages(String message, String date, int messageFrom, int messageTo) {
+    public Messages(String message, Date date, int messageFrom, int messageTo) {
         this.message = message;
         this.date = date;
         this.messageFrom = messageFrom;
@@ -49,7 +54,7 @@ public class Messages {
         return message;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 

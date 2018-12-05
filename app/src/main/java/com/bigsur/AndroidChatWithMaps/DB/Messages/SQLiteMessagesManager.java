@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
 import com.bigsur.AndroidChatWithMaps.DB.StorageManager;
-import com.bigsur.AndroidChatWithMaps.DBManager.Entities.DataFromDB;
+import com.bigsur.AndroidChatWithMaps.DB.DataFromDB;
 
 import java.util.ArrayList;
 import java.util.List;

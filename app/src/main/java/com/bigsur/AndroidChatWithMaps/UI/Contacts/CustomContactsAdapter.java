@@ -8,10 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -84,7 +85,12 @@ public class CustomContactsAdapter extends BaseAdapter {
        // avatar.setImageResource(selectedItem.getAvatar());
         viewHolder.title.setText(dataWithIcon.getName());
         viewHolder.subTitle.setText(dataWithIcon.getSubname());
-        viewHolder.extraTitle.setText(dataWithIcon.getExtraTitle());
+
+        if (dataWithIcon.getExtraTitle() == null) {
+            viewHolder.extraTitle.setText("");
+        } else {
+            viewHolder.extraTitle.setText(new SimpleDateFormat("HH:mm").format(dataWithIcon.getExtraTitle()));
+        }
         return view;
     }
 

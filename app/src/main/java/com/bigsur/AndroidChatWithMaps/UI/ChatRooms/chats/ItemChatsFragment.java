@@ -19,7 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.DB.ViewableChat.ViewableChatManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.CustomContactsAdapter;
