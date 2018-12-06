@@ -86,19 +86,6 @@ public class ItemContactsFragment extends Fragment {
             }
         });
 
-       /* lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                alterDialog = new ContactsChatsLongClickAlterDialog(getContext());
-                try {
-                    alterDialog.init(getContext(), view, dbStorage, new CustomContactsAdapter(getContext(), dbStorage.getAll()), position);
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return true;
-            }
-        });*/
-
 
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

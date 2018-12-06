@@ -10,9 +10,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,15 +20,15 @@ import java.util.Comparator;
 
 public class AdapterForChatAdd extends BaseAdapter implements Filterable {
     Context context;
-    ArrayList<Contacts> contactList;
-    ArrayList<Contacts> filteredList;
+    ArrayList<DataWithIcon> contactList;
+    ArrayList<DataWithIcon> filteredList;
     ValueFilter valueFilter;
 
-    public AdapterForChatAdd(Context context, ArrayList<DataWithIcon> contacts) {
+    public AdapterForChatAdd(Context context, ArrayList<DataWithIcon> data) {
         filteredList = new ArrayList<>();
         contactList = new ArrayList<>();
-        for (int i = 0; i < contacts.size(); i++) {
-            contactList.add((Contacts) contacts.get(i));
+        for (int i = 0; i < data.size(); i++) {
+            contactList.add(data.get(i));
         }
         Collections.sort(contactList, ALPHABETICAL_ORDER);
         filteredList.addAll(contactList);
@@ -42,7 +41,7 @@ public class AdapterForChatAdd extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public Contacts getItem(int position) {
+    public DataWithIcon getItem(int position) {
         return contactList.get(position);
     }
 
@@ -82,20 +81,20 @@ public class AdapterForChatAdd extends BaseAdapter implements Filterable {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Contacts contact = getItem(position);
+        DataWithIcon contact = getItem(position);
         viewHolder.contactName.setText(contact.getName());
-        viewHolder.contactPhone.setText(contact.getPhoneNumber());
+        viewHolder.contactPhone.setText(contact.getSubname());
         // viewHolder.contactAvatar.setImageResource(contact.getAvatar());
         viewHolder.firstLaterContactName.setText(contact.getName().substring(0, 1).toUpperCase());
 
         return view;
     }
 
-    private static Comparator<Contacts> ALPHABETICAL_ORDER = new Comparator<Contacts>() {
+    private static Comparator<DataWithIcon> ALPHABETICAL_ORDER = new Comparator<DataWithIcon>() {
         @Override
-        public int compare(Contacts o1, Contacts o2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(o1.getContactName(), o2.getContactName());
-            return (res != 0) ? res : o1.getContactName().compareTo(o2.getContactName());
+        public int compare(DataWithIcon o1, DataWithIcon o2) {
+            int res = String.CASE_INSENSITIVE_ORDER.compare(o1.getName(), o2.getName());
+            return (res != 0) ? res : o1.getName().compareTo(o2.getName());
         }
     };
 
@@ -114,9 +113,9 @@ public class AdapterForChatAdd extends BaseAdapter implements Filterable {
             FilterResults results = new FilterResults();
 
             if (constraint != null && constraint.length() > 0) {
-                ArrayList<Contacts> filterList = new ArrayList<>();
+                ArrayList<DataWithIcon> filterList = new ArrayList<>();
                 for (int i = 0; i < filteredList.size(); i++) {
-                    if ((filteredList.get(i).getContactName().toUpperCase()).contains(constraint.toString().toUpperCase())) {
+                    if ((filteredList.get(i).getName().toUpperCase()).contains(constraint.toString().toUpperCase())) {
                         filterList.add(filteredList.get(i));
                     }
                 }
@@ -131,7 +130,7 @@ public class AdapterForChatAdd extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            contactList = (ArrayList<Contacts>) results.values;
+            contactList = (ArrayList<DataWithIcon>) results.values;
             notifyDataSetChanged();
         }
     }

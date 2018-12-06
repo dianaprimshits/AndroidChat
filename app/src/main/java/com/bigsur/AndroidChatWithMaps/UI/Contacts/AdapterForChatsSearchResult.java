@@ -58,12 +58,12 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
         LayoutInflater lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (view == null) {
-            view = lInflater.inflate(R.layout.chat_list, parent, false);
+            view = lInflater.inflate(R.layout.contact_list, parent, false);
         }
 
-        ImageView avatar = (ImageView) view.findViewById(R.id.chatAvatar);
-        TextView name = (TextView) view.findViewById(R.id.chatName);
-        TextView subname = (TextView) view.findViewById(R.id.chatLastMessage);
+        ImageView avatar = (ImageView) view.findViewById(R.id.dataWithIconAvatar);
+        TextView name = (TextView) view.findViewById(R.id.dataWithIconTitle);
+        TextView subname = (TextView) view.findViewById(R.id.dataWithIconSubTitle);
 
 
         DataWithIcon selectedItem = getItem(position);
@@ -98,8 +98,6 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                // dataForSearch = (ArrayList<DataWithIcon>) results.values;
-
                 notifyDataSetChanged();
             }
         };

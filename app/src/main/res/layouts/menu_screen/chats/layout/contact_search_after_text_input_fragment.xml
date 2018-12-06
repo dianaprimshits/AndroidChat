@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/contactsFrDelimiter1">
 
         <include
-            layout="@layout/listview_lt" />
+            layout="@layout/listview_lt_vertical" />
 
     </android.support.constraint.ConstraintLayout>
 

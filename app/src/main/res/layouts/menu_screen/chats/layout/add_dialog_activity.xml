@@ -67,7 +67,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent">
-        <include layout="@layout/listview_lt" />
+        <include layout="@layout/listview_lt_vertical" />
     </RelativeLayout>
 
 
