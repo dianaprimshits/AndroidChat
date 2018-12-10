@@ -131,7 +131,8 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return new ArrayList<>(data);
+        ArrayList arrayList = new ArrayList(data);
+        return arrayList;
     }
 
    /* @Override

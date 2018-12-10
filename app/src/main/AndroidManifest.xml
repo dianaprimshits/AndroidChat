@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bigsur.AndroidChatWithMaps">
+    package="com.bigsur.AndroidChatWithMaps"
+    >
 
 
 
     <!--Internet Permission-->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +24,7 @@
         <activity android:name="com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity"
             android:parentActivityName=".UI.Home.MenuScreenActivity">
         </activity>
+        <activity android:name=".UI.Contacts.RenameContactActivity" />
         <activity android:name=".UI.ChatRooms.chats.AddChatActivity" />
         <activity android:name=".UI.startScreen.StartActivity">
             <intent-filter>

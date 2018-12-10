@@ -26,8 +26,10 @@ import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContact;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.ContactsModifier;
+import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.DataModifier;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
 
 
 public class ItemContactsFragment extends Fragment {
@@ -90,13 +92,11 @@ public class ItemContactsFragment extends Fragment {
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-              /*  DataModifier dataModifier = new ContactsModifier(getContext());
-                dataModifier.init(getContext(), new CustomContactsAdapter(getContext(), dbStorage), position);
+                DataModifier dataModifier = new ContactsModifier(getContext());
+                dataModifier.init(getContext(), new CustomContactsAdapter(getContext(), dbStorage), position, getActivity());
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
-
-                mDialogBuilder.setView(dataModifier.getView());
-                AlertDialog alertDialog = mDialogBuilder.create();
-                alertDialog.show();*/
+                AlertDialog alertDialog = mDialogBuilder.setView(dataModifier.getView()).create();
+                alertDialog.show();
                 return true;
             }
         });

@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import com.bigsur.AndroidChatWithMaps.R;
 
 public class ItemMapsFragment extends Fragment {
+    CustomMapView mapView;
+
     public static ItemMapsFragment newInstance() {
         ItemMapsFragment fragment = new ItemMapsFragment();
         return fragment;
@@ -22,6 +24,9 @@ public class ItemMapsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_maps, container, false);
+        mapView.init();
+        return view;
     }
 }

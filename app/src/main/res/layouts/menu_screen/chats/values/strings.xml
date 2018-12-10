@@ -32,4 +32,6 @@
     <string name="chatsAndContacts">Chats and Contacts</string>
     <string name="renameContact">Rename contact</string>
     <string name="deleteContact">Delete contact</string>
+    <string name="LastName">Last name</string>
+    <string name="FirstName">First name</string>
 </resources>

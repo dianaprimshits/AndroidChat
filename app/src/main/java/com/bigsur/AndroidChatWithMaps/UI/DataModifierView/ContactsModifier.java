@@ -1,18 +1,22 @@
 package com.bigsur.AndroidChatWithMaps.UI.DataModifierView;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.UI.Contacts.RenameContactActivity;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
-public class ContactsModifier implements DataModifier {
+public class ContactsModifier extends DataModifier {
     public View view;
 
 
@@ -23,7 +27,7 @@ public class ContactsModifier implements DataModifier {
 
 
     @Override
-    public void init(final Context context, Adapter adapter, int position) {
+    public void init(final Context context, Adapter adapter, int position, final Activity activity) {
 
         LinearLayout renameLL = (LinearLayout) view.findViewById(R.id.renameContactLL);
         LinearLayout deleteLL = (LinearLayout) view.findViewById(R.id.deleteContactLL);
@@ -33,16 +37,25 @@ public class ContactsModifier implements DataModifier {
         renameLL.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "rename" + data.getName(), Toast.LENGTH_LONG).show();
+                Intent renameIntent = new Intent(activity, RenameContactActivity.class);
+                renameIntent.putExtra("id", data.getId());
+                renameIntent.putExtra("name", data.getName());
+                context.startActivity(renameIntent);
             }
         });
 
         deleteLL.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DataWithIconManager dataWithIconManager = ViewableContactManager.getInstance();
+                dataWithIconManager.delete(data.getId());
+                return;
             }
         });
+    }
+
+    public View getView() {
+        return view;
     }
 
 }

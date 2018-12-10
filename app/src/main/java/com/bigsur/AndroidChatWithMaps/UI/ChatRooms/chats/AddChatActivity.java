@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
 
 public class AddChatActivity extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;

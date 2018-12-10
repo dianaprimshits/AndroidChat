@@ -23,7 +23,7 @@ import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.CustomContactsAdapter;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -201,13 +201,8 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
             case R.id.chatAddButton:
                 Intent addChatIntent = new Intent(getActivity(), AddChatActivity.class);
                 startActivity(addChatIntent);
-
-                // case R.id.addGroupDialog:
-                //     do smth
-                //     break;
         }
     }
-
 }
 
 

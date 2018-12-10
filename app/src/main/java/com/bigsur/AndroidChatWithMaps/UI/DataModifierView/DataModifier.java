@@ -1,10 +1,14 @@
 package com.bigsur.AndroidChatWithMaps.UI.DataModifierView;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 import android.widget.Adapter;
 
-public interface DataModifier {
+public abstract class DataModifier {
 
-    public abstract void init(final Context context, Adapter adapter, int position);
+    public abstract void init(final Context context, Adapter adapter, int position, Activity activity);
+
+    public abstract View getView();
 }

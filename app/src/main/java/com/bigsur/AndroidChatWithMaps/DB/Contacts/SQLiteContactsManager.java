@@ -36,7 +36,7 @@ public class SQLiteContactsManager extends DataWithIconManager {
             protected Void doInBackground(DataWithIcon... data) {
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsDAO contactsDao = db.getContactsDao();
-                contactsDao.insert((Contacts) data[0]);
+                contactsDao.insert(new Contacts(data[0]));
                 return null;
             }
         }.execute(data);
@@ -132,7 +132,8 @@ public class SQLiteContactsManager extends DataWithIconManager {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return new ArrayList<>(data);
+        ArrayList arrayList = new ArrayList(data);
+        return arrayList;
     }
 
 

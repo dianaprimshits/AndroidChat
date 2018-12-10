@@ -6,6 +6,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContact;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.Date;
@@ -26,6 +27,15 @@ public class Contacts implements DataWithIcon {
     public Contacts(String contactName, String phoneNumber) {
         this.contactName = contactName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public Contacts(DataWithIcon dataWithIcon) {
+        if (dataWithIcon instanceof ViewableContact) {
+            this.contactName =  dataWithIcon.getName();
+            this.phoneNumber = dataWithIcon.getSubname();
+        } else {
+            throw new ClassCastException();
+        }
     }
 
 

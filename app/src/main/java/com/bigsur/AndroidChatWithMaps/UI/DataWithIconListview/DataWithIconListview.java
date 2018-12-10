@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.UI;
+package com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.DialogActivity;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 
 public class DataWithIconListview extends ListView {
