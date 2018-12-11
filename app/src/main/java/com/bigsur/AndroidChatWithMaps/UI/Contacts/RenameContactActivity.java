@@ -4,7 +4,6 @@ package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,9 +33,9 @@ public class RenameContactActivity  extends AppCompatActivity implements View.On
         contactId = intent.getIntExtra("id", DEFAULT_VALUE);
         contactName = intent.getStringExtra("name");
 
-        contactNewNameET = (EditText) findViewById(R.id.renameContactActFirstNameET);
+        contactNewNameET = findViewById(R.id.renameContactActFirstNameET);
         contactNewNameET.setText(dbManager.getById(contactId).getName());
-        okButton = (ImageButton) findViewById(R.id.renameContactActButtonOk);
+        okButton = findViewById(R.id.renameContactActButtonOk);
 
 
 
@@ -48,11 +47,8 @@ public class RenameContactActivity  extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.renameContactActButtonOk:
                 Contacts contacts = (Contacts) dbManager.getById(contactId);
-                Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!"+contacts.getId());
-                Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!" + contacts.getName());
-                Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!" + contactNewNameET.getText());
-                Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!" + new Contacts(contactNewNameET.getText().toString(), contacts.getPhoneNumber()).toString());
-                dbManager.update(new Contacts(contactNewNameET.getText().toString(), contacts.getPhoneNumber()));
+                contacts.setContactName(contactNewNameET.getText().toString());
+                dbManager.update(contacts);
                 onBackPressed();
         }
     }
