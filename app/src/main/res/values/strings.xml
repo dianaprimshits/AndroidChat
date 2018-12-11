@@ -16,4 +16,5 @@
     <string name="delete_group_dialog">delete group dialog</string>
     <string name="setName">name</string>
     <string name="setPhoneNumber">phone number</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiZGlhbmFwcmltc2hpdHMiLCJhIjoiY2pwaWEwNmU3MTUydjNwcDVuYzg1OWdsNSJ9.-Alv2pokkGpCAzrs4LlAUg</string>
 </resources>

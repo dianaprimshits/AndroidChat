@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</RelativeLayout>
+    android:layout_height="match_parent"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto">
+
+    <com.bigsur.AndroidChatWithMaps.UI.maps.CustomMapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:mapbox_cameraTargetLat="41.885"
+        mapbox:mapbox_cameraTargetLng="-87.679"
+        mapbox:mapbox_cameraTilt="60"
+        mapbox:mapbox_cameraZoom="12"
+        mapbox:mapbox_styleUrl="@string/mapbox_style_dark"/>
+</android.support.constraint.ConstraintLayout>
