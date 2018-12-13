@@ -1,11 +1,11 @@
 package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
@@ -14,7 +14,7 @@ import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.ArrayList;
 
-public class AdapterForContactsLine extends BaseAdapter {
+public class AdapterForContactsLine extends RecyclerView.Adapter {
     Context context;
     ArrayList<DataWithIcon> data;
     DataWithIconManager manager;
@@ -29,20 +29,21 @@ public class AdapterForContactsLine extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        this.data = manager.getAll();
-        super.notifyDataSetChanged();
-    }
 
     @Override
-    public int getCount() {
-        return data.size();
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                                      .inflate(R.layout.horizontal_contact_listview_item, parent, false);
+        return new MyItemView(itemView);
     }
 
+
     @Override
-    public Object getItem(int position) {
-        return data.get(position);
+    public void onBindViewHolder(final RecyclerView.ViewHolder _holder, final int position) {
+        MyItemView holder = (MyItemView)_holder;
+        DataWithIcon mItem = data.get(position);
+        holder.textViewTitle.setText(mItem.getName());
+  //      holder.imageView.setImageResource(mItem.getAvatar());
     }
 
     @Override
@@ -50,35 +51,19 @@ public class AdapterForContactsLine extends BaseAdapter {
         return data.get(position).getId();
     }
 
-
-    private class ViewHolder {
-        TextView title;
-        ImageView avatar;
-
-        ViewHolder(View view){
-            //avatar = (ImageView)rowView.findViewById(R.id.horizontalLineAvatar);
-            title = (TextView)view.findViewById(R.id.horizontalLineContact);
-        }
+    @Override
+    public int getItemCount() {
+        return data.size();
     }
 
+    public class MyItemView extends RecyclerView.ViewHolder {
+        TextView textViewTitle;
+        ImageButton imageView;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        View view = convertView;
-        DataWithIcon dataWithIcon = (DataWithIcon)getItem(position);
-
-        if (view == null) {
-            view = lInflater.inflate(R.layout.horizontal_contact_listview_item, parent, false);
-            viewHolder = new ViewHolder(view);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
+        MyItemView(View view) {
+            super(view);
+            textViewTitle = view.findViewById(R.id.horizontalLineContact);
+           // imageView = view.findViewById(R.id.horizontalLineAvatar);
         }
-
-        // viewHolder.avatar.setImageResource(selectedItem.getAvatar());
-        viewHolder.title.setText(dataWithIcon.getName());
-
-        return view;
     }
 }

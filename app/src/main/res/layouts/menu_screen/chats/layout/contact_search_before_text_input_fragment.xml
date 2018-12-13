@@ -61,11 +61,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="0dp"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="5dp"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="5dp">
 
@@ -82,7 +82,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginLeft="0dp"
                 app:layout_constraintLeft_toLeftOf="parent">
-                <include layout="@layout/listview_lt_vertical" />
+                <include layout="@layout/recycler_layout" />
             </RelativeLayout>
         </LinearLayout>
 

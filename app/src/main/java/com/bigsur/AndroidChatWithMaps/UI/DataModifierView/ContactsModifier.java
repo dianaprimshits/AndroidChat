@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
 
@@ -21,6 +20,7 @@ public class ContactsModifier extends DataModifier {
 
 
     public ContactsModifier(Context context) {
+        super(context);
         LayoutInflater li = LayoutInflater.from(context);
         view = li.inflate(R.layout.modify_contact, null);
     }
@@ -29,8 +29,8 @@ public class ContactsModifier extends DataModifier {
     @Override
     public void init(final Context context, Adapter adapter, int position, final Activity activity) {
 
-        LinearLayout renameLL = (LinearLayout) view.findViewById(R.id.renameContactLL);
-        LinearLayout deleteLL = (LinearLayout) view.findViewById(R.id.deleteContactLL);
+        LinearLayout renameLL =  view.findViewById(R.id.renameContactLL);
+        LinearLayout deleteLL =  view.findViewById(R.id.deleteContactLL);
 
         final DataWithIcon data = (DataWithIcon) adapter.getItem(position);
 
@@ -52,6 +52,11 @@ public class ContactsModifier extends DataModifier {
                 return;
             }
         });
+    }
+
+    @Override
+    public void init1(Context context) {
+        //do nothing
     }
 
     public View getView() {

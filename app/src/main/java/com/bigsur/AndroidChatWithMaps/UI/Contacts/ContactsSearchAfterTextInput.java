@@ -37,7 +37,7 @@ public class ContactsSearchAfterTextInput extends Fragment {
 
 
     private void findViewsById(View view) {
-        lvMain = (DataWithIconListview) view.findViewById(R.id.lvMain);
+        lvMain = view.findViewById(R.id.lvMain);
     }
 
     private void render() {

@@ -34,4 +34,8 @@
     <string name="deleteContact">Delete contact</string>
     <string name="LastName">Last name</string>
     <string name="FirstName">First name</string>
+    <string name="open">Open</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -148,16 +148,16 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
 
 
     private void findViewsById(View view) {
-        lvMain = (DataWithIconListview) view.findViewById(R.id.lvMain);
-        toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
-        imageButtonAdd = (ImageButton) view.findViewById(R.id.chatsAddingBt);
-        chatsAddingTranslucentLt = (ConstraintLayout) view.findViewById(R.id.chatsAddingTranslucentLayout);
-        imageButtonClose = (ImageButton) view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
-        chatAddBt = (ImageButton) view.findViewById(R.id.chatAddButton);
-        groupChatAddBt = (ImageButton) view.findViewById(R.id.groupChatAddButton);
-        newChatTv = (TextView) view.findViewById(R.id.addDialogTv);
-        newGroupTv = (TextView) view.findViewById(R.id.addGroupDialogTv);
-        addDialogBlock = (ConstraintLayout) view.findViewById(R.id.addDialogBlock);
+        lvMain = view.findViewById(R.id.lvMain);
+        toolbar = view.findViewById(R.id.chat_toolbar);
+        imageButtonAdd = view.findViewById(R.id.chatsAddingBt);
+        chatsAddingTranslucentLt = view.findViewById(R.id.chatsAddingTranslucentLayout);
+        imageButtonClose =  view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
+        chatAddBt = view.findViewById(R.id.chatAddButton);
+        groupChatAddBt =  view.findViewById(R.id.groupChatAddButton);
+        newChatTv = view.findViewById(R.id.addDialogTv);
+        newGroupTv = view.findViewById(R.id.addGroupDialogTv);
+        addDialogBlock = view.findViewById(R.id.addDialogBlock);
     }
 
 

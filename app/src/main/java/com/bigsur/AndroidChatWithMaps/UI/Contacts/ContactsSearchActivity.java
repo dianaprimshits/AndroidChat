@@ -38,9 +38,9 @@ public class ContactsSearchActivity extends AppCompatActivity implements View.On
         beforeTextInputFr = ContactsSearchBeforeTextInput.newInstance();
         afterTextInputFr = ContactsSearchAfterTextInput.newInstance();
 
-        lvSearchResult = (ListView) findViewById(R.id.lvMain);
-        toolbar = (Toolbar) findViewById(R.id.contacts_search_act_toolbar);
-        btBack = (ImageButton) findViewById(R.id.contactsActBtBack);
+        lvSearchResult = findViewById(R.id.lvMain);
+        toolbar = findViewById(R.id.contacts_search_act_toolbar);
+        btBack = findViewById(R.id.contactsActBtBack);
         btBack.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

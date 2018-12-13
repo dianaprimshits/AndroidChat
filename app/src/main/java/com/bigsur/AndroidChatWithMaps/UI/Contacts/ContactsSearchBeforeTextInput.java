@@ -2,6 +2,8 @@ package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +11,10 @@ import android.view.ViewGroup;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
 
 
 public class ContactsSearchBeforeTextInput extends Fragment {
-    DataWithIconListview lvMain;
+    RecyclerView lvMain;
     DataWithIconManager dataManager = ViewableContactManager.getInstance();
     AdapterForContactsLine adapter;
 
@@ -29,13 +30,15 @@ public class ContactsSearchBeforeTextInput extends Fragment {
         View view = inflater.inflate(R.layout.contact_search_before_text_input_fragment, container, false);
         findViewsById(view);
         adapter = new AdapterForContactsLine(getContext(), dataManager);
-        lvMain.init(dataManager, adapter, "contacts", getActivity());
         lvMain.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        lvMain.setLayoutManager(layoutManager);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         return view;
     }
 
     private void findViewsById(View view) {
-        lvMain = (DataWithIconListview) view.findViewById(R.id.lvMain);
+        lvMain =  view.findViewById(R.id.my_recycler_view);
     }
 }
