@@ -1,6 +1,7 @@
 package com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,9 @@ public class AddGroupActivity extends AppCompatActivity implements View.OnClickL
         forwardBT = findViewById(R.id.forwardBT);
 
         backBt.setOnClickListener(this);
+        forwardBT.setOnClickListener(this);
+
+
         adapterForChatAdd = new AdapterForGroupAdd(getApplicationContext(), dbStorage.getAll());
         lvMain.init(dbStorage, adapterForChatAdd, "contacts", this);
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,9 +111,6 @@ public class AddGroupActivity extends AppCompatActivity implements View.OnClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.chatAdd:
-                onClickAddContactButton();
-                return true;
             case R.id.contact_fr_search:
 
                 return true;
@@ -125,11 +126,16 @@ public class AddGroupActivity extends AppCompatActivity implements View.OnClickL
             case R.id.groupAddActBtBack:
                 onBackPressed();
                 break;
+            case R.id.forwardBT:
+                Intent dialogIntent = new Intent(this, AddGroupNameActivity.class);
+
+                for(int i = 0; i < contacts.size(); i++) {
+                    dialogIntent.putExtra("contactId" + i, contacts.get(i).getId());
+                }
+
+                dialogIntent.putExtra("numberOfContacts", contacts.size());
+                startActivity(dialogIntent);
         }
-
-    }
-
-    public void onClickAddContactButton() {
 
     }
 }

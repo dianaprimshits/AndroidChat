@@ -24,6 +24,7 @@
         <activity android:name="com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity"
             android:parentActivityName=".UI.Home.MenuScreenActivity">
         </activity>
+        <activity android:name=".UI.ChatRooms.chats.AddGroupNameActivity"/>
         <activity android:name=".UI.ChatRooms.chats.AddGroupActivity"/>
         <activity android:name=".UI.Contacts.RenameContactActivity" />
         <activity android:name=".UI.ChatRooms.chats.AddChatActivity" />
