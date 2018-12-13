@@ -35,6 +35,7 @@ public class ContactsSearchBeforeTextInput extends Fragment {
         lvMain.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
+
         return view;
     }
 

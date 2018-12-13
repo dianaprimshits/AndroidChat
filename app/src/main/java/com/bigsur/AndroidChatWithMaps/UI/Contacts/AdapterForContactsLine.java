@@ -51,6 +51,10 @@ public class AdapterForContactsLine extends RecyclerView.Adapter {
         return data.get(position).getId();
     }
 
+    public DataWithIcon getItem(int position) {
+        return data.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return data.size();

@@ -69,6 +69,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         imageButtonAdd.setOnClickListener(this);
         imageButtonClose.setOnClickListener(this);
         chatAddBt.setOnClickListener(this);
+        groupChatAddBt.setOnClickListener(this);
 
         lvMain.init(dbStorage, new CustomContactsAdapter(getContext(), dbStorage), "chatRooms", getActivity());
 
@@ -201,6 +202,11 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
             case R.id.chatAddButton:
                 Intent addChatIntent = new Intent(getActivity(), AddChatActivity.class);
                 startActivity(addChatIntent);
+                break;
+            case R.id.groupChatAddButton:
+                Intent addGroupIntent = new Intent(getActivity(), AddGroupActivity.class);
+                startActivity(addGroupIntent);
+                break;
         }
     }
 }
