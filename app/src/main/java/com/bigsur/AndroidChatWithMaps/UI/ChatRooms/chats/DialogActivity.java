@@ -48,6 +48,8 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     int chatRoomId;
     String dialogName;
     String intentComingFrom;
+    ArrayList<Integer> contactsId = new ArrayList<>();
+    Integer contactsInGroup;
 
     private static int DEFAULT_VALUE = -1;
     ListView messagesLV;
@@ -66,11 +68,21 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         intentComingFrom = intent.getStringExtra("coming from");
 
 
-        buttonBack = (ImageButton) findViewById(R.id.dialogActivityToolbarButtonBack);
-        messageET = (EditText) findViewById(R.id.dialogActivityMessageET);
-        buttonSend = (ImageButton) findViewById(R.id.dialogActivityMessageSendButton);
-        contactNameTV = (TextView) findViewById(R.id.dialogActivityToolbarContactName);
-        messagesLV = (ListView) findViewById(R.id.lvMessage);
+        contactsInGroup = intent.getIntExtra("numberOfContacts", -1);
+
+        if(contactsInGroup != null) {
+            for(int i = 0; i < contactsInGroup; i++) {
+                contactsId.add(intent.getIntExtra("id" + i, -1));
+            }
+        }
+
+
+
+        buttonBack = findViewById(R.id.dialogActivityToolbarButtonBack);
+        messageET = findViewById(R.id.dialogActivityMessageET);
+        buttonSend = findViewById(R.id.dialogActivityMessageSendButton);
+        contactNameTV = findViewById(R.id.dialogActivityToolbarContactName);
+        messagesLV = findViewById(R.id.lvMessage);
 
         contactNameTV.setText(dialogName);
         Log.d(TAG, "CHAT ROOM ID  " + contactOrChatRoomId);
@@ -91,6 +103,8 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                     chatRoomId = getChatRoomId(contactId);
                     messagesDisplay(chatRoomId);
                 }
+            } else if (intentComingFrom.equals("groupCreation")) {
+                chatRoomId = chatRoomManager.getLastId() + 1;
             }
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -109,6 +123,21 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                 if (messageET.getText().toString().isEmpty()) {
                     Toast.makeText(this, "Input message", Toast.LENGTH_SHORT).show();
                     return;
+                }
+
+                if (intentComingFrom.equals("groupCreation")) {
+                    try {
+                        ChatRooms chatRoom = new ChatRooms(dialogName);
+                        chatRoomManager.create(chatRoom);
+                        chatRoomId = chatRoomManager.getLastId();
+
+                        for (int i = 0; i < contactsInGroup; i++) {
+                            ContactsChatRooms connection = new ContactsChatRooms(contactsId.get(i), chatRoomId);
+                            contactsChatRoomsManager.create(new DataFromDB(connection));
+                        }
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 if (intentComingFrom.equals("contacts")) {

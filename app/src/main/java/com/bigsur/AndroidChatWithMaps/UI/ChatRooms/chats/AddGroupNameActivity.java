@@ -23,8 +23,9 @@ public class AddGroupNameActivity  extends AppCompatActivity implements View.OnC
     DataWithIconListview lvMain;
     ImageView backBt;
     ImageView groupAvatar;
-    EditText groupName;
+    EditText groupNameET;
     ArrayList<Integer> contactsId = new ArrayList<>();
+    ImageView createGroup;
 
 
     @Override
@@ -37,9 +38,8 @@ public class AddGroupNameActivity  extends AppCompatActivity implements View.OnC
         lvMain = findViewById(R.id.lvMain);
         backBt = findViewById(R.id.groupAddNameActBtBack);
         groupAvatar = findViewById(R.id.groupAvatar);
-        groupName = findViewById(R.id.groupNameET);
-
-        backBt.setOnClickListener(this);
+        groupNameET = findViewById(R.id.groupNameET);
+        createGroup = findViewById(R.id.createGroup);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -54,6 +54,9 @@ public class AddGroupNameActivity  extends AppCompatActivity implements View.OnC
 
         adapter = new AdapterForContactsInChat(getApplicationContext(), dbStorage, contactsId);
         lvMain.init(dbStorage, adapter, "contacts", this);
+
+        backBt.setOnClickListener(this);
+        createGroup.setOnClickListener(this);
     }
 
 
@@ -65,7 +68,18 @@ public class AddGroupNameActivity  extends AppCompatActivity implements View.OnC
                 onBackPressed();
                 break;
             case R.id.createGroup:
+                String groupName = groupNameET.getText().toString();
+                Intent dialogIntent = new Intent(this, DialogActivity.class);
 
+                dialogIntent.putExtra("name", groupName);
+                dialogIntent.putExtra("coming from", "groupCreation");
+                dialogIntent.putExtra("numberOfContacts", contactsId.size());
+
+                for(int i = 0; i < contactsId.size(); i++) {
+                    dialogIntent.putExtra("id" + i, contactsId.get(i));
+                }
+
+                startActivity(dialogIntent);
         }
 
     }
