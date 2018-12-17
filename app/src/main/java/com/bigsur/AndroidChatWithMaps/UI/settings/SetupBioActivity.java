@@ -25,9 +25,9 @@ public class SetupBioActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setup_bio_in_settings_fragment);
 
-        bioET = (EditText) findViewById(R.id.settingsFrSetupBioInput);
-        btBack = (ImageButton) findViewById(R.id.settingsFrSetupBioButtonBack);
-        btCheck = (ImageButton) findViewById(R.id.settingsFrSetupBioButtonCheck);
+        bioET =  findViewById(R.id.settingsFrSetupBioInput);
+        btBack = findViewById(R.id.settingsFrSetupBioButtonBack);
+        btCheck = findViewById(R.id.settingsFrSetupBioButtonCheck);
 
         bioET.setText(authManager.getBio());
         btBack.setOnClickListener(this);

@@ -18,7 +18,7 @@ public class UserAvatarModifier extends DataModifier {
     public UserAvatarModifier(Context context) {
         super(context);
         LayoutInflater li = LayoutInflater.from(context);
-        view = li.inflate(R.layout.modifier_avatar, null);
+        view = li.inflate(R.layout.modifier_avatar_trimmed, null);
     }
 
     public UserAvatarModifier(Context context, View view) {
@@ -29,14 +29,10 @@ public class UserAvatarModifier extends DataModifier {
 
     @Override
     public void init1(Context context) {
-        ConstraintLayout openPhotoLL = view.findViewById(R.id.openPhotoLL);
-        ConstraintLayout openCameraLL = view.findViewById(R.id.openCameraLL);
         ConstraintLayout openGalleryLL = view.findViewById(R.id.openGalleryLL);
         ConstraintLayout deletePhotoLL = view.findViewById(R.id.deleteAvatarLL);
 
-        openCameraLL.setOnClickListener(onClick(context));
         openGalleryLL.setOnClickListener(onClick(context));
-        openPhotoLL.setOnClickListener(onClick(context));
         deletePhotoLL.setOnClickListener(onClick(context));
     }
 
@@ -45,12 +41,6 @@ public class UserAvatarModifier extends DataModifier {
     public View.OnClickListener onClick(Context context) {
         return v -> {
             switch (v.getId()){
-                case R.id.openPhotoLL:
-                    Toast.makeText(context, "open photo", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.openCameraLL:
-                    Toast.makeText(context, "open camera", Toast.LENGTH_SHORT).show();
-                    break;
                 case R.id.openGalleryLL:
                     Toast.makeText(context, "open gallery", Toast.LENGTH_SHORT).show();
                     break;

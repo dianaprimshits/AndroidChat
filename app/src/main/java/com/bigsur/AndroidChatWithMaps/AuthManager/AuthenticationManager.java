@@ -71,6 +71,21 @@ public class AuthenticationManager implements AuthManager {
         return prefStore.getInt(key, 0);
     }
 
+
+    public void saveUserAvatar(byte[] avatar) {
+        String key = "AVATAR";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        prefStore.edit().putBytes(key, avatar).apply();
+        Log.d("!!!LOG!!!", String.format("avatar is: %s", (Object) prefStore.getBytes(key)));
+    }
+
+    public byte[] getUserAvatar() {
+        String key = "AVATAR";
+        SecuredPreferenceStore prefStore = SecuredPreferenceStore.getSharedInstance();
+        return prefStore.getBytes(key);
+    }
+
+
     public Credentials getSavedCredentials() {
         Credentials credentials = null;
         String loginKey = "TEXT_LOGIN";
