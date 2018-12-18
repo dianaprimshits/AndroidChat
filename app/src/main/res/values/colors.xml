@@ -15,11 +15,8 @@
     <color name="settingsFrFreeSpace">#151e27</color>
     <color name="settingsFrTV">#88929e</color>
     <color name="settingsFrDelimiter">#151f2b</color>
-
     <color name="dialogActivityBackground">#151e27</color>
     <color name="chatsAddingTranslucentLayout">#bc17191e</color>
     <color name="pink">#FF1744</color>
     <color name="photoModifierTranslucentLayout">#c11d1d1c</color>
-
-
 </resources>

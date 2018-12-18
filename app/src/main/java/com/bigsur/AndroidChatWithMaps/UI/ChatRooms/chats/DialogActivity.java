@@ -42,6 +42,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     EditText messageET;
     ImageButton buttonSend;
     TextView contactNameTV;
+    TextView numberOfChatMembers;
 
     int contactOrChatRoomId;
     int contactId;
@@ -70,12 +71,11 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
 
         contactsInGroup = intent.getIntExtra("numberOfContacts", -1);
 
-        if(contactsInGroup != null) {
-            for(int i = 0; i < contactsInGroup; i++) {
+        if (contactsInGroup != null) {
+            for (int i = 0; i < contactsInGroup; i++) {
                 contactsId.add(intent.getIntExtra("id" + i, -1));
             }
         }
-
 
 
         buttonBack = findViewById(R.id.dialogActivityToolbarButtonBack);
@@ -83,6 +83,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         buttonSend = findViewById(R.id.dialogActivityMessageSendButton);
         contactNameTV = findViewById(R.id.dialogActivityToolbarContactName);
         messagesLV = findViewById(R.id.lvMessage);
+        numberOfChatMembers = findViewById(R.id.numberOfChatMembers);
 
         contactNameTV.setText(dialogName);
         Log.d(TAG, "CHAT ROOM ID  " + contactOrChatRoomId);
@@ -108,6 +109,12 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
             }
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
+        }
+
+
+        int numberOfMembers = contactsChatRoomsManager.getContactsNumber(chatRoomId);
+        if(numberOfMembers > 1) {
+            numberOfChatMembers.setText((contactsChatRoomsManager.getContactsNumber(chatRoomId) + 1) + " members");
         }
     }
 

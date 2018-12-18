@@ -173,20 +173,25 @@ public class SQLiteContactsChatRoomsManager implements StorageManager {
         return null;
     }
 
-    public int getContactsNumber(int chatRoomId) throws ExecutionException, InterruptedException {
-        int data = new AsyncTask<Integer, Void, Integer>() {
-            @Override
-            protected Integer doInBackground(Integer ... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
-                return contactsChatRoomsDao.getContactsNumber(data[0]);
-            }
+    public int getContactsNumber(int chatRoomId) {
+        int data = 0;
+        try {
+            data = new AsyncTask<Integer, Void, Integer>() {
+                @Override
+                protected Integer doInBackground(Integer ... data) {
+                    AppDatabase db = App.getInstance().getDatabase();
+                    ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
+                    return contactsChatRoomsDao.getContactsNumber(data[0]);
+                }
 
-            @Override
-            protected void onPostExecute(Integer contactsInChatRoom) {
-                super.onPostExecute(contactsInChatRoom);
-            }
-        }.execute(chatRoomId).get();
+                @Override
+                protected void onPostExecute(Integer contactsInChatRoom) {
+                    super.onPostExecute(contactsInChatRoom);
+                }
+            }.execute(chatRoomId).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return data;
     }
 }
