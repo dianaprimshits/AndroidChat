@@ -72,6 +72,11 @@ public class Contacts implements DataWithIcon {
         return null;
     }
 
+    @Override
+    public Boolean getExtraTitleIcon() {
+        return null;
+    }
+
     public int getContactAvatar() {
         return contactAvatar;
     }
@@ -85,13 +90,7 @@ public class Contacts implements DataWithIcon {
         this.contactName = contactName;
     }
 
-    public void setPhoneNumber(String phone_number) {
-        this.phoneNumber = phone_number;
-    }
-
-
     public void setContactAvatar(int contactAvatar) {
         this.contactAvatar = contactAvatar;
     }
-
 }

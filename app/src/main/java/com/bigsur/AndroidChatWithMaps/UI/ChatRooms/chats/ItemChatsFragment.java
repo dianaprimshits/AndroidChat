@@ -33,7 +33,6 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     private static final String TAG = "!!!LOG!!!";
     DataWithIconListview lvMain;
     Toolbar toolbar;
-    CustomContactsAdapter adapter;
     DataWithIconManager dbStorage = ViewableChatManager.getInstance();
     ImageButton imageButtonAdd;
     ImageButton imageButtonClose;
@@ -66,10 +65,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
         findViewsById(view);
-        imageButtonAdd.setOnClickListener(this);
-        imageButtonClose.setOnClickListener(this);
-        chatAddBt.setOnClickListener(this);
-        groupChatAddBt.setOnClickListener(this);
+        setOnClickListener();
 
         lvMain.init(dbStorage, new CustomContactsAdapter(getContext(), dbStorage), "chatRooms", getActivity());
 
@@ -153,61 +149,94 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         toolbar = view.findViewById(R.id.chat_toolbar);
         imageButtonAdd = view.findViewById(R.id.chatsAddingBt);
         chatsAddingTranslucentLt = view.findViewById(R.id.chatsAddingTranslucentLayout);
-        imageButtonClose =  view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
+        imageButtonClose = view.findViewById(R.id.chatsAddingTranslucentLayoutBtClose);
         chatAddBt = view.findViewById(R.id.chatAddButton);
-        groupChatAddBt =  view.findViewById(R.id.groupChatAddButton);
+        groupChatAddBt = view.findViewById(R.id.groupChatAddButton);
         newChatTv = view.findViewById(R.id.addDialogTv);
         newGroupTv = view.findViewById(R.id.addGroupDialogTv);
         addDialogBlock = view.findViewById(R.id.addDialogBlock);
     }
 
+    private void setOnClickListener() {
+        imageButtonAdd.setOnClickListener(this);
+        imageButtonClose.setOnClickListener(this);
+        chatAddBt.setOnClickListener(this);
+        groupChatAddBt.setOnClickListener(this);
+        chatsAddingTranslucentLt.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.chatsAddingBt:
-
-                Animation animationRotateCenterRight = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center_right);
-                imageButtonAdd.setAnimation(animationRotateCenterRight);
-                up = AnimationUtils.loadAnimation(getContext(), R.anim.layout_up);
-                chatAddBt.setAnimation(up);
-                groupChatAddBt.setAnimation(up);
-                newChatTv.setAnimation(up);
-                newGroupTv.setAnimation(up);
-                addDialogBlock.setAnimation(up);
-
-                chatsAddingTranslucentLt.setVisibility(VISIBLE);
-                imageButtonClose.setVisibility(VISIBLE);
-                imageButtonAdd.setVisibility(GONE);
-                chatAddBt.setVisibility(VISIBLE);
-                Log.d(TAG, "onClick: !!!!!!!!!!!!!!!!!!!!!!!!");
+                setMainElementsEnableFalse();
+                openAddChatBlock();
                 break;
 
             case R.id.chatsAddingTranslucentLayoutBtClose:
-
-                down = AnimationUtils.loadAnimation(getContext(), R.anim.layout_down);
-                chatAddBt.setAnimation(down);
-                groupChatAddBt.setAnimation(down);
-                newChatTv.setAnimation(down);
-                newGroupTv.setAnimation(down);
-                addDialogBlock.setAnimation(down);
-
-                Animation animationRotateCenterLeft = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center_left);
-                imageButtonClose.setAnimation(animationRotateCenterLeft);
-                imageButtonClose.setVisibility(GONE);
-                imageButtonAdd.setVisibility(VISIBLE);
-                imageButtonAdd.setAnimation(animationRotateCenterLeft);
-                chatsAddingTranslucentLt.setVisibility(GONE);
+                setMainElementsEnableTrue();
+                closeChatAddBlock();
                 break;
+
             case R.id.chatAddButton:
                 Intent addChatIntent = new Intent(getActivity(), AddChatActivity.class);
                 startActivity(addChatIntent);
                 break;
+
             case R.id.groupChatAddButton:
                 Intent addGroupIntent = new Intent(getActivity(), AddGroupActivity.class);
                 startActivity(addGroupIntent);
                 break;
+
+            case R.id.chatsAddingTranslucentLayout:
+                setMainElementsEnableTrue();
+                closeChatAddBlock();
+
         }
+    }
+
+    private void setMainElementsEnableTrue() {
+        lvMain.setEnabled(true);
+        toolbar.setEnabled(true);
+        imageButtonAdd.setEnabled(true);
+    }
+
+    private void setMainElementsEnableFalse() {
+        lvMain.setEnabled(false);
+        toolbar.setEnabled(false);
+        imageButtonAdd.setEnabled(false);
+    }
+
+    private void openAddChatBlock() {
+        Animation animationRotateCenterRight = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center_right);
+        imageButtonAdd.setAnimation(animationRotateCenterRight);
+        up = AnimationUtils.loadAnimation(getContext(), R.anim.layout_up);
+        chatAddBt.setAnimation(up);
+        groupChatAddBt.setAnimation(up);
+        newChatTv.setAnimation(up);
+        newGroupTv.setAnimation(up);
+        addDialogBlock.setAnimation(up);
+
+        chatsAddingTranslucentLt.setVisibility(VISIBLE);
+        imageButtonClose.setVisibility(VISIBLE);
+        imageButtonAdd.setVisibility(GONE);
+        chatAddBt.setVisibility(VISIBLE);
+    }
+
+    private void closeChatAddBlock() {
+        down = AnimationUtils.loadAnimation(getContext(), R.anim.layout_down);
+        chatAddBt.setAnimation(down);
+        groupChatAddBt.setAnimation(down);
+        newChatTv.setAnimation(down);
+        newGroupTv.setAnimation(down);
+        addDialogBlock.setAnimation(down);
+
+        Animation animationRotateCenterLeft = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center_left);
+        imageButtonClose.setAnimation(animationRotateCenterLeft);
+        imageButtonClose.setVisibility(GONE);
+        imageButtonAdd.setVisibility(VISIBLE);
+        imageButtonAdd.setAnimation(animationRotateCenterLeft);
+        chatsAddingTranslucentLt.setVisibility(GONE);
     }
 }
 

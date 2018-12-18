@@ -57,13 +57,15 @@ public class CustomContactsAdapter extends BaseAdapter {
         TextView title;
         TextView subTitle;
         TextView extraTitle;
+        ImageView extraTitleIcon;
         ImageView avatar;
 
         ViewHolder(View view){
             //avatar = (ImageView)rowView.findViewById(R.id.dataWithIconAvatar);
-            title = (TextView)view.findViewById(R.id.dataWithIconTitle);
-            subTitle = (TextView)view.findViewById(R.id.dataWithIconSubTitle);
-            extraTitle = (TextView)view.findViewById(R.id.dataWithIconExtraTitle);
+            title = view.findViewById(R.id.dataWithIconTitle);
+            subTitle = view.findViewById(R.id.dataWithIconSubTitle);
+            extraTitle = view.findViewById(R.id.dataWithIconExtraTitle);
+            extraTitleIcon = view.findViewById(R.id.dataWithIconExtraTitleIcon);
         }
     }
 
@@ -86,11 +88,17 @@ public class CustomContactsAdapter extends BaseAdapter {
         viewHolder.title.setText(dataWithIcon.getName());
         viewHolder.subTitle.setText(dataWithIcon.getSubname());
 
+
         if (dataWithIcon.getExtraTitle() == null) {
             viewHolder.extraTitle.setText("");
         } else {
             viewHolder.extraTitle.setText(new SimpleDateFormat("HH:mm").format(dataWithIcon.getExtraTitle()));
         }
+
+        if(dataWithIcon.getExtraTitleIcon() != null) {
+            viewHolder.extraTitleIcon.setBackgroundResource(R.drawable.check);
+        }
+
         return view;
     }
 

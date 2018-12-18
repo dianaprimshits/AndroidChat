@@ -14,4 +14,6 @@ public interface DataWithIcon {
     int getAvatar();
 
     Date getExtraTitle();
+
+    Boolean getExtraTitleIcon();
 }

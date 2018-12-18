@@ -62,6 +62,11 @@ public class ChatRooms implements DataWithIcon {
         return null;
     }
 
+    @Override
+    public Boolean getExtraTitleIcon() {
+        return null;
+    }
+
 
     @Override
     public String getSubname() {

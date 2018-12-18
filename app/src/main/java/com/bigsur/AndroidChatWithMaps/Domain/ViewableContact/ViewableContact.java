@@ -46,4 +46,9 @@ public class ViewableContact implements DataWithIcon {
     public Date getExtraTitle() {
         return null;
     }
+
+    @Override
+    public Boolean getExtraTitleIcon() {
+        return null;
+    }
 }

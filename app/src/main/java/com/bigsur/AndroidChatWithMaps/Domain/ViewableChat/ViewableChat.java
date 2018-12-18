@@ -11,6 +11,7 @@ public class ViewableChat implements DataWithIcon {
     ChatRooms chat;
     String subTitle;
     Date extraTitle;
+    Boolean extraTitleIcon;
 
     protected ViewableChat(ChatRooms chat, Messages message) {
         this.chat = chat;
@@ -18,6 +19,7 @@ public class ViewableChat implements DataWithIcon {
         if(message != null) {
             subTitle = message.getMessage();
             extraTitle = message.getDate();
+            extraTitleIcon = false;
         }
     }
 
@@ -53,4 +55,10 @@ public class ViewableChat implements DataWithIcon {
     public Date getExtraTitle() {
         return extraTitle;
     }
+
+    @Override
+    public Boolean getExtraTitleIcon() {
+        return extraTitleIcon;
+    }
+
 }

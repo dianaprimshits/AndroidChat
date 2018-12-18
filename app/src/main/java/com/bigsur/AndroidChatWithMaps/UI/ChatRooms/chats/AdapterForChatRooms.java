@@ -62,8 +62,8 @@ public class AdapterForChatRooms extends BaseAdapter {
             view = lInflater.inflate(R.layout.chat_list, parent, false);
         }
 
-        ImageView avatar = (ImageView) view.findViewById(R.id.chatAvatar);
-        TextView name = (TextView) view.findViewById(R.id.chatName);
+        ImageView avatar = view.findViewById(R.id.chatAvatar);
+        TextView name = view.findViewById(R.id.chatName);
 
         DataWithIcon selectedItem = getItem(position);
         name.setText(selectedItem.getName().toString());
