@@ -11,7 +11,7 @@ import com.bigsur.AndroidChatWithMaps.UI.Home.MenuScreenActivity;
 import com.bigsur.AndroidChatWithMaps.R;
 
 
-public class StartActivity extends AppCompatActivity {
+public class gitStartActivity extends AppCompatActivity {
     AuthenticationManager authManager;
 
     @Override

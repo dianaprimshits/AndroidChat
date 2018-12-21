@@ -1,0 +1,89 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_toolbar"
+    style="@style/SettingsToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="156dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_scrollFlags="scroll|enterAlways">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/photoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:background="@color/settingsToolbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageButton
+            android:id="@+id/settingsFrSetupLoginButtonBack"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:src="@drawable/arrow_left_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/usesrAvatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="30dp"
+            android:elevation="5dp"
+            android:src="@drawable/default_avatar"
+            app:border_color="#000000"
+            app:border_width="4dp"
+            app:layout_constraintLeft_toLeftOf="@id/settingsFrSetupLoginButtonBack"
+            app:layout_constraintTop_toBottomOf="@id/settingsFrSetupLoginButtonBack" />
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/settingsToolbarTextBlock"
+            tools:layout_editor_absoluteX="110dp"
+            app:layout_constraintBottom_toBottomOf="@id/usesrAvatar"
+            app:layout_constraintTop_toTopOf="@id/usesrAvatar">
+
+            <TextView
+                android:id="@+id/settingsTVUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:text="@string/settingsTvUsername"
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@+id/settingsTVStatus"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="20dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/settingsTVStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="7dp"
+                android:text="@string/settingsTvStatus"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settingsTVUsername"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.Toolbar>

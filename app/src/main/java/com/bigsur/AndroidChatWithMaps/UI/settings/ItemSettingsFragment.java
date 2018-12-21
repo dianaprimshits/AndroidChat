@@ -1,46 +1,29 @@
 package com.bigsur.AndroidChatWithMaps.UI.settings;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.view.animation.AlphaAnimation;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
 import com.bigsur.AndroidChatWithMaps.R;
-import com.bigsur.AndroidChatWithMaps.UI.startScreen.LoginActivity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.app.Activity.RESULT_OK;
-import static android.view.View.GONE;
+import static android.R.attr.offset;
 import static android.view.View.OnClickListener;
-import static android.view.View.VISIBLE;
 
-public class ItemSettingsFragment extends Fragment implements OnClickListener {
+public class ItemSettingsFragment extends Fragment implements OnClickListener, AppBarLayout.OnOffsetChangedListener{
 
-    AuthenticationManager authManager = AuthenticationManager.getInstance();
+   /* AuthenticationManager authManager = AuthenticationManager.getInstance();
     Toolbar toolbar;
     TextView tvUsername;
     TextView tvLogin;
@@ -63,6 +46,19 @@ public class ItemSettingsFragment extends Fragment implements OnClickListener {
     private int PICK_IMAGE_REQUEST = 1;
     CircleImageView userAvatar;
     byte[] avatarBytes;
+    RecyclerView recyclerView;*/
+
+    private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.9f;
+    private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS     = 0.3f;
+    private static final int ALPHA_ANIMATIONS_DURATION              = 200;
+
+    private boolean mIsTheTitleVisible          = false;
+    private boolean mIsTheTitleContainerVisible = true;
+
+    private LinearLayout mTitleContainer;
+    private TextView mTitle;
+    private AppBarLayout mAppBarLayout;
+    private Toolbar mToolbar;
 
     public static ItemSettingsFragment newInstance() {
         ItemSettingsFragment fragment = new ItemSettingsFragment();
@@ -75,6 +71,97 @@ public class ItemSettingsFragment extends Fragment implements OnClickListener {
 
     }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_scrolling, container, false);
+
+        mToolbar        =  view.findViewById(R.id.main_toolbar);
+        mTitle          =  view.findViewById(R.id.main_textview_title);
+        mTitleContainer =  view.findViewById(R.id.main_linearlayout_title);
+        mAppBarLayout   =  view.findViewById(R.id.main_appbar);
+
+        mAppBarLayout.addOnOffsetChangedListener(this);
+
+        mToolbar.inflateMenu(R.menu.settings_toolbar_menu);
+        startAlphaAnimation(mTitle, 0, View.INVISIBLE);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setHasOptionsMenu(true);
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.settings_toolbar_menu, menu);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        int maxScroll = appBarLayout.getTotalScrollRange();
+        float percentage = (float) Math.abs(offset) / (float) maxScroll;
+
+        handleAlphaOnTitle(percentage);
+        handleToolbarTitleVisibility(percentage);
+    }
+
+    private void handleToolbarTitleVisibility(float percentage) {
+        if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
+
+            if(!mIsTheTitleVisible) {
+                startAlphaAnimation(mTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+                mIsTheTitleVisible = true;
+            }
+
+        } else {
+
+            if (mIsTheTitleVisible) {
+                startAlphaAnimation(mTitle, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+                mIsTheTitleVisible = false;
+            }
+        }
+    }
+
+    private void handleAlphaOnTitle(float percentage) {
+        if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
+            if(mIsTheTitleContainerVisible) {
+                startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
+                mIsTheTitleContainerVisible = false;
+            }
+
+        } else {
+
+            if (!mIsTheTitleContainerVisible) {
+                startAlphaAnimation(mTitleContainer, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
+                mIsTheTitleContainerVisible = true;
+            }
+        }
+    }
+
+    public static void startAlphaAnimation (View v, long duration, int visibility) {
+        AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
+                ? new AlphaAnimation(0f, 1f)
+                : new AlphaAnimation(1f, 0f);
+
+        alphaAnimation.setDuration(duration);
+        alphaAnimation.setFillAfter(true);
+        v.startAnimation(alphaAnimation);
+    }
+
+
+
+
+
+
+
+/*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -260,6 +347,6 @@ public class ItemSettingsFragment extends Fragment implements OnClickListener {
         photoLL.setEnabled(false);
         settingsLL.setEnabled(false);
         userAvatar.setEnabled(false);
-    }
+    }*/
 }
 
