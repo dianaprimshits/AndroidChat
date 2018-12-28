@@ -16,4 +16,6 @@ public interface DataWithIcon {
     Date getExtraTitle();
 
     Boolean getExtraTitleIcon();
+
+    void setName(String name);
 }

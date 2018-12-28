@@ -52,6 +52,7 @@ public class DataWithIconListview extends ListView {
 
 
 
+
         manager.addDataChangeListener(this, new Runnable() {
             @Override
             public void run() {

@@ -17,6 +17,8 @@
         <activity
             android:name=".UI.Contacts.ContactsSearchActivity"
             android:parentActivityName=".UI.Home.MenuScreenActivity" />
+        <activity android:name=".UI.ChatRooms.chats.DialogInfoActivity"/>
+        <activity android:name=".UI.ChatRooms.chats.RenameChatActivity"/>
         <activity android:name=".UI.ChatRooms.chats.AddGroupNameActivity" />
         <activity android:name=".UI.ChatRooms.chats.AddGroupActivity" />
         <activity android:name=".UI.Contacts.RenameContactActivity" />

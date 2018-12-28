@@ -51,4 +51,9 @@ public class ViewableContact implements DataWithIcon {
     public Boolean getExtraTitleIcon() {
         return null;
     }
+
+    @Override
+    public void setName(String name) {
+        contact.setContactName(name);
+    }
 }

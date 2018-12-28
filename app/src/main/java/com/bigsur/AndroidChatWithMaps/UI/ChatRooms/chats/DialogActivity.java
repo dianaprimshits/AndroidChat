@@ -4,9 +4,14 @@ package com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -55,6 +60,8 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     private static int DEFAULT_VALUE = -1;
     ListView messagesLV;
     MessageAdapter adapter;
+    Toolbar toolbar;
+    ConstraintLayout toolbarInfoLL;
 
 
     @Override
@@ -77,19 +84,20 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
             }
         }
 
-
+        toolbar = findViewById(R.id.dialog_toolbar);
         buttonBack = findViewById(R.id.dialogActivityToolbarButtonBack);
         messageET = findViewById(R.id.dialogActivityMessageET);
         buttonSend = findViewById(R.id.dialogActivityMessageSendButton);
         contactNameTV = findViewById(R.id.dialogActivityToolbarContactName);
         messagesLV = findViewById(R.id.lvMessage);
         numberOfChatMembers = findViewById(R.id.numberOfChatMembers);
+        toolbarInfoLL = findViewById(R.id.dialogTolbarInfoLL);
 
         contactNameTV.setText(dialogName);
         Log.d(TAG, "CHAT ROOM ID  " + contactOrChatRoomId);
         Log.d(TAG, "COMING FROM  " + intentComingFrom);
 
-
+        toolbarInfoLL.setOnClickListener(this);
         buttonBack.setOnClickListener(this);
         buttonSend.setOnClickListener(this);
 
@@ -116,7 +124,36 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         if(numberOfMembers > 1) {
             numberOfChatMembers.setText((contactsChatRoomsManager.getContactsNumber(chatRoomId) + 1) + " members");
         }
+
+        setSupportActionBar(toolbar);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_dialog_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.dialogMenuItemRename:
+                Intent renameIntent = new Intent(this, RenameChatActivity.class);
+                renameIntent.putExtra("id", chatRoomId);
+                renameIntent.putExtra("name", chatRoomManager.getById(chatRoomId).getName());
+                startActivity(renameIntent);
+                break;
+            case  R.id.dialogMenuItemDelete:
+                chatRoomManager.delete(chatRoomId);
+                messagesManager.deleteByChatRoomId(chatRoomId);
+                contactsChatRoomsManager.deleteByChatRoomId(chatRoomId);
+                break;
+        }
+
+        return true;
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -175,6 +212,17 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
+            case R.id.dialogTolbarInfoLL:
+                Intent infoIntent = new Intent(this, DialogInfoActivity.class);
+                infoIntent.putExtra("numberOfContacts", contactsInGroup);
+
+                for(int i = 0; i < contactsId.size(); i++) {
+                    infoIntent.putExtra("contactId" + i, contactsId.get(i));
+                }
+
+                infoIntent.putExtra("chatName", dialogName);
+                infoIntent.putExtra("membersNumber", contactsInGroup);
+                startActivity(infoIntent);
         }
 
     }

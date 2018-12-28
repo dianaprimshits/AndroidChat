@@ -153,4 +153,18 @@ public class SQLiteMessagesManager implements StorageManager {
         }
         return data;
     }
+
+    public void deleteByChatRoomId(int id) {
+        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... data) {
+                AppDatabase db = App.getInstance().getDatabase();
+                MessagesDAO messagesDAO = db.getMessagesDao();
+
+                int id = data[0];
+                messagesDAO.deleteByChatId(id);
+                return null;
+            }
+        }.execute(id);
+    }
 }

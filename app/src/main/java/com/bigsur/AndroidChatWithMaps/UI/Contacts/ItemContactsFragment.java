@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -70,6 +71,12 @@ public class ItemContactsFragment extends Fragment {
         contactsNumberTV.setText(contactsTVText);
         lvMain.init(dbStorage, new CustomContactsAdapter(getContext(), dbStorage), "contacts", getActivity());
 
+        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+        });
 
         dbStorage.addDataChangeListener(this, () -> {
             String contactsTVText1;
@@ -92,6 +99,7 @@ public class ItemContactsFragment extends Fragment {
             alertDialog.show();
             return true;
         });
+
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         return view;
@@ -124,10 +132,10 @@ public class ItemContactsFragment extends Fragment {
 
 
     private void findViewsById(View view) {
-        lvMain = (DataWithIconListview) view.findViewById(R.id.lvMain);
-        toolbar = (Toolbar) view.findViewById(R.id.chat_toolbar);
-        toolbar = (Toolbar) view.findViewById(R.id.contacts_toolbar);
-        contactsNumberTV = (TextView) view.findViewById(R.id.contactsNumberTV);
+        lvMain = view.findViewById(R.id.lvMain);
+        toolbar = view.findViewById(R.id.chat_toolbar);
+        toolbar = view.findViewById(R.id.contacts_toolbar);
+        contactsNumberTV = view.findViewById(R.id.contactsNumberTV);
     }
 
 

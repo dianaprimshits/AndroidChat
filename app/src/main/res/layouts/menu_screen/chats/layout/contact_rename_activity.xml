@@ -66,21 +66,6 @@
     <requestFocus />
     </EditText>
 
-    <EditText
-        android:id="@+id/renameContactActLastNameET"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/LastName"
-        android:textColor="@color/white"
-        android:textColorHint="@color/lightGrey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/renameContactActFirstNameET"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp" />
 
 
     <ImageButton

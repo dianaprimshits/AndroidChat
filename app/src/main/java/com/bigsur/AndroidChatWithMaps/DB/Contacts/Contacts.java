@@ -77,6 +77,11 @@ public class Contacts implements DataWithIcon {
         return null;
     }
 
+    @Override
+    public void setName(String name) {
+        setContactName(name);
+    }
+
     public int getContactAvatar() {
         return contactAvatar;
     }

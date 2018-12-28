@@ -1,5 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.UI.Contacts;
-
+package com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +8,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
-public class RenameContactActivity  extends AppCompatActivity implements View.OnClickListener {
+public class RenameChatActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG =  "LOG";
-    DataWithIconManager dbManager = ViewableContactManager.getInstance();
+    DataWithIconManager dbManager = ViewableChatManager.getInstance();
     private static int DEFAULT_VALUE = -1;
     String contactName;
     int contactId;
@@ -46,9 +45,9 @@ public class RenameContactActivity  extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.renameContactActButtonOk:
-                DataWithIcon contacts = dbManager.getById(contactId);
-                contacts.setName(contactNewNameET.getText().toString());
-                dbManager.update(contacts);
+                DataWithIcon chat = dbManager.getById(contactId);
+                chat.setName(contactNewNameET.getText().toString());
+                dbManager.update(chat);
                 onBackPressed();
         }
     }

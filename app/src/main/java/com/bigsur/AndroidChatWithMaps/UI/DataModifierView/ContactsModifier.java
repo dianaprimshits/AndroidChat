@@ -27,7 +27,7 @@ public class ContactsModifier extends DataModifier {
 
 
     @Override
-    public void init(final Context context, Adapter adapter, int position, final Activity activity) {
+       public void init(final Context context, Adapter adapter, int position, final Activity activity) {
 
         LinearLayout renameLL =  view.findViewById(R.id.renameContactLL);
         LinearLayout deleteLL =  view.findViewById(R.id.deleteContactLL);
@@ -40,6 +40,7 @@ public class ContactsModifier extends DataModifier {
                 Intent renameIntent = new Intent(activity, RenameContactActivity.class);
                 renameIntent.putExtra("id", data.getId());
                 renameIntent.putExtra("name", data.getName());
+                renameIntent.putExtra("comingFrom", "contacts");
                 context.startActivity(renameIntent);
             }
         });
@@ -49,7 +50,7 @@ public class ContactsModifier extends DataModifier {
             public void onClick(View v) {
                 DataWithIconManager dataWithIconManager = ViewableContactManager.getInstance();
                 dataWithIconManager.delete(data.getId());
-                return;
+                deleteLL.removeView(view);
             }
         });
     }

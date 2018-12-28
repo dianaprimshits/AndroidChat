@@ -61,4 +61,10 @@ public class ViewableChat implements DataWithIcon {
         return extraTitleIcon;
     }
 
+    @Override
+    public void setName(String name) {
+        chat.setChatRoomName(name);
+    }
+
+
 }

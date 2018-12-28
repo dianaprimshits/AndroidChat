@@ -131,4 +131,6 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="tequila_title">Tequila!</string>
+    <string name="renameChat">Rename Chat</string>
+    <string name="deleteChat">Delete Chat</string>
 </resources>

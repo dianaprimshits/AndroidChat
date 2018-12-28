@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +24,8 @@ import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.CustomContactsAdapter;
+import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.ChatModifier;
+import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.DataModifier;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
 
 import static android.view.View.GONE;
@@ -70,52 +73,14 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
         lvMain.init(dbStorage, new CustomContactsAdapter(getContext(), dbStorage), "chatRooms", getActivity());
 
 
-      /*  lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-                LayoutInflater li = LayoutInflater.from(getContext());
-                View dialog = li.inflate(R.layout.long_click_chat_rooms_listview, null);
-
-
-                AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
-                mDialogBuilder.setView(dialog);
-                final TextView alterDialogName = (TextView) dialog.findViewById(R.id.chatRoomName);
-
-                alterDialogName.setText(adapter.getItem(position));
-                mDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                })
-                        .setNegativeButton("delete",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dbStorage.delete(adapter.getItem(position).getId());
-                                        try {
-                                            refreshDialogList();
-                                        } catch (ExecutionException | InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
-                AlertDialog alertDialog = mDialogBuilder.create();
-                alertDialog.show();
-
-                final Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                final Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-                LinearLayout.LayoutParams buttonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-                buttonLL.weight = 1;
-                buttonLL.gravity = Gravity.CENTER;
-                positiveButton.setLayoutParams(buttonLL);
-                negativeButton.setLayoutParams(buttonLL);
-
-                Toast.makeText(getContext(), "Item clicked", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });*/
+        lvMain.setOnItemLongClickListener((parent, view1, position, id) -> {
+            DataModifier dataModifier = new ChatModifier(getContext());
+            dataModifier.init(getContext(), new CustomContactsAdapter(getContext(), dbStorage), position, getActivity());
+            AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
+            AlertDialog alertDialog = mDialogBuilder.setView(dataModifier.getView()).create();
+            alertDialog.show();
+            return true;
+        });
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         return view;

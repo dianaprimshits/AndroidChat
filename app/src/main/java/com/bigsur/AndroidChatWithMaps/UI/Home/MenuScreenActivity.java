@@ -11,7 +11,7 @@ import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.ItemChatsFragment;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.ItemContactsFragment;
 import com.bigsur.AndroidChatWithMaps.UI.maps.ItemMapsFragment;
-import com.bigsur.AndroidChatWithMaps.UI.settings.ItemSettingsFragment;
+import com.bigsur.AndroidChatWithMaps.UI.settings.FiaskoFragment;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 
@@ -23,7 +23,7 @@ public class MenuScreenActivity extends AppCompatActivity {
     Fragment mapsFragment = ItemMapsFragment.newInstance();
     Fragment contactsFragment = ItemContactsFragment.newInstance();
     Fragment chatsFragment = ItemChatsFragment.newInstance();
-    Fragment settingsFragment = ItemSettingsFragment.newInstance();
+    Fragment settingsFragment = FiaskoFragment.newInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -28,5 +28,8 @@ public interface MessagesDAO {
 
     @Query("SELECT * FROM messages WHERE message_to = :chatId AND date = (SELECT MAX(date) FROM messages WHERE message_to = :chatId)")
     Messages getLastMessage(int chatId);
+
+    @Query("DELETE FROM messages WHERE message_to = :id")
+    void deleteByChatId(int id);
 }
 

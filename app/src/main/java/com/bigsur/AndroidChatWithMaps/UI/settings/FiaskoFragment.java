@@ -1,5 +1,6 @@
 package com.bigsur.AndroidChatWithMaps.UI.settings;
 
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +11,12 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,8 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationManager;
@@ -39,66 +43,69 @@ import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class ItemSettingsFragment extends Fragment implements View.OnClickListener {
+public class FiaskoFragment extends Fragment implements View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
+    private int imageX;
+    private int totalScrollRange;
+    private int imageMargin;
+    private int toolbarHeight;
+    private int imageStartSize;
+    private int imageSize;
+    private float imageScale;
+    private ViewGroup.MarginLayoutParams imageMarginParams;
 
     AuthenticationManager authManager = AuthenticationManager.getInstance();
+    private FloatingActionButton editUserNameButton;
     Toolbar toolbar;
-    TextView tvUsername;
-    TextView tvLogin;
-    TextView tvPhone;
-    TextView tvBio;
-    ImageButton editUserNameButton;
-    ConstraintLayout userInfoLL;
-    ConstraintLayout phoneLL;
-    ConstraintLayout bioLL;
-    ConstraintLayout modifierAvatarLL;
-    ConstraintLayout photoLL;
-    ConstraintLayout settingsLL;
-    Animation up;
-    Animation down;
     ConstraintLayout translucentLL;
     ConstraintLayout modifierLL;
     ConstraintLayout openGalleryLL;
     ConstraintLayout deletePhotoLL;
     ConstraintLayout mainEntrails;
-    private int PICK_IMAGE_REQUEST = 1;
-    CircleImageView userAvatar;
+    ConstraintLayout settingsLL;
+    ConstraintLayout userInfoLL;
+    ConstraintLayout phoneLL;
+    ConstraintLayout bioLL;
     byte[] avatarBytes;
+    Animation up;
+    Animation down;
+    TextView tvLogin;
+    TextView tvPhone;
+    TextView tvBio;
+    private LinearLayout nameLL;
+    private TextView tvName;
+    private AppBarLayout appBarLayout;
+    private CircleImageView userAvatar;
+    ConstraintLayout modifierAvatarLL;
+    private int PICK_IMAGE_REQUEST = 1;
 
 
-    public static ItemSettingsFragment newInstance() {
-        ItemSettingsFragment fragment = new ItemSettingsFragment();
+
+
+    public static FiaskoFragment newInstance() {
+        FiaskoFragment fragment = new FiaskoFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.settings_fragment, container, false);
+        View view = inflater.inflate(R.layout.fiasko, null);
         findViewsById(view);
+
+        imageMarginParams = (ViewGroup.MarginLayoutParams) userAvatar.getLayoutParams();
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
 
-        tvUsername.setText(authManager.getUsername());
-        tvLogin.setText(authManager.getSavedCredentials().getLogin());
-        tvPhone.setText(authManager.getPhoneNumber());
-        tvBio.setText(authManager.getBio());
 
-        byte[] array = Base64.decode(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("AVATAR", "defaultStringIfNothingFound"), Base64.DEFAULT);
-        if (PreferenceManager.getDefaultSharedPreferences(getContext()).getString("AVATAR", "defaultStringIfNothingFound").equals("defaultStringIfNothingFound")){
-            userAvatar.setImageResource(R.drawable.default_avatar);
-        } else {
-            userAvatar.setImageBitmap(BitmapFactory.decodeByteArray(array, 0, array.length));
-        }
+        setViewResources();
+        setListeners();
 
-        setOnClickListener();
         return view;
     }
 
@@ -109,38 +116,6 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
         inflater.inflate(R.menu.settings_toolbar_menu, menu);
     }
 
-
-    private void setOnClickListener() {
-        userAvatar.setOnClickListener(this);
-        editUserNameButton.setOnClickListener(this);
-        userInfoLL.setOnClickListener(this);
-        phoneLL.setOnClickListener(this);
-        bioLL.setOnClickListener(this);
-        openGalleryLL.setOnClickListener(this);
-        deletePhotoLL.setOnClickListener(this);
-        translucentLL.setOnClickListener(this);
-    }
-
-    private void findViewsById(View view) {
-        toolbar = view.findViewById(R.id.dialog_toolbar);
-        tvUsername = view.findViewById(R.id.settingsTVUsername);
-        tvLogin = view.findViewById(R.id.settingsFrSetupUserNameTV);
-        tvBio = view.findViewById(R.id.settingsFrTVBio);
-        tvPhone = view.findViewById(R.id.settingsFrTVPhone);
-        //editUserNameButton = view.findViewById(R.id.settingsFrEditNameButton);
-        userInfoLL = view.findViewById(R.id.settingsFrUsername);
-        phoneLL = view.findViewById(R.id.settingsFrPhoneNumber);
-        bioLL = view.findViewById(R.id.settingsFrBio);
-        modifierAvatarLL = view.findViewById(R.id.modifierAvatarLL);
-        photoLL = view.findViewById(R.id.photoLayout);
-        settingsLL = view.findViewById(R.id.settingsFrUserInfo);
-        openGalleryLL = view.findViewById(R.id.openGalleryLL);
-        userAvatar = view.findViewById(R.id.usesrAvatar);
-        deletePhotoLL = view.findViewById(R.id.deleteAvatarLL);
-        modifierLL = view.findViewById(R.id.modifierLL);
-        translucentLL = view.findViewById(R.id.translucentLL);
-        mainEntrails = view.findViewById(R.id.mainEntrails);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -154,6 +129,62 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    private void setListeners() {
+        userAvatar.setOnClickListener(this);
+        appBarLayout.addOnOffsetChangedListener(this);
+        editUserNameButton.setOnClickListener(this);
+        userInfoLL.setOnClickListener(this);
+        phoneLL.setOnClickListener(this);
+        bioLL.setOnClickListener(this);
+        openGalleryLL.setOnClickListener(this);
+        deletePhotoLL.setOnClickListener(this);
+        translucentLL.setOnClickListener(this);
+    }
+
+    private void setViewResources() {
+        tvName.setInputType(InputType.TYPE_NULL);
+
+        tvName.setText(authManager.getUsername());
+        tvLogin.setText(authManager.getSavedCredentials().getLogin());
+        tvPhone.setText(authManager.getPhoneNumber());
+        tvBio.setText(authManager.getBio());
+        tvName.setHintTextColor(R.color.white);
+
+        byte[] array = Base64.decode(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("AVATAR", "defaultStringIfNothingFound"), Base64.DEFAULT);
+        if (PreferenceManager.getDefaultSharedPreferences(getContext()).getString("AVATAR", "defaultStringIfNothingFound").equals("defaultStringIfNothingFound")){
+            userAvatar.setImageResource(R.drawable.default_avatar);
+        } else {
+            userAvatar.setImageBitmap(BitmapFactory.decodeByteArray(array, 0, array.length));
+        }
+
+
+    }
+
+
+    private void findViewsById(View view) {
+        toolbar = view.findViewById(R.id.toolbar);
+        editUserNameButton = view.findViewById(R.id.settingsFrEditNameButton);
+        tvName = view.findViewById(R.id.settingsTVUsername);
+        tvLogin = view.findViewById(R.id.settingsFrSetupUserNameTV);
+        tvBio = view.findViewById(R.id.settingsFrTVBio);
+        tvPhone = view.findViewById(R.id.settingsFrTVPhone);
+        userInfoLL = view.findViewById(R.id.settingsFrUsername);
+        phoneLL = view.findViewById(R.id.settingsFrPhoneNumber);
+        bioLL = view.findViewById(R.id.settingsFrBio);
+        settingsLL = view.findViewById(R.id.settingsFrUserInfo);
+        openGalleryLL = view.findViewById(R.id.openGalleryLL);
+        deletePhotoLL = view.findViewById(R.id.deleteAvatarLL);
+        modifierLL = view.findViewById(R.id.modifierLL);
+        translucentLL = view.findViewById(R.id.translucentLL);
+        mainEntrails = view.findViewById(R.id.mainEntrails);
+        nameLL = view.findViewById(R.id.name);
+        userAvatar = view.findViewById(R.id.usesrAvatar);
+        appBarLayout = view.findViewById(R.id.appbar);
+        modifierAvatarLL = view.findViewById(R.id.modifierAvatarLL);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -181,8 +212,6 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
                 modifierLL.setAnimation(up);
                 modifierLL.setVisibility(VISIBLE);
                 setEnabledFalse();
-
-
                 break;
             case R.id.openGalleryLL:
                 Intent photoIntent = new Intent();
@@ -206,6 +235,29 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
                 translucentLL.setVisibility(GONE);
         }
     }
+
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int offsetValue) {
+        float offset = offsetValue;
+        totalScrollRange = appBarLayout.getTotalScrollRange();
+        imageMargin = imageMarginParams.topMargin;
+
+        toolbarHeight = toolbar.getHeight();
+        imageStartSize = userAvatar.getHeight();
+
+        imageScale = offset / totalScrollRange + 1;
+        imageSize = (int) (imageStartSize * imageScale);
+        imageX = imageMargin - imageSize + (int) (imageSize * imageScale);
+
+        if (imageSize > toolbarHeight * 0.7) {
+            nameLL.setPadding(imageSize, 0, 0, 0);
+            userAvatar.setX(imageX);
+            userAvatar.setScaleX(imageScale);
+            userAvatar.setScaleY(imageScale);
+        }
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -235,7 +287,7 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
 
     private void setEnabledTrue() {
         toolbar.setEnabled(true);
-        tvUsername.setEnabled(true);
+        tvName.setEnabled(true);
         tvLogin.setEnabled(true);
         tvBio.setEnabled(true);
         tvPhone.setEnabled(true);
@@ -243,14 +295,13 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
         userInfoLL.setEnabled(true);
         phoneLL.setEnabled(true);
         bioLL.setEnabled(true);
-        photoLL.setEnabled(true);
         settingsLL.setEnabled(true);
         userAvatar.setEnabled(true);
     }
 
     private void setEnabledFalse() {
         toolbar.setEnabled(false);
-        tvUsername.setEnabled(false);
+        tvName.setEnabled(false);
         tvLogin.setEnabled(false);
         tvBio.setEnabled(false);
         tvPhone.setEnabled(false);
@@ -258,9 +309,7 @@ public class ItemSettingsFragment extends Fragment implements View.OnClickListen
         userInfoLL.setEnabled(false);
         phoneLL.setEnabled(false);
         bioLL.setEnabled(false);
-        photoLL.setEnabled(false);
         settingsLL.setEnabled(false);
         userAvatar.setEnabled(false);
     }
 }
-

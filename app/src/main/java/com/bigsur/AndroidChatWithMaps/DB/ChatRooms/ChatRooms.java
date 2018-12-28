@@ -67,6 +67,11 @@ public class ChatRooms implements DataWithIcon {
         return null;
     }
 
+    @Override
+    public void setName(String name) {
+        setChatRoomName(name);
+    }
+
 
     @Override
     public String getSubname() {

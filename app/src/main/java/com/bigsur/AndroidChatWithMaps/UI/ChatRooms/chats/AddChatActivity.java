@@ -25,7 +25,6 @@ public class AddChatActivity extends AppCompatActivity implements View.OnClickLi
     ImageButton backBt;
     SearchView searchView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
