@@ -106,6 +106,8 @@ public class FiaskoFragment extends Fragment implements View.OnClickListener, Ap
         setViewResources();
         setListeners();
 
+//запретить свайпать скролвью, чтобы не упарывалась аватарка при сжатии
+        view.setHorizontalScrollBarEnabled(false);
         return view;
     }
 
@@ -158,7 +160,6 @@ public class FiaskoFragment extends Fragment implements View.OnClickListener, Ap
         } else {
             userAvatar.setImageBitmap(BitmapFactory.decodeByteArray(array, 0, array.length));
         }
-
 
     }
 

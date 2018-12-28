@@ -52,6 +52,9 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     int contactOrChatRoomId;
     int contactId;
     int chatRoomId;
+
+    int numberOfMembers;
+
     String dialogName;
     String intentComingFrom;
     ArrayList<Integer> contactsId = new ArrayList<>();
@@ -77,12 +80,6 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
 
 
         contactsInGroup = intent.getIntExtra("numberOfContacts", -1);
-
-        if (contactsInGroup != null) {
-            for (int i = 0; i < contactsInGroup; i++) {
-                contactsId.add(intent.getIntExtra("id" + i, -1));
-            }
-        }
 
         toolbar = findViewById(R.id.dialog_toolbar);
         buttonBack = findViewById(R.id.dialogActivityToolbarButtonBack);
@@ -120,7 +117,22 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
         }
 
 
-        int numberOfMembers = contactsChatRoomsManager.getContactsNumber(chatRoomId);
+        if (contactsInGroup != -1 && contactsInGroup != null) {
+            for (int i = 0; i < contactsInGroup; i++) {
+                contactsId.add(intent.getIntExtra("id" + i, -1));
+            }
+        } else {
+            contactsInGroup = contactsChatRoomsManager.getContactsNumber(chatRoomId);
+            ArrayList<ContactsChatRooms> contacts = contactsChatRoomsManager.getByChatRoomId(chatRoomId);
+
+            for (int i = 0; i < contacts.size(); i++) {
+                contactsId.add(contacts.get(i).getContactId());
+            }
+        }
+
+
+
+        numberOfMembers = contactsChatRoomsManager.getContactsNumber(chatRoomId);
         if(numberOfMembers > 1) {
             numberOfChatMembers.setText((contactsChatRoomsManager.getContactsNumber(chatRoomId) + 1) + " members");
         }
@@ -177,7 +189,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
 
                         for (int i = 0; i < contactsInGroup; i++) {
                             ContactsChatRooms connection = new ContactsChatRooms(contactsId.get(i), chatRoomId);
-                            contactsChatRoomsManager.create(new DataFromDB(connection));
+                            contactsChatRoomsManager.create(connection);
                         }
                     } catch (ExecutionException | InterruptedException e) {
                         e.printStackTrace();
@@ -192,7 +204,7 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                             chatRoomId = chatRoomManager.getLastId();
 
                             ContactsChatRooms connection = new ContactsChatRooms(contactId, chatRoomId);
-                            contactsChatRoomsManager.create(new DataFromDB(connection));
+                            contactsChatRoomsManager.create(connection);
                         }
 
                     } catch (ExecutionException | InterruptedException e) {
@@ -212,24 +224,27 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
+                break;
             case R.id.dialogTolbarInfoLL:
                 Intent infoIntent = new Intent(this, DialogInfoActivity.class);
-                infoIntent.putExtra("numberOfContacts", contactsInGroup);
+
 
                 for(int i = 0; i < contactsId.size(); i++) {
                     infoIntent.putExtra("contactId" + i, contactsId.get(i));
                 }
 
                 infoIntent.putExtra("chatName", dialogName);
-                infoIntent.putExtra("membersNumber", contactsInGroup);
+                infoIntent.putExtra("membersNumber", numberOfMembers);
+                infoIntent.putExtra("chatRoomId", chatRoomId);
                 startActivity(infoIntent);
+                break;
         }
 
     }
 
 
     public int getContactChatConnectionNumber(int contactId) throws ExecutionException, InterruptedException {
-        List<DataFromDB> result = contactsChatRoomsManager.getByContactId(contactId);
+        List<ContactsChatRooms> result = contactsChatRoomsManager.getByContactId(contactId);
         if (result.isEmpty()) {
             return 0;
         }
@@ -237,11 +252,11 @@ public class DialogActivity extends AppCompatActivity implements OnClickListener
     }
 
     public ArrayList<ContactsChatRooms> getChatsWithGivenContact(int contactId) throws ExecutionException, InterruptedException {
-        List<DataFromDB> result = contactsChatRoomsManager.getByContactId(contactId);
+        List<ContactsChatRooms> result = contactsChatRoomsManager.getByContactId(contactId);
         ArrayList<ContactsChatRooms> contactEntries = new ArrayList<>();
 
-        for (DataFromDB item : result) {
-            contactEntries.add((ContactsChatRooms) item.getData());
+        for (ContactsChatRooms item : result) {
+            contactEntries.add(item);
         }
         return contactEntries;
     }

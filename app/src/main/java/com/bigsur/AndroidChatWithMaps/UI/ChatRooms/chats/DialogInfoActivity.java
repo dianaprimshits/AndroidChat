@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigsur.AndroidChatWithMaps.DB.ContactsChatRooms.SQLiteContactsChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.SQLiteMessagesManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.AdapterForContactsInChat;
@@ -26,6 +32,12 @@ public class DialogInfoActivity extends AppCompatActivity implements View.OnClic
     TextView groupNameTV;
     TextView groupMembersTV;
     ArrayList<Integer> contactsId = new ArrayList<>();
+    SQLiteContactsChatRoomsManager contactsChatRoomsManager = new SQLiteContactsChatRoomsManager();
+    DataWithIconManager chatRoomManager = ViewableChatManager.getInstance();
+    SQLiteMessagesManager messagesManager = SQLiteMessagesManager.getInstance();
+    int contactsInGroup;
+    int chatRoomId;
+    String chatName;
 
 
 
@@ -44,13 +56,16 @@ public class DialogInfoActivity extends AppCompatActivity implements View.OnClic
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(null);
 
         Intent intent = getIntent();
 
-        groupNameTV.setText(intent.getIntExtra("membersNumber", -1));
-        groupMembersTV.setText(intent.getStringExtra("chatName"));
-        int contactsInGroup = intent.getIntExtra("numberOfContacts", -1);
+        contactsInGroup = intent.getIntExtra("membersNumber", -1);
+        chatRoomId = intent.getIntExtra("chatRoomId", -1);
+        chatName = intent.getStringExtra("chatName");
+
+
+        groupMembersTV.setText(contactsInGroup + "contacts");
+        groupNameTV.setText(chatName);
 
         for(int i = 0; i < contactsInGroup; i++) {
             contactsId.add(intent.getIntExtra("contactId" + i, -1));
@@ -67,10 +82,34 @@ public class DialogInfoActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.groupAddNameActBtBack:
+            case R.id.dialogInfoActBtBack:
                 onBackPressed();
                 break;
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_dialog_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.dialogMenuItemRename:
+                Intent renameIntent = new Intent(this, RenameChatActivity.class);
+                renameIntent.putExtra("id", chatRoomId);
+                renameIntent.putExtra("name", chatRoomManager.getById(chatRoomId).getName());
+                startActivity(renameIntent);
+                break;
+            case  R.id.dialogMenuItemDelete:
+                chatRoomManager.delete(chatRoomId);
+                messagesManager.deleteByChatRoomId(chatRoomId);
+                contactsChatRoomsManager.deleteByChatRoomId(chatRoomId);
+                break;
+        }
+        return true;
     }
 }

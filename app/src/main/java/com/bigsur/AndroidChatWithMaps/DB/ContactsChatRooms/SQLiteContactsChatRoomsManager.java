@@ -5,36 +5,23 @@ import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.DB.StorageManager;
-import com.bigsur.AndroidChatWithMaps.DB.DataFromDB;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class SQLiteContactsChatRoomsManager implements StorageManager {
+public class SQLiteContactsChatRoomsManager {
 
-    @Override
-    public void create(final DataFromDB data) {
-        new AsyncTask<DataFromDB, Void, Void>() {
+    public void create(final ContactsChatRooms data) {
+        new AsyncTask<ContactsChatRooms, Void, Void>() {
             @Override
-            protected Void doInBackground(DataFromDB... data) {
+            protected Void doInBackground(ContactsChatRooms... data) {
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
-                contactsChatRoomsDao.insert((ContactsChatRooms) data[0].getData());
+                contactsChatRoomsDao.insert(data[0]);
                 return null;
             }
         }.execute(data);
-    }
-
-    @Override
-    public void update(final DataFromDB data) {
-        //do nothing
-    }
-
-    @Override
-    public void delete(int id) {
-        //do nothing
     }
 
 
@@ -82,17 +69,11 @@ public class SQLiteContactsChatRoomsManager implements StorageManager {
     }
 
 
-    @Override
-    public DataFromDB getById(int id) throws ExecutionException, InterruptedException {
-        return null;
-    }
-
-    @Override
-    public ArrayList<DataFromDB> getAll() throws InterruptedException, ExecutionException {
-         List<DataFromDB> data = new AsyncTask<Void, Void, List<DataFromDB>>() {
+    public ArrayList<ContactsChatRooms> getAll() throws InterruptedException, ExecutionException {
+         List<ContactsChatRooms> data = new AsyncTask<Void, Void, List<ContactsChatRooms>>() {
             @Override
-            protected List<DataFromDB> doInBackground(Void ... data) {
-                ArrayList<DataFromDB> displayList = new ArrayList<>();
+            protected List<ContactsChatRooms> doInBackground(Void ... data) {
+                ArrayList<ContactsChatRooms> displayList = new ArrayList<>();
 
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
@@ -101,24 +82,24 @@ public class SQLiteContactsChatRoomsManager implements StorageManager {
                 List<ContactsChatRooms> contactsChatRooms = contactsChatRoomsDao.getAll();
 
                 for(int i = 0; i < contactsChatRooms.size(); i++) {
-                    displayList.add(new DataFromDB(contactsChatRooms.get(i)));
+                    displayList.add(contactsChatRooms.get(i));
                 }
                 return displayList;
             }
 
             @Override
-            protected void onPostExecute(List<DataFromDB> contactsChatRooms) {
+            protected void onPostExecute(List<ContactsChatRooms> contactsChatRooms) {
                 super.onPostExecute(contactsChatRooms);
             }
         }.execute().get();
         return new ArrayList<>(data);
     }
 
-    public ArrayList<DataFromDB> getByContactId(int contactId) throws InterruptedException, ExecutionException {
-        List<DataFromDB> data = new AsyncTask<Integer, Void, List<DataFromDB>>() {
+    public ArrayList<ContactsChatRooms> getByContactId(int contactId) throws InterruptedException, ExecutionException {
+        List<ContactsChatRooms> data = new AsyncTask<Integer, Void, List<ContactsChatRooms>>() {
             @Override
-            protected List<DataFromDB> doInBackground(Integer ... data) {
-                ArrayList<DataFromDB> displayList = new ArrayList<>();
+            protected List<ContactsChatRooms> doInBackground(Integer ... data) {
+                ArrayList<ContactsChatRooms> displayList = new ArrayList<>();
 
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
@@ -127,51 +108,53 @@ public class SQLiteContactsChatRoomsManager implements StorageManager {
                 List<ContactsChatRooms> contactsChatRooms = contactsChatRoomsDao.getByContactsID(contactId);
 
                 for(int i = 0; i < contactsChatRooms.size(); i++) {
-                    displayList.add(new DataFromDB(contactsChatRooms.get(i)));
+                    displayList.add(contactsChatRooms.get(i));
                 }
                 return displayList;
             }
 
             @Override
-            protected void onPostExecute(List<DataFromDB> contactsChatRooms) {
+            protected void onPostExecute(List<ContactsChatRooms> contactsChatRooms) {
                 super.onPostExecute(contactsChatRooms);
             }
         }.execute(contactId).get();
         return new ArrayList<>(data);
     }
 
-    public ArrayList<DataFromDB> getByChatRoomId(final int chatRoomId) throws InterruptedException, ExecutionException {
-        List<DataFromDB> data = new AsyncTask<Integer, Void, List<DataFromDB>>() {
-            @Override
-            protected List<DataFromDB> doInBackground(Integer ... data) {
-                ArrayList<DataFromDB> displayList = new ArrayList<>();
 
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
+    public ArrayList<ContactsChatRooms> getByChatRoomId(final int chatRoomId) {
+        List<ContactsChatRooms> data = null;
+        try {
+            data = new AsyncTask<Integer, Void, List<ContactsChatRooms>>() {
+                @Override
+                protected List<ContactsChatRooms> doInBackground(Integer ... data) {
+                    ArrayList<ContactsChatRooms> displayList = new ArrayList<>();
 
-                int chatRoomId = data[0];
-                Log.d("!!!!!LOG!!", "doInBackground: " + contactsChatRoomsDao.getAll().toString());
-                List<ContactsChatRooms> contactsChatRooms = contactsChatRoomsDao.getByChatRoomsID(chatRoomId);
+                    AppDatabase db = App.getInstance().getDatabase();
+                    ContactsChatRoomsDAO contactsChatRoomsDao = db.getContactsChatRoomsDao();
 
-                for(int i = 0; i < contactsChatRooms.size(); i++) {
-                    displayList.add(new DataFromDB(contactsChatRooms.get(i)));
+                    int chatRoomId = data[0];
+                    Log.d("!!!!!LOG!!", "doInBackground: " + contactsChatRoomsDao.getAll().toString());
+                    List<ContactsChatRooms> contactsChatRooms = contactsChatRoomsDao.getByChatRoomsID(chatRoomId);
+
+                    for(int i = 0; i < contactsChatRooms.size(); i++) {
+                        displayList.add(contactsChatRooms.get(i));
+                    }
+                    return displayList;
                 }
-                return displayList;
-            }
 
-            @Override
-            protected void onPostExecute(List<DataFromDB> contactsChatRooms) {
-                super.onPostExecute(contactsChatRooms);
-            }
-        }.execute(chatRoomId).get();
+                @Override
+                protected void onPostExecute(List<ContactsChatRooms> contactsChatRooms) {
+                    super.onPostExecute(contactsChatRooms);
+                }
+            }.execute(chatRoomId).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return new ArrayList<>(data);
     }
 
 
-    @Override
-    public List<DataFromDB> getSimilarData(String search) throws ExecutionException, InterruptedException {
-        return null;
-    }
 
     public int getContactsNumber(int chatRoomId) {
         int data = 0;
