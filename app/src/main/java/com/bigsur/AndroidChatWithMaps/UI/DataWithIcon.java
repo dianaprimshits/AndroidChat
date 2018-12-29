@@ -11,7 +11,7 @@ public interface DataWithIcon {
 
     String getSubname();
 
-    int getAvatar();
+    String getAvatar();
 
     Date getExtraTitle();
 

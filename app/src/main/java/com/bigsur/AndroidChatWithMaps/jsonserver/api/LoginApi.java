@@ -1,14 +1,13 @@
-package com.bigsur.AndroidChatWithMaps;
+package com.bigsur.AndroidChatWithMaps.jsonserver.api;
 
 import com.bigsur.AndroidChatWithMaps.AuthManager.AuthenticationInstance;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface LoginApi {
     @GET("/login")
-    Call<List<AuthenticationInstance>> getLoginInstances();
+    Call<AuthenticationInstance> getLoginInstance();
+
 
 }

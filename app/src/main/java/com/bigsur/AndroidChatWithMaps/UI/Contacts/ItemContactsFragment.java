@@ -30,6 +30,8 @@ import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.DataModifier;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class ItemContactsFragment extends Fragment {
     private static final String TAG = "!!!LOG!!!";
@@ -37,7 +39,6 @@ public class ItemContactsFragment extends Fragment {
     Toolbar toolbar;
     DataWithIconListview lvMain;
     DataWithIconManager dbStorage = ViewableContactManager.getInstance();
-
 
     public static ItemContactsFragment newInstance() {
         ItemContactsFragment fragment = new ItemContactsFragment();
@@ -60,7 +61,9 @@ public class ItemContactsFragment extends Fragment {
         findViewsById(view);
 
         String contactsTVText;
+
         int contactsNumber = dbStorage.getAll().size();
+
         int contactsNumberLastDigit = contactsNumber % 10;
         if (contactsNumberLastDigit == 1) {
             contactsTVText = String.format("%d contact", contactsNumber);
@@ -151,7 +154,11 @@ public class ItemContactsFragment extends Fragment {
                 .setPositiveButton("create contact",
                         (dialog12, id) -> {
                             DataWithIcon contact = new ViewableContact(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
-                            dbStorage.create(contact);
+                            try {
+                                dbStorage.create(contact);
+                            } catch (ExecutionException | InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             Log.d(TAG, "onClick: " + dbStorage.toString());
 
                         })

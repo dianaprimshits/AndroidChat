@@ -22,7 +22,7 @@ public class ChatRooms implements DataWithIcon {
     @ColumnInfo(name = "chat_room_name")
     private String chatRoomName;
     @ColumnInfo(name = "chat_avatar")
-    private int chatAvatar;
+    private String chatAvatar;
 
 
     public ChatRooms(String chatRoomName) {
@@ -47,14 +47,14 @@ public class ChatRooms implements DataWithIcon {
         return getName();
     }
 
-    public int getChatAvatar() {
+    public String getChatAvatar() {
         return chatAvatar;
     }
 
 
     @Override
-    public int getAvatar() {
-        return 0;
+    public String getAvatar() {
+        return null;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ChatRooms implements DataWithIcon {
     }
 
 
-    public void setChatAvatar(int chatAvatar) {
+    public void setChatAvatar(String chatAvatar) {
         this.chatAvatar = chatAvatar;
     }
 }

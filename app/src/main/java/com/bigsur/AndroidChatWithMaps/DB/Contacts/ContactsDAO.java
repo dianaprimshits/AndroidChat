@@ -29,4 +29,6 @@ public interface ContactsDAO {
     @Query("SELECT * FROM contacts WHERE contact_name LIKE :search OR phone_number LIKE :search")
     List<Contacts> getSimilarContacts(String search);
 
+    @Query("SELECT * FROM contacts WHERE _id = (SELECT MAX(_id) FROM contacts)")
+    Contacts getLastContact();
 }

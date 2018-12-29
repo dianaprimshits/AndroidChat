@@ -7,8 +7,9 @@ import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.jsonserver.JsonServerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class SQLiteContactsManager extends DataWithIconManager {
     }
 
     @Override
-    public void create(final DataWithIcon data) {
+    public void create(final DataWithIcon data)  {
         new AsyncTask<DataWithIcon, Void, Void>() {
             @Override
             protected Void doInBackground(DataWithIcon... data) {
@@ -40,8 +41,43 @@ public class SQLiteContactsManager extends DataWithIconManager {
                 return null;
             }
         }.execute(data);
+
+        new AsyncTask<DataWithIcon, Void, Void>() {
+            @Override
+            protected Void doInBackground(DataWithIcon... data) {
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
+
+                    Contacts contact = contactsDao.getLastContact();
+                    JsonServerManager retrofirManager = new JsonServerManager();
+                    retrofirManager.postContact(contact.getId(), contact.getName(), contact.getSubname(), contact.getAvatar());
+
+
+                return null;
+            }
+        }.execute(data);
+
         dataUpdated();
     }
+
+
+    public Contacts getLastContact() throws ExecutionException, InterruptedException {
+
+            return new AsyncTask<Void, Void, Contacts>() {
+                @Override
+                protected Contacts doInBackground(Void... data) {
+                    AppDatabase db = App.getInstance().getDatabase();
+                    ContactsDAO contactsDao = db.getContactsDao();
+                    return contactsDao.getLastContact();
+                }
+
+                @Override
+                protected void onPostExecute(Contacts contact) {
+                    super.onPostExecute(contact);
+                }
+            }.execute().get();
+    }
+
 
 
     @Override

@@ -47,7 +47,7 @@ public class ViewableChat implements DataWithIcon {
     }
 
     @Override
-    public int getAvatar() {
+    public String getAvatar() {
         return chat.getAvatar();
     }
 

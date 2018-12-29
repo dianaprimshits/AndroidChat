@@ -21,7 +21,7 @@ public class Contacts implements DataWithIcon {
     @ColumnInfo(name = "phone_number")
     private String phoneNumber;
     @ColumnInfo(name = "contact_avatar")
-    private int contactAvatar;
+    private String contactAvatar;
 
 
     public Contacts(String contactName, String phoneNumber) {
@@ -63,8 +63,8 @@ public class Contacts implements DataWithIcon {
     }
 
     @Override
-    public int getAvatar() {
-        return 0;
+    public String getAvatar() {
+        return null;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class Contacts implements DataWithIcon {
         setContactName(name);
     }
 
-    public int getContactAvatar() {
+    public String getContactAvatar() {
         return contactAvatar;
     }
 
@@ -95,7 +95,7 @@ public class Contacts implements DataWithIcon {
         this.contactName = contactName;
     }
 
-    public void setContactAvatar(int contactAvatar) {
+    public void setContactAvatar(String contactAvatar) {
         this.contactAvatar = contactAvatar;
     }
 }

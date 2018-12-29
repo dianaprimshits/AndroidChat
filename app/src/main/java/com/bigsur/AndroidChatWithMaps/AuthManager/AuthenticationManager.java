@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.bigsur.AndroidChatWithMaps.LoginApi;
-import com.bigsur.AndroidChatWithMaps.RetrofitBuilder;
+import com.bigsur.AndroidChatWithMaps.jsonserver.RetrofitBuilder;
+import com.bigsur.AndroidChatWithMaps.jsonserver.api.LoginApi;
 
 import java.security.KeyStore;
 import java.util.List;
@@ -128,27 +128,6 @@ public class AuthenticationManager implements AuthManager {
         String passString = credentials.getPassword();
         prefStore.edit().putString(loginKey, loginString).apply();
         prefStore.edit().putString(passKey, passString).apply();
-        //закинуть на сервер
-        //нужно посмотреть последний айдишник, который есть на сервере и забрасить туда новую запись с id+1
-
-        Retrofit retrofit = RetrofitBuilder.getRetrofitInstance();
-
-        LoginApi loginApi = retrofit.create(LoginApi.class);
-
-        Call<List<AuthenticationInstance>> logins = loginApi.getLoginInstances();
-        logins.enqueue(new Callback<List<AuthenticationInstance>>() {
-            @Override
-            public void onResponse(Call<List<AuthenticationInstance>> call, Response<List<AuthenticationInstance>> response) {
-                Log.d(TAG, "!!!!!!!!!!!response " + response.body().size());
-            }
-
-            @Override
-            public void onFailure(Call<List<AuthenticationInstance>> call, Throwable t) {
-                Log.d(TAG, "!!!!!!!!!!!response fail " + t);
-            }
-        });
-
-        Log.d("!!!LOG!!!", String.format("login %s, password %s", prefStore.getString(loginKey, null), prefStore.getString(passKey, null)));
         onSuccess.run();
     }
 
@@ -221,7 +200,36 @@ public class AuthenticationManager implements AuthManager {
                 new Runnable() {
                     @Override
                     public void run() {
-                        onSuccess.run();
+                        Retrofit retrofit = RetrofitBuilder.getRetrofitInstance();
+                        LoginApi loginApi = retrofit.create(LoginApi.class);
+
+                        Call<AuthenticationInstance> logins = loginApi.getLoginInstance();
+                        logins.enqueue(new Callback<AuthenticationInstance>() {
+                            @Override
+                            public void onResponse(Call<AuthenticationInstance> call, Response<AuthenticationInstance> response) {
+                                if (response.isSuccessful()) {
+                                    AuthenticationInstance login = response.body();
+
+                                    if (login.getAuthenticationInstance().isSuccess()) {
+                                        onSuccess.run();
+                                        Log.d(TAG, "!!!!!onResponse: success");
+                                    }
+
+                                } else {
+                                    onFail.run();
+                                    Log.d(TAG, "response code " + response.code());
+                                }
+
+                                Log.d(TAG, "!!!!!!!!!!!response " + response.body());
+                            }
+
+                            @Override
+                            public void onFailure(Call<AuthenticationInstance> call, Throwable t) {
+                                onFail.run();
+                                Log.d(TAG, "!!!!!!!!!!!response fail " + t);
+                            }
+                        });
+
                     }
                 }
                 ,

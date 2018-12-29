@@ -38,7 +38,7 @@ public class ViewableContact implements DataWithIcon {
     }
 
     @Override
-    public int getAvatar() {
+    public String getAvatar() {
         return contact.getAvatar();
     }
 
