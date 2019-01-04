@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigsur.AndroidChatWithMaps.DB.ContactsChatRooms.SQLiteContactsChatRoomsManager;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.DB.Messages.SQLiteMessagesManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;

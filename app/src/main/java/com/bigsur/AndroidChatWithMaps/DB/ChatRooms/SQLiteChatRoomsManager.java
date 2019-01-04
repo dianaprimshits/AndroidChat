@@ -7,7 +7,7 @@ import android.util.Log;
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 
 import java.util.ArrayList;
 import java.util.List;

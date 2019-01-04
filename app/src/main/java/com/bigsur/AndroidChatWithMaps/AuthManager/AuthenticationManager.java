@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.bigsur.AndroidChatWithMaps.jsonserver.AuthenticationInstance;
 import com.bigsur.AndroidChatWithMaps.jsonserver.RetrofitBuilder;
 import com.bigsur.AndroidChatWithMaps.jsonserver.api.LoginApi;
 

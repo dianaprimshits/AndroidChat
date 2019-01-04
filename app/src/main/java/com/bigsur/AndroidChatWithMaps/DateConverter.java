@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.DB;
+package com.bigsur.AndroidChatWithMaps;
 
 
 import android.arch.persistence.room.TypeConverter;

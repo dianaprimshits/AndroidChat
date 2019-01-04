@@ -21,9 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.ContactsDataManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContact;
-import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.ContactsModifier;
 import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.DataModifier;
@@ -38,7 +37,7 @@ public class ItemContactsFragment extends Fragment {
     TextView contactsNumberTV;
     Toolbar toolbar;
     DataWithIconListview lvMain;
-    DataWithIconManager dbStorage = ViewableContactManager.getInstance();
+    ContactsDataManager dbStorage = new ContactsDataManager();
 
     public static ItemContactsFragment newInstance() {
         ItemContactsFragment fragment = new ItemContactsFragment();

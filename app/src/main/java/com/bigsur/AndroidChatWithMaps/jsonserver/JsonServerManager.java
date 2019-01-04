@@ -6,9 +6,13 @@ import android.util.Log;
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
 import com.bigsur.AndroidChatWithMaps.jsonserver.api.ContactsApi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,29 +31,29 @@ public class JsonServerManager {
 
     }
 
-    public ArrayList<Contacts> getContacts() {
-        ContactsApi loginApi = retrofit.create(ContactsApi.class);
-        Call<ArrayList<Contacts>> contactList = loginApi.getAll();
-        ArrayList<Contacts> contacts = new ArrayList<>();
+    public FutureTask<ArrayList<Contacts>> getContacts() throws ExecutionException, InterruptedException {
 
-        contactList.enqueue(new Callback<ArrayList<Contacts>>() {
+        FutureTask<ArrayList<Contacts>> onSuccess = new FutureTask<ArrayList<Contacts>>(new Callable<ArrayList<Contacts>>() {
             @Override
-            public void onResponse(Call<ArrayList<Contacts>> call, Response<ArrayList<Contacts>> response) {
-                if (response.isSuccessful()) {
+            public ArrayList<Contacts> call() {
+                ContactsApi contactsApi = retrofit.create(ContactsApi.class);
+                Call<ArrayList<Contacts>> call = contactsApi.getAll();
+                ArrayList<Contacts> contacts = new ArrayList<>();
+
+
+                try {
+                    Response<ArrayList<Contacts>> response = call.execute();
                     contacts.addAll(response.body());
-                    Log.d(TAG, "onResponse: success.");
-                } else {
-                    Log.d(TAG, "onResponse: fail.");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<Contacts>> call, Throwable throwable) {
-                Log.d(TAG, "onFailure.");
+                return contacts;
             }
         });
-        return contacts;
+
+        return onSuccess;
     }
+
 
     public void postContact(int id, String name, String subname, String avatar) {
         Timer timer = new Timer();
@@ -79,8 +83,5 @@ public class JsonServerManager {
             }
         };
         timer.schedule(timerTask, 0, 20000);
-      /*  if (isPosted) {
-            timerTask.cancel();
-        }*/
     }
 }

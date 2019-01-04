@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.ChatRooms.chats.RenameChatActivity;

@@ -6,7 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.ContactsDataManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
@@ -15,7 +16,8 @@ import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListvi
 public class ContactsSearchAfterTextInput extends Fragment {
     AdapterForChatsSearchResult searchAdapter;
     DataWithIconListview lvMain;
-    DataWithIconManager dataManager = ViewableContactManager.getInstance();
+    DataWithIconManager data1111Manager = ViewableContactManager.getInstance();
+    ContactsDataManager dataManager = new ContactsDataManager();
     String searchText = "";
 
 

@@ -1,6 +1,8 @@
 package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.ContactsDataManager;
+import com.bigsur.AndroidChatWithMaps.ImageConverter;
 import com.bigsur.AndroidChatWithMaps.R;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,10 +23,10 @@ public class CustomContactsAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<DataWithIcon> data;
-    DataWithIconManager manager;
+    ContactsDataManager manager;
     LayoutInflater lInflater;
 
-    public CustomContactsAdapter(Context context, DataWithIconManager manager) {
+    public CustomContactsAdapter(Context context, ContactsDataManager manager) {
         super();
         this.data = manager.getAll();
         this.manager = manager;
@@ -61,7 +64,7 @@ public class CustomContactsAdapter extends BaseAdapter {
         ImageView avatar;
 
         ViewHolder(View view){
-            //avatar = (ImageView)rowView.findViewById(R.id.dataWithIconAvatar);
+            avatar = view.findViewById(R.id.dataWithIconAvatar);
             title = view.findViewById(R.id.dataWithIconTitle);
             subTitle = view.findViewById(R.id.dataWithIconSubTitle);
             extraTitle = view.findViewById(R.id.dataWithIconExtraTitle);
@@ -74,6 +77,7 @@ public class CustomContactsAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         View view = convertView;
         DataWithIcon dataWithIcon = (DataWithIcon)getItem(position);
+        Log.d("!!!LOG!!!ADAPTER", "getView: " +dataWithIcon);
 
         if (view == null) {
             view = lInflater.inflate(R.layout.contact_list, parent, false);
@@ -84,7 +88,12 @@ public class CustomContactsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-       // avatar.setImageResource(selectedItem.getAvatar());
+        if(dataWithIcon.getAvatar() != null) {
+            Bitmap photo = ImageConverter.convertToBitmap(dataWithIcon.getAvatar());
+            viewHolder.avatar.setImageBitmap(photo);
+        } else {
+            viewHolder.avatar.setImageResource(R.drawable.ic_launcher_round);
+        }
         viewHolder.title.setText(dataWithIcon.getName());
         viewHolder.subTitle.setText(dataWithIcon.getSubname());
 

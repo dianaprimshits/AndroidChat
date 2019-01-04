@@ -2,7 +2,7 @@ package com.bigsur.AndroidChatWithMaps.Domain.ViewableContact;
 
 
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package com.bigsur.AndroidChatWithMaps.Domain.ViewableChat;
 import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.SQLiteChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.DB.Messages.SQLiteMessagesManager;
 
 import java.util.ArrayList;

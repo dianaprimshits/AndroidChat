@@ -1,21 +1,23 @@
 package com.bigsur.AndroidChatWithMaps.DB.Contacts;
 
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.jsonserver.JsonServerManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class SQLiteContactsManager extends DataWithIconManager {
+    private static String TAG = "!!!LOG!!!";
 
     static SQLiteContactsManager instance;
 
@@ -31,7 +33,7 @@ public class SQLiteContactsManager extends DataWithIconManager {
     }
 
     @Override
-    public void create(final DataWithIcon data)  {
+    public void create(final DataWithIcon data) {
         new AsyncTask<DataWithIcon, Void, Void>() {
             @Override
             protected Void doInBackground(DataWithIcon... data) {
@@ -48,9 +50,9 @@ public class SQLiteContactsManager extends DataWithIconManager {
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsDAO contactsDao = db.getContactsDao();
 
-                    Contacts contact = contactsDao.getLastContact();
-                    JsonServerManager retrofirManager = new JsonServerManager();
-                    retrofirManager.postContact(contact.getId(), contact.getName(), contact.getSubname(), contact.getAvatar());
+                Contacts contact = contactsDao.getLastContact();
+                JsonServerManager retrofirManager = new JsonServerManager();
+                retrofirManager.postContact(contact.getId(), contact.getName(), contact.getSubname(), contact.getAvatar());
 
 
                 return null;
@@ -63,21 +65,20 @@ public class SQLiteContactsManager extends DataWithIconManager {
 
     public Contacts getLastContact() throws ExecutionException, InterruptedException {
 
-            return new AsyncTask<Void, Void, Contacts>() {
-                @Override
-                protected Contacts doInBackground(Void... data) {
-                    AppDatabase db = App.getInstance().getDatabase();
-                    ContactsDAO contactsDao = db.getContactsDao();
-                    return contactsDao.getLastContact();
-                }
+        return new AsyncTask<Void, Void, Contacts>() {
+            @Override
+            protected Contacts doInBackground(Void... data) {
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
+                return contactsDao.getLastContact();
+            }
 
-                @Override
-                protected void onPostExecute(Contacts contact) {
-                    super.onPostExecute(contact);
-                }
-            }.execute().get();
+            @Override
+            protected void onPostExecute(Contacts contact) {
+                super.onPostExecute(contact);
+            }
+        }.execute().get();
     }
-
 
 
     @Override
@@ -97,7 +98,7 @@ public class SQLiteContactsManager extends DataWithIconManager {
 
     @Override
     public void delete(final int id) {
-       new AsyncTask<Integer, Void, Void>() {
+        new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... data) {
                 AppDatabase db = App.getInstance().getDatabase();
@@ -144,27 +145,27 @@ public class SQLiteContactsManager extends DataWithIconManager {
         List<DataWithIcon> data = null;
         try {
             data = new AsyncTask<Void, Void, List<DataWithIcon>>() {
-                 @Override
-                 protected List<DataWithIcon> doInBackground(Void ... data) {
-                     ArrayList<DataWithIcon> displayList = new ArrayList<>();
+                @Override
+                protected List<DataWithIcon> doInBackground(Void ... data) {
+                    ArrayList<DataWithIcon> displayList = new ArrayList<>();
 
-                     AppDatabase db = App.getInstance().getDatabase();
-                     ContactsDAO contactsDao = db.getContactsDao();
+                    AppDatabase db = App.getInstance().getDatabase();
+                    ContactsDAO contactsDao = db.getContactsDao();
 
-                     Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
-                     List<Contacts> contactsList = contactsDao.getAll();
+                    Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
+                    List<Contacts> contactsList = contactsDao.getAll();
 
-                     for(int i = 0; i < contactsList.size(); i++) {
-                         displayList.add(contactsList.get(i));
-                     }
-                     return displayList;
-                 }
+                    for(int i = 0; i < contactsList.size(); i++) {
+                        displayList.add(contactsList.get(i));
+                    }
+                    return displayList;
+                }
 
-                 @Override
-                 protected void onPostExecute(List<DataWithIcon> contacts) {
-                     super.onPostExecute(contacts);
-                 }
-             }.execute().get();
+                @Override
+                protected void onPostExecute(List<DataWithIcon> contacts) {
+                    super.onPostExecute(contacts);
+                }
+            }.execute().get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -172,37 +173,26 @@ public class SQLiteContactsManager extends DataWithIconManager {
         return arrayList;
     }
 
+    public FutureTask<ArrayList<Contacts>> taskGetForAll() {
+        ArrayList<DataWithIcon> resultList = new ArrayList<>();
 
-   /* @Override
-    public ArrayList<DataFromDB> getSimilarData(final String search) throws ExecutionException, InterruptedException {
-        @SuppressLint("StaticFieldLeak") List<DataFromDB> data = new AsyncTask<String, Void, List<DataFromDB>>() {
+        FutureTask<ArrayList<Contacts>> onFail = new FutureTask<ArrayList<Contacts>>(new Callable<ArrayList<Contacts>>() {
             @Override
-            protected List<DataFromDB> doInBackground(String ... data) {
-                ArrayList<DataFromDB> displayList = new ArrayList<>();
-
+            public ArrayList<Contacts> call() {
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsDAO contactsDao = db.getContactsDao();
 
-                Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getSimilarContacts(data[0]));
-                List<Contacts> contactsList = contactsDao.getSimilarContacts(data[0]);
-
-                for(int i = 0; i < contactsList.size(); i++) {
-                    displayList.add(new DataFromDB(contactsList.get(i)));
-                }
-                return displayList;
+                Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
+                return new ArrayList<>(contactsDao.getAll());
             }
-
-            @Override
-            protected void onPostExecute(List<DataFromDB> contacts) {
-                super.onPostExecute(contacts);
-            }
-        }.execute(search).get();
-        return new ArrayList<>(data);
+        });
+        return onFail;
     }
-*/
+
+
 
     public int getContactsNumber() throws ExecutionException, InterruptedException {
-        @SuppressLint("StaticFieldLeak") int data = new AsyncTask<Void, Void, Integer>() {
+        return new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... params) {
 
@@ -219,7 +209,6 @@ public class SQLiteContactsManager extends DataWithIconManager {
                 super.onPostExecute(integer);
             }
         }.execute().get();
-        return data;
     }
 }
 

@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
-import com.bigsur.AndroidChatWithMaps.DB.DateConverter;
+import com.bigsur.AndroidChatWithMaps.DateConverter;
 
 import java.util.Date;
 
