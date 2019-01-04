@@ -1,22 +1,16 @@
 package com.bigsur.AndroidChatWithMaps.DB.Contacts;
 
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
-import com.bigsur.AndroidChatWithMaps.jsonserver.JsonServerManager;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-public class SQLiteContactsManager extends DataWithIconManager {
+public class SQLiteContactsManager {
     private static String TAG = "!!!LOG!!!";
 
     static SQLiteContactsManager instance;
@@ -32,151 +26,22 @@ public class SQLiteContactsManager extends DataWithIconManager {
         return instance;
     }
 
-    @Override
-    public void create(final DataWithIcon data) {
-        new AsyncTask<DataWithIcon, Void, Void>() {
+
+    public FutureTask<Contacts> taskGetContactById(int id) {
+        FutureTask<Contacts> getContactById = new FutureTask<>(new Callable<Contacts>() {
             @Override
-            protected Void doInBackground(DataWithIcon... data) {
+            public Contacts call() throws Exception {
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsDAO contactsDao = db.getContactsDao();
-                contactsDao.insert(new Contacts(data[0]));
-                return null;
+                return contactsDao.getByID(id);
             }
-        }.execute(data);
-
-        new AsyncTask<DataWithIcon, Void, Void>() {
-            @Override
-            protected Void doInBackground(DataWithIcon... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
-
-                Contacts contact = contactsDao.getLastContact();
-                JsonServerManager retrofirManager = new JsonServerManager();
-                retrofirManager.postContact(contact.getId(), contact.getName(), contact.getSubname(), contact.getAvatar());
-
-
-                return null;
-            }
-        }.execute(data);
-
-        dataUpdated();
+        });
+        return getContactById;
     }
 
 
-    public Contacts getLastContact() throws ExecutionException, InterruptedException {
-
-        return new AsyncTask<Void, Void, Contacts>() {
-            @Override
-            protected Contacts doInBackground(Void... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
-                return contactsDao.getLastContact();
-            }
-
-            @Override
-            protected void onPostExecute(Contacts contact) {
-                super.onPostExecute(contact);
-            }
-        }.execute().get();
-    }
-
-
-    @Override
-    public void update(final DataWithIcon data) {
-        new AsyncTask<DataWithIcon, Void, Void>() {
-            @Override
-            protected Void doInBackground(DataWithIcon... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
-                contactsDao.update((Contacts) data[0]);
-                return null;
-            }
-        }.execute(data);
-        dataUpdated();
-    }
-
-
-    @Override
-    public void delete(final int id) {
-        new AsyncTask<Integer, Void, Void>() {
-            @Override
-            protected Void doInBackground(Integer... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
-
-                int id = data[0];
-                contactsDao.delete(id);
-                return null;
-            }
-        }.execute(id);
-        dataUpdated();
-    }
-
-
-    @Override
-    public DataWithIcon getById(final int id) {
-        DataWithIcon data = null;
-        try {
-            data = new AsyncTask<Integer, Void, DataWithIcon>() {
-                @Override
-                protected DataWithIcon doInBackground(Integer... data) {
-                    AppDatabase db = App.getInstance().getDatabase();
-                    ContactsDAO contactsDao = db.getContactsDao();
-
-                    int id = data[0];
-                    Contacts c = contactsDao.getByID(id);
-                    return c;
-                }
-
-                @Override
-                protected void onPostExecute(DataWithIcon contact) {
-                    super.onPostExecute(contact);
-                }
-            }.execute(id).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-
-    @Override
-    public ArrayList<DataWithIcon> getAll() {
-        List<DataWithIcon> data = null;
-        try {
-            data = new AsyncTask<Void, Void, List<DataWithIcon>>() {
-                @Override
-                protected List<DataWithIcon> doInBackground(Void ... data) {
-                    ArrayList<DataWithIcon> displayList = new ArrayList<>();
-
-                    AppDatabase db = App.getInstance().getDatabase();
-                    ContactsDAO contactsDao = db.getContactsDao();
-
-                    Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
-                    List<Contacts> contactsList = contactsDao.getAll();
-
-                    for(int i = 0; i < contactsList.size(); i++) {
-                        displayList.add(contactsList.get(i));
-                    }
-                    return displayList;
-                }
-
-                @Override
-                protected void onPostExecute(List<DataWithIcon> contacts) {
-                    super.onPostExecute(contacts);
-                }
-            }.execute().get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        ArrayList arrayList = new ArrayList(data);
-        return arrayList;
-    }
-
-    public FutureTask<ArrayList<Contacts>> taskGetForAll() {
-        ArrayList<DataWithIcon> resultList = new ArrayList<>();
-
-        FutureTask<ArrayList<Contacts>> onFail = new FutureTask<ArrayList<Contacts>>(new Callable<ArrayList<Contacts>>() {
+    public FutureTask<ArrayList<Contacts>> taskGetAllContacts() {
+        FutureTask<ArrayList<Contacts>> onFail = new FutureTask<>(new Callable<ArrayList<Contacts>>() {
             @Override
             public ArrayList<Contacts> call() {
                 AppDatabase db = App.getInstance().getDatabase();
@@ -190,25 +55,58 @@ public class SQLiteContactsManager extends DataWithIconManager {
     }
 
 
-
-    public int getContactsNumber() throws ExecutionException, InterruptedException {
-        return new AsyncTask<Void, Void, Integer>() {
+    public FutureTask<Void> taskCreateContact(Contacts contact) {
+        FutureTask<Void> createContact = new FutureTask<>(new Callable<Void>() {
             @Override
-            protected Integer doInBackground(Void... params) {
-
+            public Void call() throws Exception {
                 AppDatabase db = App.getInstance().getDatabase();
                 ContactsDAO contactsDao = db.getContactsDao();
-
-                List<Contacts> contactsList = contactsDao.getAll();
-
-                return contactsList.size();
+                contactsDao.insert(contact);
+                return null;
             }
+        });
+        return createContact;
+    }
 
+
+    public FutureTask<Void> taskUpdateContact(Contacts contact) {
+        FutureTask<Void> updateContact = new FutureTask<>(new Callable<Void>() {
             @Override
-            protected void onPostExecute(Integer integer) {
-                super.onPostExecute(integer);
+            public Void call() throws Exception {
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
+                contactsDao.update(contact);
+                return null;
             }
-        }.execute().get();
+        });
+        return updateContact;
+    }
+
+
+    public FutureTask<Void> taskDeleteContactById(int id) {
+        FutureTask<Void> deleteContactById = new FutureTask<Void>(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
+                contactsDao.delete(id);
+                return null;
+            }
+        });
+        return deleteContactById;
+    }
+
+
+    public FutureTask<Contacts> taskGetLastContact() {
+        FutureTask<Contacts> getLastContact = new FutureTask<>(new Callable<Contacts>() {
+            @Override
+            public Contacts call() throws Exception {
+                AppDatabase db = App.getInstance().getDatabase();
+                ContactsDAO contactsDao = db.getContactsDao();
+                return contactsDao.getLastContact();
+            }
+        });
+        return getLastContact;
     }
 }
 
