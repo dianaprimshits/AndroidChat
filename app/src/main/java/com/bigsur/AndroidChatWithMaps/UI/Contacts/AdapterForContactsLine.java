@@ -1,26 +1,29 @@
 package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.DB.DataWithIconManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
+import com.bigsur.AndroidChatWithMaps.ImageConverter;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AdapterForContactsLine extends RecyclerView.Adapter {
     Context context;
     ArrayList<DataWithIcon> data;
-    DataWithIconManager manager;
+    ViewableContactManager manager;
     LayoutInflater lInflater;
 
-    public AdapterForContactsLine(Context context, DataWithIconManager manager) {
+    public AdapterForContactsLine(Context context, ViewableContactManager manager) {
         super();
         this.data = manager.getAll();
         this.manager = manager;
@@ -43,7 +46,14 @@ public class AdapterForContactsLine extends RecyclerView.Adapter {
         MyItemView holder = (MyItemView)_holder;
         DataWithIcon mItem = data.get(position);
         holder.textViewTitle.setText(mItem.getName());
-  //      holder.imageView.setImageResource(mItem.getAvatar());
+
+        if(mItem.getAvatar() != null) {
+            Bitmap photo = ImageConverter.convertToBitmap(mItem.getAvatar());
+            holder.imageView.setImageBitmap(photo);
+        } else {
+            holder.imageView.setImageResource(R.drawable.ic_launcher_round);
+        }
+
     }
 
     @Override
@@ -62,12 +72,12 @@ public class AdapterForContactsLine extends RecyclerView.Adapter {
 
     public class MyItemView extends RecyclerView.ViewHolder {
         TextView textViewTitle;
-        ImageButton imageView;
+        CircleImageView imageView;
 
         MyItemView(View view) {
             super(view);
             textViewTitle = view.findViewById(R.id.horizontalLineContact);
-           // imageView = view.findViewById(R.id.horizontalLineAvatar);
+            imageView = view.findViewById(R.id.horizontalLineAvatar);
         }
     }
 }

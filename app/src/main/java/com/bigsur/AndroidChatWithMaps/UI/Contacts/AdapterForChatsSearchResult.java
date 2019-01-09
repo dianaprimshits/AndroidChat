@@ -2,19 +2,22 @@ package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigsur.AndroidChatWithMaps.ImageConverter;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterForChatsSearchResult extends BaseAdapter implements Filterable {
     Context context;
@@ -61,15 +64,21 @@ public class AdapterForChatsSearchResult extends BaseAdapter implements Filterab
             view = lInflater.inflate(R.layout.contact_list, parent, false);
         }
 
-        ImageView avatar = (ImageView) view.findViewById(R.id.dataWithIconAvatar);
-        TextView name = (TextView) view.findViewById(R.id.dataWithIconTitle);
-        TextView subname = (TextView) view.findViewById(R.id.dataWithIconSubTitle);
+        CircleImageView avatar = view.findViewById(R.id.dataWithIconAvatar);
+        TextView name = view.findViewById(R.id.dataWithIconTitle);
+        TextView subname = view.findViewById(R.id.dataWithIconSubTitle);
 
 
         DataWithIcon selectedItem = getItem(position);
         name.setText(selectedItem.getName());
         subname.setText(selectedItem.getSubname());
-//      avatar.setImageResource(selectedItem.getAvatar());
+
+        if(selectedItem.getAvatar() != null) {
+            Bitmap photo = ImageConverter.convertToBitmap(selectedItem.getAvatar());
+            avatar.setImageBitmap(photo);
+        } else {
+            avatar.setImageResource(R.drawable.ic_launcher_round);
+        }
         return view;
     }
 
