@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 
 
 public class ContactsSearchBeforeTextInput extends Fragment {
     RecyclerView lvMain;
-    DataWithIconManager dataManager = ViewableContactManager.getInstance();
+    ViewableContactManager dataManager = ViewableContactManager.getInstance();
     AdapterForContactsLine adapter;
 
     public static ContactsSearchBeforeTextInput newInstance() {

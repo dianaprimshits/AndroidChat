@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.ContactsDataManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.ImageConverter;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
@@ -18,15 +18,17 @@ import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class CustomContactsAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<DataWithIcon> data;
-    ContactsDataManager manager;
+    ViewableContactManager manager;
     LayoutInflater lInflater;
 
-    public CustomContactsAdapter(Context context, ContactsDataManager manager) {
+    public CustomContactsAdapter(Context context, ViewableContactManager manager) {
         super();
         this.data = manager.getAll();
         this.manager = manager;
@@ -61,7 +63,7 @@ public class CustomContactsAdapter extends BaseAdapter {
         TextView subTitle;
         TextView extraTitle;
         ImageView extraTitleIcon;
-        ImageView avatar;
+        CircleImageView avatar;
 
         ViewHolder(View view){
             avatar = view.findViewById(R.id.dataWithIconAvatar);

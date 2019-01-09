@@ -1,23 +1,20 @@
 package com.bigsur.AndroidChatWithMaps.DB.Contacts;
 
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class SQLiteContactsManager {
-    private static String TAG = "!!!LOG!!!";
-
-    static SQLiteContactsManager instance;
-
-    private SQLiteContactsManager() {
-    }
-
+    private static SQLiteContactsManager instance;
 
     public static SQLiteContactsManager getInstance() {
         if (instance == null) {
@@ -41,17 +38,36 @@ public class SQLiteContactsManager {
 
 
     public FutureTask<ArrayList<Contacts>> taskGetAllContacts() {
-        FutureTask<ArrayList<Contacts>> onFail = new FutureTask<>(new Callable<ArrayList<Contacts>>() {
+        FutureTask<ArrayList<Contacts>> getAll = new FutureTask<>(new Callable<ArrayList<Contacts>>() {
             @Override
             public ArrayList<Contacts> call() {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
+                List<Contacts> data = null;
+                try {
+                    data = new AsyncTask<Void, Void, List<Contacts>>() {
+                        @Override
+                        protected ArrayList<Contacts> doInBackground(Void ... data) {
+                            ArrayList<Contacts> displayList = new ArrayList<>();
 
-                Log.d("!!!!!LOG!!", "doInBackground: " + contactsDao.getAll().toString());
-                return new ArrayList<>(contactsDao.getAll());
+                            AppDatabase db = App.getInstance().getDatabase();
+                            ContactsDAO contactsDAO = db.getContactsDao();
+                            Log.d("!!!!!LOG!!", "doInBackground: " + contactsDAO.getAll().toString());
+                            List<Contacts> contactList = contactsDAO.getAll();
+                            displayList.addAll(contactList);
+                            return displayList;
+                        }
+
+                        @Override
+                        protected void onPostExecute(List<Contacts> contacts) {
+                            super.onPostExecute(contacts);
+                        }
+                    }.execute().get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                return new ArrayList(data);
             }
         });
-        return onFail;
+        return getAll;
     }
 
 

@@ -19,9 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.ContactsDataManager;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.ContactsSearchActivity;
 import com.bigsur.AndroidChatWithMaps.UI.Contacts.CustomContactsAdapter;
@@ -37,8 +35,7 @@ public class ItemChatsFragment extends Fragment implements View.OnClickListener 
     private static final String TAG = "!!!LOG!!!";
     DataWithIconListview lvMain;
     Toolbar toolbar;
-    DataWithIconManager db11111Storage = ViewableChatManager.getInstance();
-    ContactsDataManager dbStorage = new ContactsDataManager();
+    ViewableContactManager dbStorage = ViewableContactManager.getInstance();
     ImageButton imageButtonAdd;
     ImageButton imageButtonClose;
     ConstraintLayout chatsAddingTranslucentLt;

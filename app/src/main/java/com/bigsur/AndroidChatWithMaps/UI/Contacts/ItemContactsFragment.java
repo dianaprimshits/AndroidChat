@@ -21,15 +21,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigsur.AndroidChatWithMaps.ContactsDataManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContact;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.ContactsModifier;
 import com.bigsur.AndroidChatWithMaps.UI.DataModifierView.DataModifier;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
-
-import java.util.concurrent.ExecutionException;
 
 
 public class ItemContactsFragment extends Fragment {
@@ -37,7 +35,7 @@ public class ItemContactsFragment extends Fragment {
     TextView contactsNumberTV;
     Toolbar toolbar;
     DataWithIconListview lvMain;
-    ContactsDataManager dbStorage = new ContactsDataManager();
+    ViewableContactManager dbStorage = ViewableContactManager.getInstance();
 
     public static ItemContactsFragment newInstance() {
         ItemContactsFragment fragment = new ItemContactsFragment();
@@ -153,11 +151,9 @@ public class ItemContactsFragment extends Fragment {
                 .setPositiveButton("create contact",
                         (dialog12, id) -> {
                             DataWithIcon contact = new ViewableContact(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
-                            try {
-                                dbStorage.create(contact);
-                            } catch (ExecutionException | InterruptedException e) {
-                                e.printStackTrace();
-                            }
+
+                            dbStorage.create(contact);
+
                             Log.d(TAG, "onClick: " + dbStorage.toString());
 
                         })

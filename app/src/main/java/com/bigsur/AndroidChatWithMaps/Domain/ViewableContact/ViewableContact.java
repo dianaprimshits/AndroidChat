@@ -29,17 +29,17 @@ public class ViewableContact implements DataWithIcon {
 
     @Override
     public String getName() {
-        return contact.getName();
+        return contact.getContactName();
     }
 
     @Override
     public String getSubname() {
-        return contact.getSubname();
+        return contact.getPhoneNumber();
     }
 
     @Override
     public String getAvatar() {
-        return contact.getAvatar();
+        return contact.getContactAvatar();
     }
 
     @Override
