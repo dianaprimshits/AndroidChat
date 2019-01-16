@@ -58,6 +58,11 @@ public class UserAvatarModifier extends DataModifier {
 
     @Override
     public void init(Context context, Adapter adapter, int position, Activity activity) {
-        //do nothig
+        //do nothing
+    }
+
+    @Override
+    public void setOnClosedBehavior(Runnable onClosed) {
+
     }
 }

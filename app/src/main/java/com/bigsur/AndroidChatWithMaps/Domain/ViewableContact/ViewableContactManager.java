@@ -1,18 +1,19 @@
 package com.bigsur.AndroidChatWithMaps.Domain.ViewableContact;
 
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.SQLiteContactsManager;
+import com.bigsur.AndroidChatWithMaps.Server.ServerManager.JsonContactsManager;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.jsonserver.ServerManager.JsonContactsManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class ViewableContactManager extends DataWithIconManager {
     SQLiteContactsManager contactsManager;
     static ViewableContactManager instance;
     private String TAG = "!!!LOG!!!";
+
 
     private ViewableContactManager(SQLiteContactsManager manager) {
         this.contactsManager = manager;
@@ -36,47 +38,79 @@ public class ViewableContactManager extends DataWithIconManager {
 
 
     @Override
-    public void create(DataWithIcon data) {
+    public void create(DataWithIcon data, Runnable onSuccess, Runnable onFail) {
+        //побереги глаза
+        Runnable runnable = () -> {
+            JsonContactsManager serverManager = JsonContactsManager.getInstance();
+            SQLiteContactsManager sqlManager = SQLiteContactsManager.getInstance();
+            FutureTask<HashMap> createServerContact = serverManager.create(((ViewableContact)data).getContact());
+            Handler handler = new Handler(Looper.getMainLooper());
+            new Thread(createServerContact).start();
 
-    }
-
-    @Override
-    public void update(DataWithIcon data) {
-        JsonContactsManager serverManager = JsonContactsManager.getInstance();
-        SQLiteContactsManager sqlManager = SQLiteContactsManager.getInstance();
-
-        FutureTask updateSql = sqlManager.taskUpdateContact((Contacts) data);
-        FutureTask updateServer = serverManager.update(((ViewableContact)data).getContact());
-    }
-
-    @Override
-    public void delete(int id) {
-        JsonContactsManager serverManager = JsonContactsManager.getInstance();
-        SQLiteContactsManager sqlManager = SQLiteContactsManager.getInstance();
-
-        FutureTask deleteFromSql = sqlManager.taskDeleteContactById(id);
-        FutureTask<Boolean> deleteFromServer = serverManager.delete(id);
-
-        new Thread(deleteFromSql).start();
-
-
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                new Thread(deleteFromServer).start();
-
-                try {
-                    if (deleteFromServer.get()) {
-                        cancel();
-                    }
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
+            try {
+                if(!(Boolean)createServerContact.get().values().toArray()[0]) {
+                    handler.post(onFail);
+                } else {
+                    FutureTask createSqlContact = sqlManager.taskCreateContact((Contacts) createServerContact.get().keySet().toArray()[0]);
+                    new Thread(createSqlContact).start();
+                    handler.post(onSuccess);
                 }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         };
-        timer.schedule(timerTask, 0, 20000);
-        dataUpdated();
+        new Thread(runnable).start();
+    }
+
+    @Override
+    public void update(DataWithIcon data, Runnable onSuccess, Runnable onFail) {
+        Runnable runnable = () -> {
+            JsonContactsManager serverManager = JsonContactsManager.getInstance();
+            SQLiteContactsManager sqlManager = SQLiteContactsManager.getInstance();
+            FutureTask updateSql = sqlManager.taskUpdateContact(((ViewableContact)data).getContact());
+            FutureTask<Boolean> updateServer = serverManager.update(((ViewableContact) data).getContact());
+            Handler handler = new Handler(Looper.getMainLooper());
+            new Thread(updateServer).start();
+
+            try {
+                if(!updateServer.get()) {
+                    handler.post(onFail);
+                } else {
+                    new Thread(updateSql).start();
+                    handler.post(onSuccess);
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        };
+        new Thread(runnable).start();
+
+    }
+
+    @Override
+    public void delete(int id, Runnable onSuccess, Runnable onFail) {
+        Runnable runnable = () -> {
+            JsonContactsManager serverManager = JsonContactsManager.getInstance();
+            SQLiteContactsManager sqlManager = SQLiteContactsManager.getInstance();
+
+            FutureTask deleteFromSql = sqlManager.taskDeleteContactById(id);
+            FutureTask<Boolean> deleteFromServer = serverManager.delete(id);
+            Handler handler = new Handler(Looper.getMainLooper());
+            new Thread(deleteFromServer).start();
+
+            try {
+                if (!deleteFromServer.get()) {
+                    handler.post(onFail);
+                } else {
+                    new Thread(deleteFromSql).start();
+                    handler.post(onSuccess);
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+            dataUpdated();
+        };
+        new Thread(runnable).start();
     }
 
 
@@ -87,7 +121,7 @@ public class ViewableContactManager extends DataWithIconManager {
         DataWithIcon contact = null;
         new Thread(getContact).start();
         try {
-            contact = (DataWithIcon) getContact.get();
+            contact = new ViewableContact(getContact.get());
         } catch (InterruptedException | ExecutionException e) {
             Log.d(TAG, " ViewableContactManager getContactById from SQLite: " + e);
         }
@@ -116,55 +150,37 @@ public class ViewableContactManager extends DataWithIconManager {
         }
 
 
+        Runnable copyNewContactFromServer = () -> {
+            try {
+                FutureTask<ArrayList<Contacts>> serverTask = serverManager.getAll();
+                new Thread(serverTask).start();
+                contactListFromServer.addAll(serverTask.get().stream()
+                        .map(contact -> (DataWithIcon) (new ViewableContact(contact)))
+                        .collect(Collectors.toList()));
+            } catch (ExecutionException | InterruptedException e) {
+                Log.d(TAG, " ViewableContactManager getAll from JsonContactsManager: " + e);
+            }
 
-        Runnable copyNewContactFromServer = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    FutureTask<ArrayList<Contacts>> serverTask = serverManager.getAll();
-                    new Thread(serverTask).start();
-                    contactListFromServer.addAll(serverTask.get().stream()
-                            .map(contact -> (DataWithIcon) (new ViewableContact(contact)))
-                            .collect(Collectors.toList()));
-                } catch (ExecutionException | InterruptedException e) {
-                    Log.d(TAG, " ViewableContactManager getAll from JsonContactsManager: " + e);
-                }
+            if (contactListFromServer.size() > contactListFromSQLiteDB.size()) {
+                List<Contacts> contactsToCreateInSQLite = contactListFromServer.stream()
+                        .filter(i -> !(contactListFromSQLiteDB.contains(i)))
+                        .map(q -> ((ViewableContact) q).getContact())
+                        .collect(Collectors.toList());
 
-                if (contactListFromServer.size() > contactListFromSQLiteDB.size()) {
-                    List<Contacts> contactsToCreateInSQLite = contactListFromServer.stream()
-                            .filter(i -> !(contactListFromSQLiteDB.contains(i)))
-                            .map(q -> ((ViewableContact)q).getContact())
-                            .collect(Collectors.toList());
-
-                    for (Contacts contact : contactsToCreateInSQLite) {
-                        FutureTask postNewContacts = sqlManager.taskCreateContact(contact);
-                        new Thread(postNewContacts).start();
-                    }
-                } else if (contactListFromServer.size() < contactListFromSQLiteDB.size()) {
-
-                    List<Contacts> contactsToDeleteFromSQLite = contactListFromSQLiteDB.stream()
-                            .filter(i -> !(contactListFromServer.contains(i)))
-                            .map(q -> ((ViewableContact) q).getContact())
-                            .collect(Collectors.toList());
-
-                    for (Contacts contact : contactsToDeleteFromSQLite) {
-                        FutureTask deleteContact = sqlManager.taskDeleteContactById(contact.getId());
-                        new Thread(deleteContact).start();
-                    }
+                for (Contacts contact : contactsToCreateInSQLite) {
+                    FutureTask postNewContacts = sqlManager.taskCreateContact(contact);
+                    new Thread(postNewContacts).start();
                 }
             }
         };
-
-        copyNewContactFromServer.run();
-
-
+        new Thread(copyNewContactFromServer).start();
         return contactListFromSQLiteDB;
     }
 
 
     @Override
     public void addDataChangeListener(Object listener, Runnable callBack) {
-        // addDataChangeListener(listener, callBack);
+         //addDataChangeListener(listener, callBack);
     }
 
     @Override

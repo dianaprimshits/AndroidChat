@@ -8,30 +8,13 @@
 
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/renameContactActToolbar"
+        android:id="@+id/renameContactActivityToolbar"
         style="@style/SettingsToolbar"
         android:layout_width="0dp"
         android:layout_height="56dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/renameContactActButtonBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow_left_icon"
-            android:background="@null"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/renameContact"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginLeft="45dp" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -42,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="@string/FirstName"
         android:textColor="@color/lightGrey"
-        app:layout_constraintTop_toBottomOf="@+id/renameContactActToolbar"
+        app:layout_constraintTop_toBottomOf="@+id/renameContactActivityToolbar"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp" />
@@ -83,6 +66,16 @@
         android:background="@null"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarRenameContact"
+        android:layout_marginRight="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content" />
 
 
 </android.support.constraint.ConstraintLayout>

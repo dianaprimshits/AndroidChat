@@ -1,13 +1,15 @@
-package com.bigsur.AndroidChatWithMaps.jsonserver.ServerManager;
+package com.bigsur.AndroidChatWithMaps.Server.ServerManager;
 
 
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
-import com.bigsur.AndroidChatWithMaps.jsonserver.RetrofitBuilder;
-import com.bigsur.AndroidChatWithMaps.jsonserver.api.ContactsApi;
+import com.bigsur.AndroidChatWithMaps.Server.NormalServerBehaviorImitator;
+import com.bigsur.AndroidChatWithMaps.Server.RetrofitBuilder;
+import com.bigsur.AndroidChatWithMaps.Server.api.ContactsApi;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.FutureTask;
 
 import retrofit2.Call;
@@ -30,13 +32,40 @@ public class JsonContactsManager {
     }
 
 
-    public FutureTask create(Contacts data) {
-        return null;
+    public FutureTask<HashMap> create(Contacts data) {
+        FutureTask<HashMap> createContact = new FutureTask<>(() -> {
+            Contacts contact =  NormalServerBehaviorImitator.contactWithIdGenerating(data);
+            ContactsApi contactsApi = retrofit.create(ContactsApi.class);
+            Call call = contactsApi.postContact(contact.getId(), contact.getContactName(), contact.getPhoneNumber(), contact.getContactAvatar());
+            HashMap contactStatus = new HashMap();
+            Boolean isCreated = false;
+            try {
+                call.execute();
+                isCreated = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            contactStatus.put(contact, isCreated);
+            return contactStatus;
+        });
+        return createContact;
     }
 
 
-    public FutureTask<Boolean> update(Contacts data) {
-        return null;
+    public FutureTask<Boolean> update(Contacts contact) {
+        FutureTask<Boolean> updateContact = new FutureTask<>(() -> {
+            ContactsApi contactsApi = retrofit.create(ContactsApi.class);
+            Call call = contactsApi.updateContact(contact.getId(), contact);
+            Boolean isUpdated = false;
+            try {
+                call.execute();
+                isUpdated = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return isUpdated;
+        });
+        return updateContact;
     }
 
 
@@ -62,33 +91,7 @@ public class JsonContactsManager {
     }
 
 
-    public FutureTask<ArrayList<Contacts>> getAll() {/*
-        FutureTask<ArrayList<Contacts>> getContactsFromServer = new FutureTask<ArrayList<Contacts>>(() -> {
-            ContactsApi contactsApi = retrofit.create(ContactsApi.class);
-            Call<ArrayList<Contacts>> call = contactsApi.getAll();
-            ArrayList<Contacts> contacts = new ArrayList<>();
-
-            call.enqueue(new Callback<ArrayList<Contacts>>() {
-                @Override
-                public void onResponse(Call<ArrayList<Contacts>> call, Response<ArrayList<Contacts>> response) {
-                    if(response.isSuccessful()) {
-                        contacts.addAll(response.body());
-                        Log.d(TAG, "JsonContactsManager GETALL onResponse: success.");
-                    } else {
-                        Log.d(TAG, "JsonContactsManager GETALL onResponse: fail.");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<Contacts>> call, Throwable throwable) {
-                    Log.d(TAG, "JsonContactsManager GETALL onResponse: fail.");
-                }
-            });
-
-            return contacts;
-        });*/
-
-
+    public FutureTask<ArrayList<Contacts>> getAll() {
         FutureTask<ArrayList<Contacts>> getContactsFromServer = new FutureTask<>(() -> {
             ContactsApi contactsApi = retrofit.create(ContactsApi.class);
             Call<ArrayList<Contacts>> call = contactsApi.getAll();

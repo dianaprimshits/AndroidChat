@@ -7,13 +7,13 @@ import android.util.Log;
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
-public class SQLiteChatRoomsManager extends DataWithIconManager {
+public class SQLiteChatRoomsManager {
     static SQLiteChatRoomsManager instance;
 
     private SQLiteChatRoomsManager() {
@@ -26,23 +26,18 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
         return instance;
     }
 
-    @Override
-    public void create(final DataWithIcon data) {
-        new  AsyncTask<DataWithIcon, Void, Void>() {
-            @Override
-            protected Void doInBackground(DataWithIcon... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
 
-                chatRoomDAO.insert((ChatRooms) data[0]);
-                return null;
-            }
-        }.execute(data);
-        dataUpdated();
+    public FutureTask<Void> create(ChatRooms chatRooms) {
+        FutureTask<Void> createChat = new FutureTask<>(() -> {
+            AppDatabase db = App.getInstance().getDatabase();
+            ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+            chatRoomDAO.insert(chatRooms);
+            return null;
+        });
+        return createChat;
     }
 
 
-    @Override
     public void update(final DataWithIcon data) {
         new AsyncTask<DataWithIcon, Void, Void>() {
             @Override
@@ -54,11 +49,9 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
                 return null;
             }
         }.execute(data);
-        dataUpdated();
     }
 
 
-    @Override
     public void delete(final int id) {
         new AsyncTask<Integer, Void, Void>() {
             @Override
@@ -71,11 +64,9 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
                 return null;
             }
         }.execute(id);
-        dataUpdated();
     }
 
 
-    @Override
     public DataWithIcon getById(final int id) {
         DataWithIcon data = null;
         try {
@@ -102,7 +93,6 @@ public class SQLiteChatRoomsManager extends DataWithIconManager {
     }
 
 
-    @Override
     public ArrayList<DataWithIcon> getAll() {
         List<DataWithIcon> data = null;
         try {

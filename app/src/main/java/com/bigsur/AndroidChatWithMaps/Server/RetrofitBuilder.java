@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.jsonserver;
+package com.bigsur.AndroidChatWithMaps.Server;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

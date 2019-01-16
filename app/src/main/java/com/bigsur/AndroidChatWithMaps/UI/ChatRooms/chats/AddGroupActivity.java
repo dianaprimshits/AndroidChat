@@ -11,16 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconListview.DataWithIconListview;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 
 import java.util.ArrayList;
 
@@ -55,27 +54,24 @@ public class AddGroupActivity extends AppCompatActivity implements View.OnClickL
 
         adapterForChatAdd = new AdapterForGroupAdd(getApplicationContext(), dbStorage.getAll());
         lvMain.init(dbStorage, adapterForChatAdd, "contacts", this);
-        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapterForChatAdd.setCheckBoxVisibility(view);
+        lvMain.setOnItemClickListener((parent, view, position, id) -> {
+            adapterForChatAdd.setCheckBoxVisibility(view);
 
-                if (adapterForChatAdd.getCheckBoxVisibility(view) == View.VISIBLE) {
-                    if (!contacts.contains(adapterForChatAdd.getItem(position))) {
-                        contacts.add(adapterForChatAdd.getItem(position));
-                    }
-                } else if (adapterForChatAdd.getCheckBoxVisibility(view) == View.GONE) {
-                    if (contacts.contains(adapterForChatAdd.getItem(position))) {
-                        contacts.remove(adapterForChatAdd.getItem(position));
-                    }
+            if (adapterForChatAdd.getCheckBoxVisibility(view) == View.VISIBLE) {
+                if (!contacts.contains(adapterForChatAdd.getItem(position))) {
+                    contacts.add(adapterForChatAdd.getItem(position));
                 }
-                if (contacts.size() == 0) {
-                    forwardBT.setVisibility(View.INVISIBLE);
-                } else {
-                    forwardBT.setVisibility(View.VISIBLE);
+            } else if (adapterForChatAdd.getCheckBoxVisibility(view) == View.GONE) {
+                if (contacts.contains(adapterForChatAdd.getItem(position))) {
+                    contacts.remove(adapterForChatAdd.getItem(position));
                 }
-                Toast.makeText(getApplicationContext(), contacts.toString(), Toast.LENGTH_SHORT).show();
             }
+            if (contacts.size() == 0) {
+                forwardBT.setVisibility(View.INVISIBLE);
+            } else {
+                forwardBT.setVisibility(View.VISIBLE);
+            }
+            Toast.makeText(getApplicationContext(), contacts.toString(), Toast.LENGTH_SHORT).show();
         });
         lvMain.setAdapter(adapterForChatAdd);
         setSupportActionBar(toolbar);

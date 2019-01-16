@@ -19,7 +19,6 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_activity);
 
-        AuthenticationManager.init(getApplicationContext());
         authManager = AuthenticationManager.getInstance();
         int SPLASH_TIME_OUT = 4000;
         new Handler().postDelayed(new Runnable() {

@@ -5,6 +5,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContact;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
@@ -15,7 +16,8 @@ import com.google.gson.annotations.SerializedName;
                           unique = true)})
 public class Contacts {
     @SerializedName("id")
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @NonNull
     public int _id;
 
     @SerializedName("name")
@@ -66,6 +68,10 @@ public class Contacts {
     public String toString(){
         return String.format("Contacts id: %d \n name: %s \n phone number: %s \n avatar: %s",
                              getId(), contactName, phoneNumber, contactAvatar);
+    }
+
+    public void set_id(int id) {
+        this._id = id;
     }
 
     public void setContactName(String contactName) {

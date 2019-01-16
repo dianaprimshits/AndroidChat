@@ -59,10 +59,10 @@ public class AdapterForChatAdd extends BaseAdapter implements Filterable {
 
 
         ViewHolder(View view) {
-            firstLaterContactName = (TextView) view.findViewById(R.id.firstLaterContactName);
-            contactAvatar = (ImageView) view.findViewById(R.id.contactAvatar);
-            contactName = (TextView) view.findViewById(R.id.chatAddActContactName);
-            contactPhone = (TextView) view.findViewById(R.id.contactPhoneNumber);
+            firstLaterContactName = view.findViewById(R.id.firstLaterContactName);
+            contactAvatar = view.findViewById(R.id.contactAvatar);
+            contactName = view.findViewById(R.id.chatAddActContactName);
+            contactPhone = view.findViewById(R.id.contactPhoneNumber);
         }
     }
 

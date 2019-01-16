@@ -72,14 +72,11 @@ public class SQLiteContactsManager {
 
 
     public FutureTask<Void> taskCreateContact(Contacts contact) {
-        FutureTask<Void> createContact = new FutureTask<>(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                AppDatabase db = App.getInstance().getDatabase();
-                ContactsDAO contactsDao = db.getContactsDao();
-                contactsDao.insert(contact);
-                return null;
-            }
+        FutureTask<Void> createContact = new FutureTask<>(() -> {
+            AppDatabase db = App.getInstance().getDatabase();
+            ContactsDAO contactsDao = db.getContactsDao();
+            contactsDao.insert(contact);
+            return null;
         });
         return createContact;
     }

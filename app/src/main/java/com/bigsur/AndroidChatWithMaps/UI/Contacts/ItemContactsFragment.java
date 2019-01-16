@@ -1,9 +1,9 @@
 package com.bigsur.AndroidChatWithMaps.UI.Contacts;
 
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContact;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
@@ -35,7 +35,8 @@ public class ItemContactsFragment extends Fragment {
     TextView contactsNumberTV;
     Toolbar toolbar;
     DataWithIconListview lvMain;
-    ViewableContactManager dbStorage = ViewableContactManager.getInstance();
+
+    ViewableContactManager dbStorage;
 
     public static ItemContactsFragment newInstance() {
         ItemContactsFragment fragment = new ItemContactsFragment();
@@ -55,6 +56,7 @@ public class ItemContactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+        dbStorage = ViewableContactManager.getInstance();
         findViewsById(view);
 
         String contactsTVText;
@@ -71,12 +73,7 @@ public class ItemContactsFragment extends Fragment {
         contactsNumberTV.setText(contactsTVText);
         lvMain.init(dbStorage, new CustomContactsAdapter(getContext(), dbStorage), "contacts", getActivity());
 
-        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return false;
-            }
-        });
+        lvMain.setOnItemLongClickListener((parent, view12, position, id) -> false);
 
         dbStorage.addDataChangeListener(this, () -> {
             String contactsTVText1;
@@ -92,11 +89,14 @@ public class ItemContactsFragment extends Fragment {
 
 
         lvMain.setOnItemLongClickListener((parent, view1, position, id) -> {
-            DataModifier dataModifier = new ContactsModifier(getContext());
-            dataModifier.init(getContext(), new CustomContactsAdapter(getContext(), dbStorage), position, getActivity());
             AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getContext());
+
+
+            DataModifier dataModifier = new ContactsModifier(getContext());
+            dataModifier.init(view.getContext(), new CustomContactsAdapter(getContext(), dbStorage), position, getActivity());
             AlertDialog alertDialog = mDialogBuilder.setView(dataModifier.getView()).create();
             alertDialog.show();
+            dataModifier.setOnClosedBehavior(alertDialog::dismiss);
             return true;
         });
 
@@ -151,9 +151,10 @@ public class ItemContactsFragment extends Fragment {
                 .setPositiveButton("create contact",
                         (dialog12, id) -> {
                             DataWithIcon contact = new ViewableContact(alterDialogName.getText().toString(), alterDialogPhoneNumber.getText().toString());
-
-                            dbStorage.create(contact);
-
+                            dbStorage.create(contact,
+                                    () -> Toast.makeText(getContext(), "Contact created", Toast.LENGTH_SHORT).show(),
+                                    () -> Toast.makeText(getContext(), "Contact can't be created.\nPlease try later", Toast.LENGTH_SHORT).show()
+                            );
                             Log.d(TAG, "onClick: " + dbStorage.toString());
 
                         })

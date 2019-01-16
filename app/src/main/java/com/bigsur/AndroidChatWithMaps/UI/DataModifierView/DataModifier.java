@@ -37,6 +37,8 @@ public abstract class DataModifier extends View {
 
     public abstract void init(final Context context, Adapter adapter, int position, Activity activity);
 
+    public abstract void setOnClosedBehavior(Runnable onClosed);
+
     public abstract void init1(Context context);
 
     public abstract View getView();

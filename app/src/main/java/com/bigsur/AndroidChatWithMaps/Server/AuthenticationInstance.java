@@ -1,4 +1,4 @@
-package com.bigsur.AndroidChatWithMaps.jsonserver;
+package com.bigsur.AndroidChatWithMaps.Server;
 
 
 import com.google.gson.annotations.SerializedName;

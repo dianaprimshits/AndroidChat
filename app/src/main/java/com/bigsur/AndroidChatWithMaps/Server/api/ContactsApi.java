@@ -1,14 +1,16 @@
-package com.bigsur.AndroidChatWithMaps.jsonserver.api;
+package com.bigsur.AndroidChatWithMaps.Server.api;
 
 import com.bigsur.AndroidChatWithMaps.DB.Contacts.Contacts;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -25,5 +27,8 @@ public interface ContactsApi {
             @Field("avatar") String avatar);
 
     @DELETE("/contacts/{id}")
-    Call deleteContact(@Path("id") int id);
+    Call<Void> deleteContact(@Path("id") int id);
+
+    @PATCH("/contacts/{id}")
+    Call<Void> updateContact(@Path("id") int id, @Body Contacts contacts);
 }

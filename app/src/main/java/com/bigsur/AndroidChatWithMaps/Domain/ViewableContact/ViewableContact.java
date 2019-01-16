@@ -17,7 +17,6 @@ public class ViewableContact implements DataWithIcon {
         contact = new Contacts(name, phone);
     }
 
-
     public Contacts getContact() {
         return contact;
     }

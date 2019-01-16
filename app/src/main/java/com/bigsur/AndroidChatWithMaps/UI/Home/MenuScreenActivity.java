@@ -2,8 +2,8 @@ package com.bigsur.AndroidChatWithMaps.UI.Home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -58,7 +58,7 @@ public class MenuScreenActivity extends AppCompatActivity {
                             selectedFragment = settingsFragment;
                             break;
                     }
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame_layout, selectedFragment);
                     transaction.commit();
                     return true;

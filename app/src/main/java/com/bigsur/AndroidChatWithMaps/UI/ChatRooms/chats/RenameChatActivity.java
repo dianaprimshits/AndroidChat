@@ -6,21 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
+import com.bigsur.AndroidChatWithMaps.Domain.ViewableContact.ViewableContactManager;
 import com.bigsur.AndroidChatWithMaps.R;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
+import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 
 public class RenameChatActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG =  "LOG";
-    DataWithIconManager dbManager = ViewableChatManager.getInstance();
+    private static final String TAG = "LOG";
+    DataWithIconManager dbManager = ViewableContactManager.getInstance();
     private static int DEFAULT_VALUE = -1;
     String contactName;
     int contactId;
     EditText contactNewNameET;
     ImageButton okButton;
-
 
 
     @Override
@@ -37,7 +37,6 @@ public class RenameChatActivity extends AppCompatActivity implements View.OnClic
         okButton = findViewById(R.id.renameContactActButtonOk);
 
 
-
         okButton.setOnClickListener(this);
     }
 
@@ -47,8 +46,17 @@ public class RenameChatActivity extends AppCompatActivity implements View.OnClic
             case R.id.renameContactActButtonOk:
                 DataWithIcon chat = dbManager.getById(contactId);
                 chat.setName(contactNewNameET.getText().toString());
-                dbManager.update(chat);
-                onBackPressed();
+                Toast.makeText(getApplicationContext(), "wait", Toast.LENGTH_SHORT).show();
+                dbManager.update(chat,
+                        () -> {
+                            Toast.makeText(getApplicationContext(), "Chat updated", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        },
+                        () -> {
+                            Toast.makeText(getApplicationContext(), "Chat can't be updated\nTry later", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        }
+                );
         }
     }
 }

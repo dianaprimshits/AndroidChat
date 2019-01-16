@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.DB.ContactsChatRooms.SQLiteContactsChatRoomsManager;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
@@ -40,7 +41,6 @@ public class DialogInfoActivity extends AppCompatActivity implements View.OnClic
     String chatName;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +67,7 @@ public class DialogInfoActivity extends AppCompatActivity implements View.OnClic
         groupMembersTV.setText(contactsInGroup + "contacts");
         groupNameTV.setText(chatName);
 
-        for(int i = 0; i < contactsInGroup; i++) {
+        for (int i = 0; i < contactsInGroup; i++) {
             contactsId.add(intent.getIntExtra("contactId" + i, -1));
         }
 
@@ -104,8 +104,10 @@ public class DialogInfoActivity extends AppCompatActivity implements View.OnClic
                 renameIntent.putExtra("name", chatRoomManager.getById(chatRoomId).getName());
                 startActivity(renameIntent);
                 break;
-            case  R.id.dialogMenuItemDelete:
-                chatRoomManager.delete(chatRoomId);
+            case R.id.dialogMenuItemDelete:
+                chatRoomManager.delete(chatRoomId,
+                        () -> Toast.makeText(getApplicationContext(), "Chat deleted", Toast.LENGTH_SHORT).show(),
+                        () -> Toast.makeText(getApplicationContext(), "Chat can't be deleted", Toast.LENGTH_SHORT).show());
                 messagesManager.deleteByChatRoomId(chatRoomId);
                 contactsChatRoomsManager.deleteByChatRoomId(chatRoomId);
                 break;

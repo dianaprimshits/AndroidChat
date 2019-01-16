@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
 import com.bigsur.AndroidChatWithMaps.Domain.ViewableChat.ViewableChatManager;
@@ -49,9 +50,16 @@ public class ChatModifier extends DataModifier {
             @Override
             public void onClick(View v) {
                 DataWithIconManager dataWithIconManager = ViewableChatManager.getInstance();
-                dataWithIconManager.delete(data.getId());
+                dataWithIconManager.delete(data.getId(),
+                        () -> Toast.makeText(context, "Chat deleted", Toast.LENGTH_SHORT).show(),
+                        () -> Toast.makeText(context, "Chat can't be deleted", Toast.LENGTH_SHORT).show());
             }
         });
+    }
+
+    @Override
+    public void setOnClosedBehavior(Runnable onClosed) {
+
     }
 
     @Override

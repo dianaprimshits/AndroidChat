@@ -2,9 +2,9 @@ package com.bigsur.AndroidChatWithMaps.Domain.ViewableChat;
 
 import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.ChatRooms;
 import com.bigsur.AndroidChatWithMaps.DB.ChatRooms.SQLiteChatRoomsManager;
+import com.bigsur.AndroidChatWithMaps.DB.Messages.SQLiteMessagesManager;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 import com.bigsur.AndroidChatWithMaps.UI.DataWithIconManager;
-import com.bigsur.AndroidChatWithMaps.DB.Messages.SQLiteMessagesManager;
 
 import java.util.ArrayList;
 
@@ -30,17 +30,17 @@ public class ViewableChatManager extends DataWithIconManager {
     }
 
     @Override
-    public void create(DataWithIcon data) {
+    public void create(DataWithIcon data, Runnable onSuccess, Runnable onFail) {
         chatManager.create(((ViewableChat) data).getChat());
     }
 
     @Override
-    public void update(DataWithIcon data) {
+    public void update(DataWithIcon data, Runnable onSuccess, Runnable onFail) {
         chatManager.update(((ViewableChat) data).getChat());
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id, Runnable onSuccess, Runnable onFail) {
         chatManager.delete(id);
     }
 
@@ -64,11 +64,11 @@ public class ViewableChatManager extends DataWithIconManager {
 
     @Override
     public void addDataChangeListener(Object listener, Runnable callBack) {
-        chatManager.addDataChangeListener(listener, callBack);
+     //   chatManager.addDataChangeListener(listener, callBack);
     }
 
     @Override
     public void  removeDataChangeListener(Object listener) {
-        chatManager.removeDataChangeListener(listener);
+      //  chatManager.removeDataChangeListener(listener);
     }
 }
