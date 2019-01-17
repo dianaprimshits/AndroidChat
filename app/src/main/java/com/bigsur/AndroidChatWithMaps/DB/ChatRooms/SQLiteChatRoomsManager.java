@@ -6,10 +6,10 @@ import android.util.Log;
 
 import com.bigsur.AndroidChatWithMaps.App;
 import com.bigsur.AndroidChatWithMaps.DB.AppDatabase;
-import com.bigsur.AndroidChatWithMaps.UI.DataWithIcon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -27,130 +27,91 @@ public class SQLiteChatRoomsManager {
     }
 
 
-    public FutureTask<Void> create(ChatRooms chatRooms) {
-        FutureTask<Void> createChat = new FutureTask<>(() -> {
+    public FutureTask<ChatRooms> taskGetContactById(int id) {
+        FutureTask<ChatRooms> getContactById = new FutureTask<>(() -> {
             AppDatabase db = App.getInstance().getDatabase();
             ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
-            chatRoomDAO.insert(chatRooms);
+            return chatRoomDAO.getByID(id);
+        });
+        return getContactById;
+    }
+
+
+    public FutureTask<ArrayList<ChatRooms>> taskGetAllChatRooms() {
+        FutureTask<ArrayList<ChatRooms>> getAll = new FutureTask<>(new Callable<ArrayList<ChatRooms>>() {
+            @Override
+            public ArrayList<ChatRooms> call() {
+                List<ChatRooms> data = null;
+                try {
+                    data = new AsyncTask<Void, Void, List<ChatRooms>>() {
+                        @Override
+                        protected ArrayList<ChatRooms> doInBackground(Void ... data) {
+                            ArrayList<ChatRooms> displayList = new ArrayList<>();
+
+                            AppDatabase db = App.getInstance().getDatabase();
+                            ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+                            Log.d("!!!!!LOG!!", "doInBackground: " + chatRoomDAO.getAll().toString());
+                            List<ChatRooms> contactList = chatRoomDAO.getAll();
+                            displayList.addAll(contactList);
+                            return displayList;
+                        }
+
+                        @Override
+                        protected void onPostExecute(List<ChatRooms> contacts) {
+                            super.onPostExecute(contacts);
+                        }
+                    }.execute().get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                return new ArrayList(data);
+            }
+        });
+        return getAll;
+    }
+
+
+    public FutureTask<Void> taskCreateChatRoom(ChatRooms contact) {
+        FutureTask<Void> createContact = new FutureTask<>(() -> {
+            AppDatabase db = App.getInstance().getDatabase();
+            ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+            chatRoomDAO.insert(contact);
             return null;
         });
-        return createChat;
+        return createContact;
     }
 
 
-    public void update(final DataWithIcon data) {
-        new AsyncTask<DataWithIcon, Void, Void>() {
-            @Override
-            protected Void doInBackground(DataWithIcon... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
-
-                chatRoomDAO.update((ChatRooms) data[0]);
-                return null;
-            }
-        }.execute(data);
+    public FutureTask<Void> taskUpdateContact(ChatRooms chat) {
+        FutureTask<Void> updateContact = new FutureTask<>(() -> {
+            AppDatabase db = App.getInstance().getDatabase();
+            ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+            chatRoomDAO.update(chat);
+            return null;
+        });
+        return updateContact;
     }
 
 
-    public void delete(final int id) {
-        new AsyncTask<Integer, Void, Void>() {
-            @Override
-            protected Void doInBackground(Integer... data) {
-                AppDatabase db = App.getInstance().getDatabase();
-                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
-
-                int id = data[0];
-                chatRoomDAO.delete(id);
-                return null;
-            }
-        }.execute(id);
+    public FutureTask<Void> taskDeleteContactById(int id) {
+        FutureTask<Void> deleteContactById = new FutureTask<>(() -> {
+            AppDatabase db = App.getInstance().getDatabase();
+            ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+            chatRoomDAO.delete(id);
+            return null;
+        });
+        return deleteContactById;
     }
 
 
-    public DataWithIcon getById(final int id) {
-        DataWithIcon data = null;
-        try {
-            data = new AsyncTask<Integer, Void, DataWithIcon>() {
-                @Override
-                protected DataWithIcon doInBackground(Integer... data) {
-                    AppDatabase db = App.getInstance().getDatabase();
-                    ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
-
-                    int id = data[0];
-                    ChatRooms c = chatRoomDAO.getByID(id);
-                    return c;
-                }
-
-                @Override
-                protected void onPostExecute(DataWithIcon chatRoom) {
-                    super.onPostExecute(chatRoom);
-                }
-            }.execute(id).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return data;
+    public FutureTask<ChatRooms> taskGetLastChatRoom() {
+        FutureTask<ChatRooms> getLastContact = new FutureTask<>(() -> {
+            AppDatabase db = App.getInstance().getDatabase();
+            ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
+            return chatRoomDAO.getLastChatRoom();
+        });
+        return getLastContact;
     }
-
-
-    public ArrayList<DataWithIcon> getAll() {
-        List<DataWithIcon> data = null;
-        try {
-            data = new AsyncTask<Void, Void, List<DataWithIcon>>() {
-                @Override
-                protected List<DataWithIcon> doInBackground(Void ... data) {
-                    ArrayList<DataWithIcon> displayList = new ArrayList<>();
-
-                    AppDatabase db = App.getInstance().getDatabase();
-                    ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
-
-                    Log.d("!!!!!LOG!!", "doInBackground: " + chatRoomDAO.getAll().toString());
-                    List<ChatRooms> chatRoomList = chatRoomDAO.getAll();
-
-                    for(int i = 0; i < chatRoomList.size(); i++) {
-                        displayList.add(chatRoomList.get(i));
-                    }
-                    return displayList;
-                }
-
-                @Override
-                protected void onPostExecute(List<DataWithIcon> chatRooms) {
-                    super.onPostExecute(chatRooms);
-                }
-            }.execute().get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        ArrayList arrayList = new ArrayList(data);
-        return arrayList;
-    }
-
-   /* @Override
-    public ArrayList<DataWithIcon> getSimilarData(String search) throws InterruptedException, ExecutionException {
-        List<DataWithIcon> data = new AsyncTask<String, Void, List<DataWithIcon>>() {
-            @Override
-            protected List<DataWithIcon> doInBackground(String ... data) {
-                ArrayList<DataWithIcon> displayList = new ArrayList<>();
-
-                AppDatabase db = App.getInstance().getDatabase();
-                ChatRoomDAO chatRoomDAO = db.getChatRoomDao();
-
-                Log.d("!!!!!LOG!!", "doInBackground: " + chatRoomDAO.getSimilarChatRooms(data[0]));
-                List<ChatRooms> chatRoomList = chatRoomDAO.getSimilarChatRooms(data[0]);
-
-                for(int i = 0; i < chatRoomList.size(); i++) {
-                    displayList.add(new DataWithIcon(chatRoomList.get(i)));
-                }
-                return displayList;
-            }
-
-            @Override
-            protected void onPostExecute(List<DataWithIcon> chatRooms) {
-                super.onPostExecute(chatRooms);
-            }
-        }.execute(search).get();
-        return new ArrayList<>(data);
-    }*/
 
     public int getLastId() throws ExecutionException, InterruptedException {
         Integer lastId = new AsyncTask<Void, Void, Integer>() {
